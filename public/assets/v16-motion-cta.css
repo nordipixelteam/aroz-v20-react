@@ -1,0 +1,12 @@
+/* Heights and opacity follow scroll progress, without CSS time-based snapping. */
+body .v16-scroll-services .v9-service-panel,body .v16-scroll-services.js-services .v9-service:not(.is-open) .v9-service-panel{display:block;grid-template-rows:none;transition:none!important;height:0;opacity:0;overflow:hidden}
+body .v16-scroll-services .v9-service-panel>div{display:flow-root;overflow:visible;min-height:0}
+body .v16-scroll-services .v9-service h3 button,body .v16-scroll-services .v9-service.is-open h3 button{color:color-mix(in srgb,#f4f1ed calc(var(--v16-focus,0)*100%),#5c595b)!important;transition:none!important;border-bottom-color:color-mix(in srgb,#ffffff45 calc(var(--v16-focus,0)*100%),transparent)}
+body .v16-scroll-services .v9-service h3 i{opacity:calc(.35 + var(--v16-focus,0)*.65)}
+/* Same text size and brand-red hover for CTAs, with requested exceptions retained. */
+body :is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link,.v6-glass,.v12-cta,.v2-link,.next-link,.navcta,.v9-contact-submit,.v3-talk){font-size:16px!important;font-weight:500!important;line-height:1.25}
+body :is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link,.v6-glass,.v12-cta,.v2-link,.next-link,.navcta,.v9-contact-submit,.v3-talk):hover,body :is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link,.v6-glass,.v12-cta,.v2-link,.next-link,.navcta,.v9-contact-submit,.v3-talk):focus-visible{background:#ed174a!important;color:#fff!important;border-color:#ed174a!important;box-shadow:0 5px 25px #ed174a40!important;opacity:1!important}
+body .v9-contact-submit:hover>span{background:#fff;color:#ed174a}
+body .v2-card-meta>a{font-size:16px!important}
+body #projekte-title .v15-title-line{white-space:normal;text-wrap:nowrap}
+body :is(.hero,.manifesto,.process,.v2-work,.v2-stories,.v9-contact,.v6-ai,.v9-services,.team,.v8-footer) :is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link,.v6-glass,.v12-cta,.v2-link,.next-link,.navcta,.v9-contact-submit):is(:hover,:focus-visible),body .v3-nav .v3-talk:hover,body .v3-nav.is-compact .v3-talk:hover{background:#ed174a!important;color:#fff!important;border-color:#ed174a!important}

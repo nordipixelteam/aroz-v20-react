@@ -1,0 +1,22 @@
+/* AROZ V5 R4: progressive accessibility and visual consistency enhancements.
+   This file applies to the offline QA copy only. */
+:where(a,button,input,select,textarea,[role="button"]):focus-visible {
+ outline: 2px solid #ff3d69 !important;
+ outline-offset: 4px;
+}
+:where(button,input,textarea,select){accent-color:#ef144d}
+:where(.menu-btn,.menu-toggle){touch-action:manipulation;min-width:44px;min-height:44px}
+/* Fail-open reveal: content cannot disappear when scrolling observer fails. */
+.reveal:not(.in){opacity:1 !important;transform:none !important}
+/* Small editorial folios remain subtle, but never below a legible 12 px baseline. */
+:where(.kicker,.section-label,.eyebrow,.task-num,.inventory-count,.project-num,.yes-top){font-size:max(12px,0.75rem) !important;line-height:1.4}
+#contactForm label{font-size:max(13px,0.8125rem) !important;line-height:1.45}
+fieldset.field{min-width:0;border:0;padding:0;margin:0}
+fieldset.field legend{max-width:100%;padding:0}
+@media (max-width: 767px){
+ :where(.mobile-menu,.mobile-nav) a{min-height:44px}
+ :where(.service-pick,.budget-pick){min-height:44px}
+}
+@media (prefers-reduced-motion:reduce){
+  html:focus-within{scroll-behavior:auto}
+}

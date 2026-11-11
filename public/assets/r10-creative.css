@@ -1,0 +1,33 @@
+/* AROZ R10: evidence-led Creative Gate fixes. Offline review only. */
+/* Home: visible project evidence and readable navigation. */
+.hero-proof{margin-top:clamp(22px,2.7vw,36px);padding-top:16px;border-top:1px solid rgba(255,255,255,.28)}
+.hero-proof-label{display:block;font:700 11px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#bcb8b5}
+.hero-proof-links{display:flex;align-items:center;flex-wrap:wrap;gap:7px 14px;margin-top:12px}
+.hero-proof-links a{font:700 13px/1.35 Arial,Helvetica,sans-serif;color:#f3efeb;white-space:nowrap;text-decoration:none}
+.hero-proof-links a::after{content:" ↗";color:#ff6688}
+.hero-proof-links a:hover{text-decoration:underline;text-underline-offset:4px}
+.hero-proof-links a:focus-visible{outline:2px solid #ff6788;outline-offset:4px}
+/* At tablet width, the six-item agency menu becomes a usable overlay. */
+@media(min-width:901px) and (max-width:1220px){
+.site-header .nav-links,.site-header .nav .nav-action{display:none!important}
+.site-header .menu-btn{display:flex!important}
+.site-header .mobile-nav{display:block;position:fixed;inset:82px 0 0;z-index:45;background:#0c0c0e;padding:30px var(--pad);visibility:hidden;opacity:0;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s;overflow:auto}
+.site-header .mobile-nav.open{visibility:visible;opacity:1;transform:none}
+.site-header .mobile-nav a{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.2);font-size:clamp(26px,3.5vw,42px);line-height:1.1;letter-spacing:-.04em}
+.site-header .mobile-nav .mobile-cta{background:#e81848;margin-top:24px;padding:17px 19px;font-size:18px;font-weight:700}
+}
+@media(max-width:650px){.hero-proof{margin-top:26px}.hero-proof-links{gap:9px 13px}.hero-proof-links a{font-size:12px}}
+@media(max-width:360px){.hero-proof-links a{font-size:12px}}
+/* Agentur: avoid genuine overlap of right copy and decorative scroll hint. */
+.hero-sticky>.hero-scroll{right:auto;left:50%;bottom:18px;writing-mode:horizontal-tb;transform:translateX(-50%);white-space:nowrap;pointer-events:none;text-shadow:0 2px 12px rgba(0,0,0,.65);font-size:11px!important;letter-spacing:.12em}
+@media(max-width:760px){.hero-sticky>.hero-scroll{display:none}}
+.hero-side strong{opacity:.94!important;transform:none!important}
+/* KI SEO: informative inactive stages must remain readable in each scroll state. */
+.hero-index .hero-index-item{color:#a29c96}
+.hero-index .hero-index-item small{color:#aaa59f}
+.hero-index .hero-index-item .n{color:inherit}
+.hero-stage[data-state="1"] .hero-index-item:nth-child(1) small,
+.hero-stage[data-state="2"] .hero-index-item:nth-child(2) small,
+.hero-stage[data-state="3"] .hero-index-item:nth-child(3) small,
+.hero-stage[data-state="4"] .hero-index-item:nth-child(4) small{color:#eee9e3}
+@media(prefers-reduced-motion:reduce){.hero-proof-links a{transition:none!important}}

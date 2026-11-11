@@ -1,0 +1,29 @@
+[
+  {
+    "id": "itrust",
+    "company": "iTrust Automobile",
+    "title": "iTrust Automobile",
+    "description": "Eine digitale Fahrzeugpräsentation mit klarer Angebotsnavigation und einer Struktur, die Inhalte und Sichtbarkeit zusammenführt.",
+    "role": "Webdesign · SEO",
+    "photo": "assets/project-automotive.webp",
+    "url": "projekte/itrust-automobile/index.html"
+  },
+  {
+    "id": "fastdrive",
+    "company": "Fast Drive",
+    "title": "Fast Drive",
+    "description": "Ein lokaler Markenauftritt mit verständlichen Leistungen, einer klaren Nutzerführung und regionaler Auffindbarkeit.",
+    "role": "Webdesign · Branding · Local SEO",
+    "photo": "assets/project-fastdrive-2.webp",
+    "url": "projekte/fahrschule-fast-drive/index.html"
+  },
+  {
+    "id": "yes",
+    "company": "Fahrschule YES!",
+    "title": "Fahrschule YES!",
+    "description": "Eine eigenständige visuelle Identität für einen lokalen Fahrschulauftritt – mit prägnanter Kommunikation und klarer Struktur.",
+    "role": "Webdesign · SEO · Copywriting",
+    "photo": "assets/project-yes.webp",
+    "url": "projekte/fahrschule-yes/index.html"
+  }
+]

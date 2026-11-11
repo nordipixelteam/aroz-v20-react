@@ -1,0 +1,21 @@
+/* V13: shared navigation geometry and supplied SVG gradient surfaces. */
+.v3-nav>div{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex:0 0 auto;height:48px;line-height:1}
+.v3-nav .v3-talk,.v3-nav.is-compact .v3-talk{box-sizing:border-box;height:48px;min-height:48px;max-height:48px;flex:0 0 auto;padding:0 22px;line-height:1;display:flex;align-items:center;justify-content:center;vertical-align:middle;transform:none}
+.v3-nav .v3-menu-toggle,.v3-nav.is-compact .v3-menu-toggle{box-sizing:border-box;display:flex;align-items:center;justify-content:center;flex:0 0 48px;width:48px;height:48px;min-height:48px;padding:0;gap:0;line-height:1;font-size:0;border:1px solid #ffffff40}
+.v3-nav .v3-menu-toggle span,.v3-nav.is-compact .v3-menu-toggle span{display:block;font-family:Arial,sans-serif;font-size:20px;line-height:1;height:20px;margin:0;padding:0;transform:none}
+.v3-nav.is-compact{padding:8px 10px 8px 16px;min-height:66px}.v3-nav.is-compact .v3-logo{align-self:center}.v3-nav .v3-talk:hover{transform:none}
+.v3-nav{background-color:#111014!important;background-image:linear-gradient(#0d0c0ed9,#0d0c0ed9),url('v13-charcoal-bottom.svg')!important;background-size:cover!important;background-position:center!important}
+.v3-nav.is-compact{background-color:#111014!important;background-image:linear-gradient(#0d0c0eb3,#0d0c0eb3),url('v13-charcoal-bottom.svg')!important}
+body.v6-motion-ready #leistungen,#leistungen.v9-services{background-color:#1b0a0e!important;background-image:url('v13-burgundy-corner.svg')!important;background-size:cover!important;background-position:center!important}
+.v6-ai{background-color:#22080e;background-image:url('v13-burgundy-center.svg');background-size:cover;background-position:center}
+#agentur.team{background:#060607 url('v13-charcoal-corner.svg') center/cover no-repeat}
+.v2-footer.v8-footer{background:#1c1013 url('v13-burgundy-bottom.svg') center/cover no-repeat}
+.v8-footer-light{opacity:.7}
+/* Keep the light sections readable while carrying the same softly shaded depth. */
+.manifesto{background-color:#eeebe6;background-image:linear-gradient(115deg,#f4f1ecf5,#eee7e3e8),url('v13-charcoal-corner.svg');background-size:cover;background-position:center}
+.v2-work{background:#ebe7e2 linear-gradient(135deg,#f6f3edf5,#e8e1dfed)}
+.v2-stories{background-color:#eee9e6;background-image:linear-gradient(135deg,#f5f1ecf5,#e9e1dfed),url('v13-charcoal-bottom.svg');background-size:cover}
+body.v6-motion-ready #ansatz{background-color:#eee8e3!important;background-image:linear-gradient(120deg,#f3efebf5,#eadedfe8),url('v13-charcoal-bottom.svg')!important;background-size:cover!important;background-position:center!important}
+.v9-contact{background-color:#eee9e5;background-image:linear-gradient(110deg,#f4f1ebf5,#e8dfdfe8),url('v13-burgundy-bottom.svg');background-size:cover;background-position:center}
+@media(max-width:600px){.v3-nav>div,.v3-nav.is-compact>div{height:44px;gap:8px}.v3-nav .v3-talk,.v3-nav.is-compact .v3-talk{height:44px;min-height:44px;max-height:44px;padding:0 14px}.v3-nav .v3-menu-toggle,.v3-nav.is-compact .v3-menu-toggle{width:44px;height:44px;min-height:44px;flex-basis:44px}.v3-nav.is-compact{padding:8px 9px 8px 12px;min-height:62px}}
+@media(max-width:380px){.v3-nav .v3-talk,.v3-nav.is-compact .v3-talk{padding-inline:10px}.v3-nav>div,.v3-nav.is-compact>div{gap:6px}}

@@ -1,0 +1,109 @@
+/* AROZ R14 – agency-first, full-bleed homepage hero.
+   Photo: original AROZ project asset, NOT a screenshot or synthetic people.
+   Animation: first-visit editorial entrance, not a loading gate or scroll-jack.
+   Everything remains legible without JavaScript and on reduced motion. */
+body.r14-agency-hero{--r14-red:#ec1748;--r14-ease:cubic-bezier(.22,1,.36,1)}
+.r14-agency-hero .site-header{isolation:isolate}
+.r14-agency-hero .hero{padding:0!important;min-height:calc(100svh - 82px);background:#0c0c0e;isolation:isolate;overflow:clip;position:relative}
+.r14-agency-hero .hero::before{display:none}
+.r14-agency-hero .r14-hero-shell{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:calc(100svh - 82px);width:100%;max-width:none;margin:0;padding:0;background:radial-gradient(ellipse at 68% 55%,#be3040 5%,#402025 55%,#0c0c0e 95%)}
+.r14-agency-hero .hero-overline{padding:clamp(18px,2.8vw,34px) var(--pad) 18px;position:relative;z-index:5;min-height:80px;border-bottom:1px solid rgba(255,255,255,.24);width:100%;background:linear-gradient(180deg,rgba(6,6,8,.56),rgba(6,6,8,.18))}
+.r14-agency-hero .hero-overline:after{content:"";position:absolute;bottom:-1px;left:var(--pad);height:1px;width:clamp(35px,7vw,110px);background:var(--r14-red);transform-origin:left;animation:r14-line-wipe 1.3s .15s both var(--r14-ease)}
+.r14-agency-hero .hero-top.r13-hero-grid.r14-hero-stage{position:relative;z-index:3;width:100%;max-width:none;min-height:clamp(620px,calc(100svh - 220px),830px);display:flex;align-items:stretch;padding:0 var(--pad);margin:0;flex:1;isolation:auto}
+.r14-agency-hero .r13-hero-left.r14-hero-copy{min-height:0;width:min(69%,850px);max-width:850px;position:relative;z-index:4;padding:clamp(40px,4.5vw,66px) 0 clamp(26px,3vw,40px);justify-content:flex-start;display:flex;pointer-events:none}
+.r14-agency-hero .r14-hero-copy :where(a,button){pointer-events:auto}
+.r14-agency-hero .r13-hero-micro{font-size:11px!important;letter-spacing:.13em;color:#fff;min-height:25px}
+.r14-agency-hero .r14-hero-title{font-size:clamp(72px,7.4vw,112px)!important;line-height:.965;letter-spacing:-.077em;max-width:760px;margin:clamp(38px,4.1vw,62px) 0 clamp(25px,2.6vw,38px)!important;text-wrap:balance;font-weight:750;color:#faf9f6;text-shadow:0 4px 24px rgba(8,8,10,.24)}
+.r14-agency-hero .r14-hero-title .h-last{white-space:nowrap}
+.r14-agency-hero .r13-hero-left .hero-aside{margin:0;max-width:600px}
+.r14-agency-hero .r13-hero-left .hero-aside p{margin:0 0 clamp(20px,2.2vw,28px);max-width:610px;color:#fff;font-size:clamp(16px,1.2vw,18px);line-height:1.52;text-shadow:0 2px 14px rgba(0,0,0,.68)}
+.r14-agency-hero .hero-actions{align-items:center;gap:clamp(16px,2.8vw,30px)}
+.r14-agency-hero .hero-actions .btn-primary{background:#ee1549;box-shadow:0 12px 40px rgba(15,4,8,.17);min-height:56px;padding:18px 22px}
+.r14-agency-hero .hero-actions .btn-primary:hover{background:#ff2c5c}
+.r14-agency-hero .hero-actions .btn-quiet{color:#fff;text-decoration-color:rgba(255,255,255,.7);min-height:44px}
+.r14-agency-hero .r13-hero-left .hero-proof{border-top:1px solid rgba(255,255,255,.5);margin:clamp(26px,2.7vw,40px) 0 0;padding:12px 0 0;background:transparent;max-width:620px}
+.r14-agency-hero .hero-proof-label{color:#fff}
+.r14-agency-hero .hero-proof-links a{color:#fff}
+/* Full viewport backdrop, not 76% of a centered container. Image subjects shift right
+   to protect both faces from the headline: original photo is 1488x992. */
+.r14-agency-hero .hero-photo.r13-hero-visual.r14-hero-photo{position:absolute;z-index:1;inset:0;width:100%;height:100%;min-height:0;margin:0;overflow:hidden;border:0;border-radius:0;background:#2b1b1e;isolation:isolate}
+.r14-agency-hero .r14-hero-photo img{position:absolute;top:0;bottom:0;left:22%;right:auto;width:89%;height:100%;max-width:none;object-fit:cover;object-position:50% 50%;filter:saturate(1.06) contrast(1.015) brightness(1.065);-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.15) 3%,#000 21%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.15) 3%,#000 21%);transform:scale(1.001);transform-origin:70% 50%;}
+.r14-agency-hero .r14-hero-photo::after{z-index:2;background:linear-gradient(90deg,#0c0c0e 0%,rgba(12,12,14,.98) 11%,rgba(12,12,14,.85) 23%,rgba(12,12,14,.54) 33%,rgba(12,12,14,.20) 43%,rgba(12,12,14,.02) 57%,transparent 75%),linear-gradient(0deg,rgba(11,10,12,.33) 0%,transparent 34%,rgba(11,10,12,.22) 100%)}
+.r14-agency-hero .r14-hero-photo:before{content:"";position:absolute;z-index:0;inset:0;background:radial-gradient(ellipse at 70% 65%,#c84840 0%,#3e2025 65%,#0c0c0e 98%)}
+.r14-agency-hero .r14-hero-photo .r13-visual-grid{inset:0;border:0;opacity:.13;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),rgba(255,255,255,.18) 25%,transparent calc(25% + 1px))}
+.r14-agency-hero .r14-hero-photo .r13-visual-grid::before,.r14-agency-hero .r14-hero-photo .r13-visual-grid::after{display:none}
+.r14-agency-hero .r14-hero-photo .r13-visual-signal{top:clamp(150px,17vw,245px);right:clamp(24px,3.8vw,65px);font-size:12px}
+.r14-agency-hero .r14-hero-photo .r13-visual-caption{bottom:clamp(20px,3vw,40px);right:var(--pad);font-size:10px;opacity:.85}
+.r14-agency-hero .r14-hero-photo figcaption.photo-index{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
+.r14-agency-hero .hero-bottom{position:relative;z-index:4;min-height:68px;margin:0;padding:14px var(--pad) 19px;border-top:1px solid rgba(255,255,255,.34);display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:rgba(12,12,14,.2);color:#f4f0eb}
+.r14-agency-hero .hero-bottom p:nth-child(2){display:none}
+.r14-agency-hero .hero-bottom p:first-child{font-size:12px!important;letter-spacing:.09em;line-height:1.4!important;text-transform:uppercase;color:#f1e8e7}
+.r14-agency-hero .hero-bottom .r13-hero-scrollcue{justify-content:flex-end}
+/* An agency-style entrance: editorial stagger and photo reveal, without preloader delays.
+   Pure CSS makes this reliable from an offline HTML file. */
+@keyframes r14-reveal-photo{0%{clip-path:inset(0 0 0 96%);opacity:.74}100%{clip-path:inset(0 0 0 0);opacity:1}}
+@keyframes r14-photo-breathe{from{transform:scale(1.052)}to{transform:scale(1.001)}}
+@keyframes r14-copy-arrive{0%{opacity:0;transform:translate3d(0,28px,0);filter:blur(5px)}100%{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}}
+@keyframes r14-soft-arrive{0%{opacity:0;transform:translate3d(0,12px,0)}100%{opacity:1;transform:none}}
+@keyframes r14-line-wipe{0%{transform:scaleX(.01)}100%{transform:scaleX(1)}}
+.r14-agency-hero .r14-hero-photo{animation:r14-reveal-photo 1.28s .06s var(--r14-ease) both}
+.r14-agency-hero .r14-hero-photo img{animation:r14-photo-breathe 2.2s .08s var(--r14-ease) both}
+.r14-agency-hero .hero-overline{animation:r14-soft-arrive .7s .1s var(--r14-ease) both}
+.r14-agency-hero .r13-hero-micro{animation:r14-soft-arrive .6s .32s var(--r14-ease) both}
+.r14-agency-hero .r14-hero-title{animation:r14-copy-arrive 1.04s .39s var(--r14-ease) both}
+.r14-agency-hero .r13-hero-left .hero-aside{animation:r14-soft-arrive .88s .73s var(--r14-ease) both}
+.r14-agency-hero .hero-bottom{animation:r14-soft-arrive .7s 1.02s var(--r14-ease) both}
+/* Tablet: photo on top, copy below. Both people remain unobstructed. */
+@media(max-width:960px){
+ .r14-agency-hero .hero{min-height:0}
+ .r14-agency-hero .r14-hero-shell{min-height:0}
+ .r14-agency-hero .hero-overline{order:0;min-height:0;padding:24px var(--pad) 17px}
+ .r14-agency-hero .hero-top.r13-hero-grid.r14-hero-stage{order:2;display:block;min-height:0;padding:0 var(--pad);margin:0}
+ .r14-agency-hero .r13-hero-left.r14-hero-copy{width:100%;max-width:none;padding:clamp(26px,5vw,48px) 0 clamp(28px,4vw,42px);min-height:0}
+ .r14-agency-hero .r14-hero-title{font-size:clamp(62px,9.6vw,92px)!important;margin:clamp(23px,4vw,38px) 0 25px!important;max-width:850px}
+ .r14-agency-hero .r14-hero-copy .hero-aside{max-width:750px}
+ .r14-agency-hero .hero-photo.r13-hero-visual.r14-hero-photo{order:1;position:relative;inset:auto;width:100%;height:clamp(370px,55vw,540px);min-height:0;flex:none}
+ .r14-agency-hero .r14-hero-photo img{left:0;width:100%;height:100%;object-fit:cover;object-position:50% 48%;-webkit-mask-image:none;mask-image:none}
+ .r14-agency-hero .r14-hero-photo::after{background:linear-gradient(0deg,rgba(12,12,14,.32),transparent 34%,rgba(12,12,14,.03) 75%)}
+ .r14-agency-hero .r14-hero-photo .r13-visual-signal{top:24px;right:var(--pad)}
+ .r14-agency-hero .r14-hero-photo .r13-visual-caption{display:none}
+ .r14-agency-hero .hero-bottom{order:3;grid-template-columns:1fr auto;background:#111113}
+}
+@media(max-width:650px){
+ .r14-agency-hero .hero-overline{padding:16px var(--pad) 13px;border-bottom:0}
+ .r14-agency-hero .hero-overline .eyebrow{font-size:10px!important;letter-spacing:.1em}
+ .r14-agency-hero .hero-overline .mono{display:none}
+ .r14-agency-hero .hero-photo.r13-hero-visual.r14-hero-photo{height:clamp(224px,63vw,320px);margin:0}
+ .r14-agency-hero .r14-hero-photo img{object-fit:cover;object-position:50% 51%}
+ .r14-agency-hero .r14-hero-photo .r13-visual-signal,.r14-agency-hero .r14-hero-photo .r13-visual-caption{display:none}
+ .r14-agency-hero .r14-hero-photo .r13-visual-grid{inset:12px}
+ .r14-agency-hero .r13-hero-left.r14-hero-copy{padding:26px 0 22px}
+ .r14-agency-hero .r14-hero-title{font-size:clamp(49px,12.1vw,78px)!important;line-height:.96;letter-spacing:-.068em;margin:21px 0 24px!important;max-width:100%}
+ .r14-agency-hero .r14-hero-title .h-last{white-space:normal}
+ .r14-agency-hero .r13-hero-left .hero-aside p{font-size:16px;max-width:100%}
+ .r14-agency-hero .r13-hero-left .hero-proof{margin-top:26px}
+ .r14-agency-hero .hero-actions{gap:14px;flex-wrap:wrap}
+ .r14-agency-hero .hero-actions .btn-primary{min-height:50px;padding:15px 16px}
+ .r14-agency-hero .hero-bottom{padding:15px var(--pad);grid-template-columns:1fr}
+ .r14-agency-hero .hero-bottom .r13-hero-scrollcue{display:none}
+}
+@media(max-width:360px){.r14-agency-hero .r14-hero-title{font-size:clamp(43px,11.8vw,55px)!important}.r14-agency-hero .hero-actions{gap:10px}}
+@media(prefers-reduced-motion:reduce){
+ .r14-agency-hero .r14-hero-photo,
+ .r14-agency-hero .r14-hero-photo img,
+ .r14-agency-hero .r14-hero-title,
+ .r14-agency-hero .r13-hero-micro,
+ .r14-agency-hero .hero-overline,
+ .r14-agency-hero .hero-bottom,
+ .r14-agency-hero .r13-hero-left .hero-aside{animation:none!important;opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}
+ .r14-agency-hero .r14-hero-photo img{filter:saturate(1.06) contrast(1.015) brightness(1.065)!important}
+}
+/* Avoid graphic labels overlapping the right portrait at intermediate widths. */
+@media(min-width:961px) and (max-width:1190px){
+ .r14-agency-hero .r14-hero-photo .r13-visual-signal,.r14-agency-hero .r14-hero-photo .r13-visual-caption{display:none}
+}
+@media print{
+ .r14-agency-hero .r14-hero-photo,.r14-agency-hero .r14-hero-photo img,
+ .r14-agency-hero .r14-hero-title,.r14-agency-hero .r13-hero-left .hero-aside,
+ .r14-agency-hero .hero-overline,.r14-agency-hero .hero-bottom{animation:none!important;opacity:1!important;clip-path:none!important;transform:none!important}
+}
