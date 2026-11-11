@@ -9,7 +9,7 @@
   font-optical-sizing: auto;
   line-height: 1.2 !important;
   letter-spacing: 0 !important;
-  text-transform: none !important;
+  text-transform: capitalize !important;
   text-decoration: none;
   -webkit-text-stroke: 0 !important;
   font-synthesis: none;
@@ -26,6 +26,6 @@
   font-weight: 500 !important;
   font-style: normal !important;
   letter-spacing: -0.025em !important;
-  text-transform: none !important;
+  text-transform: capitalize !important;
   -webkit-text-stroke: 0 !important;
 }
