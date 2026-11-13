@@ -1,0 +1,140 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../vendor/shadcn-tailwind-4.13.0.css";
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #e7000b;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #a1a1a1;
+  --chart-1: #f54900;
+  --chart-2: #009689;
+  --chart-3: #104e64;
+  --chart-4: #ffb900;
+  --chart-5: #fe9a00;
+  --radius: 0.625rem;
+  --sidebar: #fafafa;
+  --sidebar-foreground: #171717;
+  --sidebar-primary: #171717;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #a1a1a1;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: "Google Sans", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --card: #171717;
+    --card-foreground: #ededed;
+    --popover: #171717;
+    --popover-foreground: #ededed;
+    --primary: #ededed;
+    --primary-foreground: #171717;
+    --secondary: #262626;
+    --secondary-foreground: #ededed;
+    --muted: #262626;
+    --muted-foreground: #a1a1a1;
+    --accent: #262626;
+    --accent-foreground: #ededed;
+    --destructive: #ff6467;
+    --border: #ffffff1a;
+    --input: #ffffff26;
+    --ring: #737373;
+    --chart-1: #8e51ff;
+    --chart-2: #00bc7d;
+    --chart-3: #fe9a00;
+    --chart-4: #ad46ff;
+    --chart-5: #ff2056;
+    --sidebar: #171717;
+    --sidebar-foreground: #ededed;
+    --sidebar-primary: #8e51ff;
+    --sidebar-primary-foreground: #ededed;
+    --sidebar-accent: #262626;
+    --sidebar-accent-foreground: #ededed;
+    --sidebar-border: #ffffff1a;
+    --sidebar-ring: #737373;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+.vault{font-family:var(--font-sans);background:#f6f8fc;min-height:100vh;color:#202124;font-size:16px;display:flex}.vault-sidebar{width:248px;background:white;padding:30px 22px;position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column;border-right:1px solid #e4e8ee}.vault-brand{display:grid;grid-template-columns:40px 1fr;font-size:26px;letter-spacing:-1px;font-weight:750;align-items:center;column-gap:10px}.vault-brand img{width:36px;grid-row:span 2}.vault-brand span{font-size:10px;letter-spacing:2px;color:#667085}.vault-navlabel{font-size:11px;letter-spacing:1.5px;color:#89919e;margin:42px 12px 12px}.vault-sidebar nav{display:grid;gap:5px}.vault-sidebar nav button{padding:12px;display:flex;gap:12px;border-radius:9px;text-align:left;font-size:14px;font-weight:500}.vault-sidebar nav button.selected{background:#e8f0fe;color:#1967d2}.vault-account{margin-top:auto;display:flex;gap:8px;font-size:11px;padding:22px 0 10px;overflow-wrap:anywhere}.vault-account small{display:block;color:#64748b}.vault-sidebar>a:last-child{font-size:12px;color:#64748b}.vault-body{margin-left:248px;flex:1;min-width:0}.vault-top{height:76px;background:white;padding:0 44px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e8ee;font-size:14px}.vault-top a{display:flex;align-items:center;gap:6px}.vault-main{padding:44px}.vault-title{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:30px}.vault h1{font-size:34px;font-weight:650;letter-spacing:-1.1px;margin:8px 0}.vault h2{font-size:20px;font-weight:600;margin-bottom:12px}.vault p{line-height:1.65;color:#657084;font-size:15px;margin-bottom:15px}.vault .eyebrow{font-size:11px;letter-spacing:1.8px;color:#1a73e8;font-weight:700}.vault .muted{color:#758094}.vault .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.vault button{cursor:pointer}.vault-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:24px 0}.vault-stats strong{font-size:42px;letter-spacing:-2px;color:#1a73e8}.vault-card{background:white;border:1px solid #e4e8ee;border-radius:16px;padding:26px;margin-bottom:24px}.vault-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.vault-notice{border:1px solid #c6d8fa;background:#edf4ff;padding:18px;border-radius:10px;display:flex;justify-content:space-between;white-space:pre-line;margin-bottom:24px}.vault-search{margin-bottom:22px;background:white}.vault-list{padding:0;overflow:hidden}.vault-row{display:flex;align-items:center;gap:20px;width:100%;padding:20px 8px;border-bottom:1px solid #eef0f4;text-align:left;justify-content:space-between}.vault-list .vault-row{padding:22px 26px}.vault-row:last-child{border:0}.vault-row small{display:block;color:#758094;font-size:12px;margin-top:6px}.vault-editor{display:grid;grid-template-columns:230px 1fr;gap:24px;margin-top:24px}.vault-sectionlist{max-height:75vh;overflow:auto;position:sticky;top:12px;display:flex;flex-direction:column;gap:4px;align-self:start}.vault-sectionlist button{font-size:13px;text-align:left;padding:10px;border-radius:6px}.vault-sectionlist .selected{background:#e8f0fe;color:#1967d2}.vault-fields{background:white;padding:30px;border-radius:16px;display:grid;gap:24px}.vault label{display:grid;gap:8px;font-size:14px;margin-bottom:18px}.vault label small{color:#89919e;font-size:11px;margin-left:8px}.vault label>span{font-weight:500}.vault input,.vault textarea{background:white;font-size:15px}.vault textarea{min-height:100px}.vault-settings{margin-top:24px}.vault .inline{display:flex;align-items:center;gap:10px}.search-preview{padding:24px;background:#f7f9fc;margin:24px 0;border-radius:12px}.search-preview h3{color:#1a0dab;font-size:20px;margin:8px 0}.search-preview small{color:#50775f}.vault-preview iframe{width:100%;height:760px;background:white;border:1px solid #dde3ec;border-radius:16px;margin-top:20px}.vault-media{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.vault-media img{width:100%;height:180px;object-fit:contain}.vault pre{max-height:450px;overflow:auto;font-size:12px;white-space:pre-wrap;background:#f6f8fc;padding:20px}.vault .error{color:#c5221f}.vault a:hover{color:#1a73e8}@media(max-width:1000px){.vault-sidebar{width:200px;padding:24px 14px}.vault-body{margin-left:200px}.vault-main{padding:24px}.vault-title{align-items:start;flex-direction:column}.vault-editor{grid-template-columns:180px 1fr}.vault-media{grid-template-columns:1fr 1fr}}@media(max-width:700px){.vault{display:block}.vault-sidebar{position:static;width:100%;padding:18px}.vault-sidebar nav{display:flex;overflow:auto;margin-top:18px}.vault-sidebar nav button{white-space:nowrap}.vault-navlabel,.vault-account,.vault-sidebar>a:last-child{display:none}.vault-body{margin-left:0}.vault-top{padding:0 20px;height:60px}.vault-main{padding:24px 16px}.vault h1{font-size:28px}.vault-stats{gap:10px}.vault-stats .vault-card{padding:16px}.vault-stats strong{font-size:30px}.vault-grid{grid-template-columns:1fr}.vault-editor{grid-template-columns:1fr}.vault-sectionlist{position:static;max-height:190px}.vault-fields{padding:20px}.vault-media{grid-template-columns:1fr}.vault-row{flex-wrap:wrap}}
+.vault{--primary:#1a73e8;--primary-foreground:#fff;--ring:#4285f4;--radius:0.6rem;--muted:#f1f4f9;--accent:#e8f0fe;--accent-foreground:#1967d2}.vault select{border:1px solid #d8dee9;border-radius:8px;padding:10px;background:white;width:100%}
+.vault-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}.vault-block{padding:24px;border:1px solid #dce3ed;border-radius:16px;margin-top:20px;background:#fafbfd}.vault-block label{display:block;margin:12px 0;font-size:14px}.vault-block select,.vault-settings select{padding:10px;border:1px solid #d5dce6;border-radius:8px;max-width:100%;background:white}.vault-main .vault-card{margin-bottom:24px}.vault-main label{font-size:14px}.vault-main .vault-row{gap:16px;overflow-wrap:anywhere}.vault-main pre{white-space:pre-wrap;overflow-wrap:anywhere}.vault-main button:disabled{opacity:.5}.vault-main dl dd{margin:0}.vault-sidebar{overflow-y:auto}.vault-main [role=tablist]{flex-wrap:wrap;height:auto}@media(max-width:700px){.vault-block{padding:16px}.vault-main .vault-row{flex-wrap:wrap}.vault-main .actions{flex-wrap:wrap}}

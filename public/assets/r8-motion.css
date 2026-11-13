@@ -1,0 +1,29 @@
+/* AROZ R8 | Motion direction - visually additive, content-first, no external libraries */
+:root{--r8-motion-ease:cubic-bezier(.22,1,.36,1)}
+.r8-scroll-track{position:fixed;inset:0 0 auto;block-size:3px;pointer-events:none;z-index:2147480000;background:transparent}
+.r8-scroll-bar{width:100%;height:100%;background:#d7193f;transform:scaleX(0);transform-origin:left center;will-change:transform}
+.r8-chapter-rail{position:fixed;right:clamp(16px,3.2vw,52px);bottom:clamp(18px,3vw,46px);z-index:80;display:flex;gap:12px;align-items:center;max-width:min(320px,35vw);pointer-events:none;opacity:0;translate:0 12px;transition:opacity .45s var(--r8-motion-ease),translate .45s var(--r8-motion-ease);font:500 10px/1.45 ui-monospace,monospace;letter-spacing:.15em;text-transform:uppercase;color:#fff;text-shadow:0 1px 7px rgba(0,0,0,.72);background:rgba(13,13,16,.90);border:1px solid rgba(255,255,255,.14);border-radius:4px;padding:9px 12px;box-shadow:0 7px 30px rgba(0,0,0,.12)}
+.r8-chapter-rail.is-visible{opacity:.86;translate:0 0}
+.r8-chapter-rail__counter{color:#ff4b69;font-variant-numeric:tabular-nums;letter-spacing:.08em;white-space:nowrap}
+.r8-chapter-rail__label{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:210px}
+.r8-chapter-rail::before{content:'';width:22px;height:1px;flex:0 0 auto;background:currentColor;opacity:.65}
+body[data-r8-theme="webdesign"] .r8-chapter-rail,body[data-r8-theme="agency"] .r8-chapter-rail,body[data-r8-theme="copy"] .r8-chapter-rail,body[data-r8-theme="contact"] .r8-chapter-rail{background:rgba(15,15,16,.8);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:11px 15px;backdrop-filter:blur(12px)}
+.r8-depth-image{translate:0 var(--r8-parallax-y,0px);scale:1.055;transform-origin:center center;will-change:translate}
+.r8-frame{isolation:isolate;overflow:clip}
+.r8-motion-page a:is(.btn,.btn-primary,.btn-quiet,.text-link,.primary,.secondary){transition:translate .26s var(--r8-motion-ease),filter .26s ease,box-shadow .26s ease}
+@media(hover:hover) and (pointer:fine){.r8-motion-page a:is(.btn,.btn-primary,.btn-quiet,.text-link,.primary,.secondary):hover{translate:0 -2px}.r8-motion-page a:focus-visible{outline:2px solid #e53150;outline-offset:4px}}
+body[data-r8-theme="portfolio"] .r8-frame img:not(.r8-depth-image){transition:scale .85s var(--r8-motion-ease)}
+@media(hover:hover) and (pointer:fine){body[data-r8-theme="portfolio"] .r8-frame:hover img:not(.r8-depth-image){scale:1.025}}
+/* Different art direction by discipline, without rewriting their established layout language. */
+body[data-r8-theme="seo"] section h2,body[data-r8-theme="ai"] section h2{ text-wrap:balance }
+body[data-r8-theme="copy"] main h1,body[data-r8-theme="copy"] main h2{ text-wrap:pretty }
+body[data-r8-theme="agency"] .r8-frame,body[data-r8-theme="portfolio"] .r8-frame{backface-visibility:hidden}
+main > section[id],main > section:target{scroll-margin-top:96px}
+@media(max-width:899px){.r8-chapter-rail{display:none!important}.r8-depth-image{translate:none!important;scale:1!important;will-change:auto!important}.r8-frame{overflow:visible}}
+@media(prefers-reduced-motion:reduce){.r8-scroll-bar{will-change:auto!important}.r8-depth-image{translate:none!important;scale:1!important;will-change:auto!important}.r8-chapter-rail{transition:none!important;translate:none!important}.r8-motion-page a{transition:none!important}.r8-motion-page a:hover{translate:none!important}html{scroll-behavior:auto!important}}
+/* Project 4Fahrlehrer: restore editorial balance and outlined-title legibility. */
+body[data-r8-theme="portfolio"]:has(.hero .outline) .hero .outline{color:rgba(101,188,134,.30);-webkit-text-stroke:1.35px #82dba5}
+@media(min-width:901px){body[data-r8-theme="portfolio"]:has(.hero .outline) .hero.wrap{min-height:0;grid-template-rows:auto auto auto;row-gap:clamp(44px,5vw,86px);padding-bottom:65px}body[data-r8-theme="portfolio"]:has(.hero .outline) .hero h1{margin:0}}
+@media(max-width:520px){body[data-r8-theme="portfolio"]:has(.hero .outline) .hero .outline{-webkit-text-stroke:1px #90e0af;color:rgba(101,188,134,.16)}}
+/* Tablet polish: intentionally oversized editorial art must not extend document width. */
+body[data-r8-theme="copy"] main>.hero,body[data-r8-theme="copy"] main>.brand-section,body[data-r8-theme="copy"] main>.final{overflow:clip}

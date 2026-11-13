@@ -1,0 +1,8 @@
+/* V4: backdrop inversion is per pixel, not sampled by section. */
+.v3-nav{mix-blend-mode:difference;color:#fff!important;background:transparent!important}
+.v3-nav .v3-wordmark,.v3-nav.on-light .v3-wordmark{filter:brightness(0) invert(1)!important}
+.v3-nav .v3-redmark{visibility:hidden}
+.v3-nav .v3-talk,.v3-nav.on-light .v3-talk{background:#fff!important;color:#000!important;border-color:#fff!important}
+.v3-nav .v3-menu-toggle{color:#fff!important;border-color:#fff!important;background:transparent!important}
+.v4-red-symbol{position:fixed;top:25px;left:2.5%;width:110px!important;height:auto;clip-path:inset(0 53% 0 0);z-index:901;pointer-events:none;mix-blend-mode:normal!important}
+@media(max-width:920px){.v4-red-symbol{top:20px;left:20px;width:90px!important}}

@@ -1,0 +1,3 @@
+import {runtime,runMaintenance} from '@/lib/avault/runtime';
+import {db,json,failure,HttpError} from '@/lib/avault/store';
+export async function POST(req:Request){try{const supplied=req.headers.get('authorization')||'';const expected='Bearer '+runtime.AVAULT_JOBS_SECRET;const a=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(supplied))),b=new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(expected)));if(!runtime.AVAULT_JOBS_SECRET||a.reduce((x,v,i)=>x|(v^b[i]),0)!==0)throw new HttpError(401,'Not authorized.');return json(await runMaintenance('scheduled-job'))}catch(e){return failure(e)}}

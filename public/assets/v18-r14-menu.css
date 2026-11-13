@@ -1,0 +1,16 @@
+/* AROZ v18 navigation alignment: direct links to the four existing service pages from R14. */
+@media (min-width:1101px) {
+ .v3-nav .v10-nav-links {gap:clamp(10px,1.35vw,22px);}
+ .v3-nav .v10-nav-links a {font-size:clamp(12px,1vw,14px)!important;}
+}
+@media (min-width:1101px) and (max-width:1399px) {
+ .v3-nav .v10-nav-links {left:48%;gap:12px;}
+ .v3-nav .v10-nav-links a {font-size:12px!important;}
+ .v3-nav .v3-talk {padding:12px 14px!important;font-size:12px!important;}
+}
+/* The seven links must remain reachable on smaller screens via the existing dialog menu. */
+#v3-menu nav {margin-top:clamp(25px,7vh,68px);gap:2px;}
+#v3-menu nav a {font-size:clamp(24px,3.8vh,32px);line-height:1.2;}
+#v3-menu .v3-menu-contact {margin-top:clamp(24px,6vh,55px);}
+#v3-menu .v3-menu-services {display:none;}
+@media (max-height:680px) {#v3-menu nav {margin-top:18px;}#v3-menu nav a {font-size:23px;}#v3-menu .v3-menu-contact {margin-top:18px;}}

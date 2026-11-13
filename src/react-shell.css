@@ -1,0 +1,4 @@
+/* Only shell-level defaults. V19 original CSS is preserved per-page. */
+#root { min-height: 100vh; }
+.aroz-not-found { display: grid; min-height: 100vh; place-content: center; gap: 1rem; background: #0c0c0e; color: #fff; font-family: Arial, sans-serif; text-align: center; }
+.aroz-not-found a { color: #e81848; }

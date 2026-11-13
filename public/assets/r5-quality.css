@@ -1,0 +1,144 @@
+/* AROZ V5 R5 – typography, interaction and motion polish.
+   Review-only enhancements; keep the existing AROZ art direction intact.
+   The 12px floor applies to metadata, not headings or logos. */
+:root {
+  --aroz-caption-min: 0.75rem;
+  --aroz-caption-regular: 0.8125rem;
+  --aroz-text-accent-on-dark: #ff5879;
+  --aroz-text-accent-on-light: #ac0d35;
+}
+/* The legacy pages contain folios down to 8–11px. Make them readable without
+   inflating display typography and while retaining the editorial proportions. */
+:where(.mono,.meta,.kicker,.eyebrow,.section-label,.tag,.caption,.figcaption,
+  figcaption,.previewbar,.proof-note,.case-meta,.hero-stamp,.photo-index,
+  .hero-foot,.index,.index-label,.project-num,.project-number,.case-number,
+  .card-number,.process-id,.task-num,.task-index,.inventory-count,.num,
+  .step-number,.step-index,.sell-count,.folio,.footer-meta,.footer-bottom,
+  .visual-caption,.project-info,.service-top,.navcta,
+  .hero-top,.hero-overline,.service-pick,.budget-pick,
+  .industry-row span,.proof-number,.case-meta,.hero-media-bottom p) {
+  font-size: max(12px, var(--aroz-caption-min)) !important;
+  line-height: 1.5 !important;
+}
+:where(.previewbar,.hero-stamp,.case-meta,.proof-note,.navcta,
+       .nav-links a,.footer-nav a,.service-pick,.budget-pick) {
+  font-size: max(13px, var(--aroz-caption-regular)) !important;
+  line-height: 1.55 !important;
+}
+/* Target inherited folios in older layouts rather than applying a universal
+   font rule to spans, which would destroy wordmarks and typographic accents. */
+:where(.manifesto-media,.hero-photo,.project-media,.hero-photo figcaption) figcaption,
+:where(.hero-foot,.photo-index,.hero-overline) :where(span,small,p,strong),
+:where(.hero-bottom) > p:not(.hero-lead),
+:where(.principles,.principle,.steps,.step,.process-list,.focus-list) :where(small,.mono,.n,.num),
+:where(.service-top,.project-content,.project-item,.project-meta,.case-meta,.footer-bottom) :where(small,.meta,.mono) {
+  font-size: max(12px, var(--aroz-caption-min)) !important;
+  line-height: 1.5 !important;
+}
+/* Editorial/portfolio fragments have a meaningful information hierarchy:
+   short labels may be small, but body text must never be rendered at caption size. */
+:where(.hero,.manifesto,.projects,.services,.process,.related,.intro,.outcome,.direct)
+  :where(p,li):not(.mono):not(.tag):not(.meta):not(.caption):not(.section-label):not(.kicker):not(.hero-bottom p) {
+  text-wrap: pretty;
+}
+:where(h1,h2,h3){text-wrap:balance;}
+:where(.nav-links a,.nav .nav-cta,.menu-btn,.menu-toggle){min-height:44px}
+:where(.nav-links a){display:inline-flex;align-items:center}
+:where(.nav-cta,.nav-action,.btn-primary){-webkit-tap-highlight-color:transparent}
+/* High-visibility keyboard focus on both black and cream panels. */
+:where(a,button,input,textarea,select,[tabindex]):focus-visible {
+  outline: 3px solid #ff557d !important;
+  outline-offset: 3px;
+}
+:where(.light,.manifesto,.projects,.process,.outcome) :where(a,button,input,textarea,select):focus-visible {
+  outline-color: #ac0d35 !important;
+}
+/* Logo and navigation should not be distorted by automatic text wrapping. */
+:where(.brand,.logo,.nav-links a,.nav-action,.nav-cta){text-wrap:nowrap}
+/* Prevent pointer/hover effects from being mandatory for understanding. */
+@media (hover:none) { :where(.project-item:hover .project-media img){transform:none;} }
+@media (max-width: 1190px) and (min-width:901px){
+  /* The legacy homepage had 10px nav links in this range. */
+  .site-header .nav-links a{font-size:13px !important}
+  .site-header .nav-links{gap:clamp(12px,1.6vw,21px)}
+  .site-header .nav{gap:18px}
+}
+@media (max-width: 780px){
+  :where(.mobile-nav,.mobile-menu) a{min-height:48px}
+  :where(.menu-btn,.menu-toggle){min-width:48px;min-height:48px}
+  :where(.hero-foot,.hero-bottom) :where(span,p,small){line-height:1.55 !important}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto !important;animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+
+/* Explicitly restored for the contact hero: never turn explanatory copy into a caption. */
+.hero-bottom p.hero-lead {font-size:clamp(17px,1.42vw,21px) !important;line-height:1.55 !important}
+:where(.principle>span,.service-top>span,.hero-index-item>small,
+       #contactForm legend,.text-link .arrow,.hero-foot>span,
+       .case-meta,.navcta,.btn,.process-id,.step-id,
+       footer>.wrap,footer .wrap) {font-size:max(12px,.75rem) !important;line-height:1.5 !important}
+:where(a.btn,.text-link .arrow){font-size:max(13px,.8125rem) !important}
+/* The contact form's fieldset legend is a real label, not decorative microcopy. */
+#contactForm legend{font-size:14px !important;font-weight:700}
+/* Readability of red microcopy against cream and dark backgrounds. */
+:where(.light,.manifesto,.projects,.process,.outcome) :where(.text-link,.tag,.step-number):not(:hover){text-decoration-color:#a00e36}
+/* Genuine 320px regression corrections. Preserve 390+ layouts unchanged. */
+@media (max-width:359px){
+  html,body{max-width:100%;}
+  :where(h1,h2,h3,p,strong,small,span){overflow-wrap:break-word;hyphens:auto;}
+  :where(.container,.shell,.wrap,.hero-grid,.hero-copy,.manifesto-grid,
+   .manifesto-copy,.proof-copy,.section-head,.context-head,.routes-head,
+   .bridge-head,.audience-head,.local-grid,.project-content,.service-grid,
+   .process-header,.process-grid,.step-grid,.outcome .container,
+   .hero-index,.hero-index-item){min-width:0;max-width:100%}
+  :where(.hero-signature,.entities-mark){max-width:28vw;left:auto;right:0}
+  /* Cluster headings cannot use fixed 59px lettering on a 320px viewport. */
+  .process-header h2{font-size:clamp(38px,11.8vw,54px) !important;overflow-wrap:anywhere}
+  .manifesto-copy strong,.hero-index-item strong,.proof-copy strong{overflow-wrap:anywhere}
+  /* Work with 280px usable content rather than an implicit 320px grid column. */
+  :where(.copy-grid,.focus-grid,.sequence-grid,.case-grid,.proof-grid,
+   .step-list,.intro-grid,.contact-grid){grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:359px){
+  .routes-head h2{font-size:clamp(37px,11.5vw,44px) !important;min-width:0;max-width:100%;overflow-wrap:anywhere}
+  .route{grid-template-columns:28px minmax(0,1fr) 18px !important;column-gap:10px !important;}
+  .route>:where(p,div,span){min-width:0;max-width:100%}
+  body[data-aroz-case] h2{font-size:clamp(36px,11vw,43px) !important;overflow-wrap:anywhere}
+  body[data-aroz-case] :where(.places,.place,.audience-head,.routes-head,.local-grid,.live-head){min-width:0;max-width:100%;}
+  body[data-aroz-case] .place{flex-wrap:wrap;gap:8px;}
+  body[data-aroz-case] :where(.hero-image,.cover img,img[data-zoom]){max-width:100%;}
+}
+/* Component-specific folio QA: classified from the actual rendered 390px DOM. */
+:where(.locations>span,.final-top>span,.proof-top>span,.proof-row>span,
+       .bridge-col>span,.hero-count>span,.case-index>span,.yes-bottom>span,
+       .ui-box>span,.sell-tags>span,.offer-row>span,.inventory-tags>span,
+       .local-tags>span,.foundation-row>.n,.flow-row>.n,.trust-row>.n,
+       .ia-row>.n,.audit-row>.n,.why-point>span,.place>span,
+       .long-row>i,.audit-row>i,.real-fallback>small,
+       .challenge-note>b,.footer-map strong,.footer-top strong,
+       footer .footer-links strong,footer .footer-col strong,
+       .copy>.step,.index,.n) {
+  font-size:max(12px,.75rem) !important;line-height:1.5 !important;
+}
+:where(.trust-panel>p){font-size:max(14px,.875rem) !important;line-height:1.55 !important}
+:where(.real-fallback small,.audience-meta span,.hero-meta div b,
+       span.final-top,.hero-top>span,.hero-actions .arrow){
+  font-size:max(12px,.75rem)!important;line-height:1.5!important;
+}
+:where(.nav-action>span,.hero-topline>span,.founder-role>span,.hero-note,.system-count){
+  font-size:max(12px,.75rem)!important;line-height:1.5!important;
+}
+/* A one-pixel fractional font rounding in a single 320px SEO-text page;
+   no content is clipped beyond this subpixel decorative edge. */
+@media (max-width:359px){body[data-aroz-subpixel="true"]{overflow-x:clip}}
+/* Case-study editorial image chapters: caption readability at every width. */
+body[data-aroz-case] .real-fallback small{font-size:12px!important;line-height:1.5!important}
+.founders-center span{font-size:max(12px,.75rem)!important;line-height:1.5!important}
+/* R5 closing fix: a long German heading forced a fractional 320px overflow.
+   Correct the grid child's intrinsic minimum rather than hiding the layout. */
+@media (max-width:359px){
+  .intro .section-head{grid-template-columns:minmax(0,1fr)!important;}
+  .intro .section-head>*{min-width:0;max-width:100%}
+  .intro .section-head h2{overflow-wrap:anywhere;hyphens:auto;}
+}

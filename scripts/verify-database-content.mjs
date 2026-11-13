@@ -1,0 +1,9 @@
+import {MongoClient} from 'mongodb';
+import {loadDevelopmentEnv} from './dev-env.mjs';
+loadDevelopmentEnv();
+const client=new MongoClient(process.env.MONGODB_URI,{serverSelectionTimeoutMS:15000});await client.connect();
+try{const db=client.db(process.env.MONGODB_DB||undefined),pingAt=Date.now();await db.command({ping:1});const docs=await db.collection('documents').find({},{projection:{route:1,draft:1,published:1}}).toArray(),problems=[];
+ for(const record of docs)for(const state of ['draft','published'])if(record[state]){const d=JSON.parse(String(record[state])),h1=(d.template.match(/<h1\b/gi)||[]).length;if(h1!==1)problems.push(`${record.route} ${state}: ${h1} H1 headings`);if(/(?:src|href|poster|data-src)="(?:assets|media)\//i.test(d.template))problems.push(`${record.route} ${state}: unrooted media URL`);try{const parsed=JSON.parse(String(d.seo?.schema||'')),nodes=Array.isArray(parsed)?parsed:[parsed],related=nodes.find(node=>node?.['@type']==='ItemList'&&node?.name==='Related pages');if(!related||!Array.isArray(related.itemListElement)||!related.itemListElement.length)problems.push(`${record.route} ${state}: missing related-page ItemList schema`)}catch{problems.push(`${record.route} ${state}: invalid or missing stored page schema`)}}
+ const settings=await db.collection('settings').find({id:{$in:['global','forms','scripts','menus','traffic']}},{projection:{id:1,value:1}}).toArray(),ids=new Set(settings.map(x=>x.id));for(const id of ['global','forms','scripts','menus','traffic'])if(!ids.has(id))problems.push(`Missing database setting: ${id}`);
+ if(problems.length){console.error(problems.join('\n'));process.exitCode=1}else console.log(`PASS MongoDB answered in ${Date.now()-pingAt} ms; ${docs.length} document records have one H1, stored ItemList schema, and required settings.`)
+}finally{await client.close()}
