@@ -1,4 +1,6 @@
 'use client';
+import {PublicUploadNotice} from './public-upload-notice';
+import {adminTitle} from './admin-display';
 import {useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
@@ -27,6 +29,7 @@ const pairs=(el:Element)=>(el.getAttribute('data-av-a')||'').split(',').filter(B
 const PAGE_CSS=`
 .site-loader,#page-curtain,.topbar,.header-wrap,.site-header,.site-footer,.back-to-top,body>header,body>footer{display:none!important}
 .reveal,[class*="reveal"]{opacity:1!important;transform:none!important;visibility:visible!important}
+.hero-media::after{pointer-events:none!important}
 [data-av-section].av-section-hover{outline:2px solid rgba(26,115,232,.45)!important;outline-offset:-2px}
 [data-av-hidden]{opacity:.35;filter:grayscale(.6)}
 `;
@@ -76,6 +79,7 @@ export function PageCanvas({doc,setField,change,replace,revert,docs,go,notice,or
    const sec=(e.target as Element).closest('[data-av-section]');if(sec&&sec!==hoverEl.current){hoverEl.current?.classList.remove('av-section-hover');sec.classList.add('av-section-hover');hoverEl.current=sec;place(sec)}});
   d.addEventListener('mouseleave',()=>{hover?.classList.remove('av-hover');hover=null});
   d.addEventListener('click',e=>{const t=e.target as Element;if((t as HTMLElement).closest?.('[contenteditable="plaintext-only"]'))return;e.preventDefault();e.stopPropagation();
+   if(t.closest('[data-shared-footer]')){clear(d);t.closest('[data-shared-footer]')!.classList.add('av-selected');setSel({kind:'shared'});return}
    const form=t.closest('form');if(form){clear(d);form.classList.add('av-selected');setSel({kind:'form',keys:[...new Set([...form.querySelectorAll('[data-av-k],[data-av-a]')].flatMap(keysOf))].filter(k=>byKeyRef.current.has(k))});return}
    const summary=t.closest('summary');if(summary&&!summary.classList.contains('av-selected')&&!summary.querySelector('.av-selected')){const det=summary.parentElement as HTMLDetailsElement;det.open=!det.open}
    const el=t.closest('[data-av-k],[data-av-a]');if(!el){clear(d);setSel(null);return}
@@ -128,13 +132,14 @@ export function PageCanvas({doc,setField,change,replace,revert,docs,go,notice,or
   return <label key={key} className="av-nav-field"><span>{label||friendly(f.label)}{changed&&<Badge variant="outline">edited</Badge>}</span>{f.kind==='url'?<Input list="av-page-destinations" value={f.value} onChange={e=>setField(key,e.target.value)}/>:f.value.length>90?<Textarea rows={4} value={f.value} onChange={e=>setField(key,e.target.value)}/>:<Input value={f.value} onChange={e=>setField(key,e.target.value)}/>}{changed&&<button type="button" className="av-link" onClick={()=>setField(key,was!)}><RotateCcw size={13}/>Restore “{was!.slice(0,40)}”</button>}</label>};
  const imageTools=(srcKey:string)=>{const src=byKey.get(srcKey)?.value||'';return <div className="av-canvas-image" key={'img-'+srcKey}>
   {src&&<img src={src} alt=""/>}
-  <input ref={upload} type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif,image/svg+xml" hidden onChange={e=>{const file=e.target.files?.[0];e.target.value='';if(file)uploadImage(file,srcKey)}}/>
-  <Button variant="outline" disabled={uploading} onClick={()=>upload.current?.click()}><Upload/>{uploading?'Uploading…':'Upload a new image'}</Button>
+  <PublicUploadNotice/>
+  <input ref={upload} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={e=>{const file=e.target.files?.[0];e.target.value='';if(file)uploadImage(file,srcKey)}}/>
+  <Button variant="outline" disabled={uploading} onClick={()=>upload.current?.click()}><Upload/>{uploading?'Uploading…':'Upload a public image'}</Button>
   {media&&media.length>0&&<label className="av-nav-field"><span>Or choose from the media library</span><select value="" onChange={e=>{if(e.target.value)setField(srcKey,e.target.value)}}><option value="">Choose an image…</option>{media.map(m=><option key={m.src} value={m.src}>{m.alt||m.src.split('/').pop()}</option>)}</select></label>}
  </div>};
 
  return <div className="av-nav av-page-canvas">
-  <datalist id="av-page-destinations">{docs.filter(d=>d.status==='published').map(d=><option key={d.route} value={d.route}>{d.label}</option>)}</datalist>
+  <datalist id="av-page-destinations">{docs.filter(d=>d.status==='published').map(d=><option key={d.route} value={d.route}>{adminTitle(d)}</option>)}</datalist>
   <div className="vault-card av-nav-toolbar" ref={bar}>
    <div className="av-seg" role="group" aria-label="Preview size">{(Object.keys(DEVICES) as (keyof typeof DEVICES)[]).map(k=>{const I=DEVICES[k].icon;return <button key={k} type="button" className={device===k?'selected':''} onClick={()=>setDevice(k)} aria-pressed={device===k}><I size={16}/>{DEVICES[k].label}</button>})}</div>
    <span className="av-nav-hint"><MousePointerClick size={16}/>Click text to type over it · hover a section to move, hide or add one</span>

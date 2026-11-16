@@ -5,6 +5,7 @@ import {applyForms} from './forms';
 import {countryOf} from './geo';
 import {normalizeScripts,pageMatches,renderSnippet} from './snippets';
 import {matchesIP} from './ip';
+import {translateOption} from './translate-option';
 export {matchesIP};
 export async function trafficAllowed(req:Request){const c=(await settingsRead('traffic')).value;if(!c.enabled)return true;const ip=clientIp(req),country=countryOf(req,ip);if(c.allow?.some((r:string)=>matchesIP(ip,r)))return true;if(c.deny?.some((r:string)=>matchesIP(ip,r)))return false;return !country||!c.countries?.includes(country)}
 export async function enhancePublic(html:string,route:string){const configs=await Promise.all(['verification','scripts','operations','menus','forms'].map(settingsRead));const [verification,scripts,operations,menus,forms]=configs.map(c=>c.value);const nonce=crypto.randomUUID().replaceAll('-','');
@@ -22,12 +23,19 @@ export async function enhancePublic(html:string,route:string){const configs=awai
  html=html.replace('</header>',renderMenu('header')+renderMenu('mobile')+'</header>').replace('</footer>',renderMenu('footer')+renderMenu('utility')+'</footer>');
  // Forms saved in AVAULT → Forms replace the built-in markup before the honeypot goes in.
  html=applyForms(html,forms);
+ // The homepage keeps its imported, editable form fields and consent mapping.
+ if(route==='/')html=html.replace(/(<form\b[^>]*data-avault-form="homepage-contact"[^>]*>)([\s\S]*?)(<\/form>)/g,(_,open,inner,close)=>open+inner.replace(/<input\b(?=[^>]*type="checkbox")(?![^>]*\bname=)/g,'<input name="privacyConsent"')+close);
  if(/<form\b[^>]*class="[^"]*\baudit-form\b[^"]*"/i.test(html))head+='<script src="/avault-forms.js" defer></script>';
  // Lead forms get a hidden honeypot field. People never see or reach it; form bots fill it in.
- html=html.replace(/<form\b[^>]*class="[^"]*\baudit-form\b[^"]*"[^>]*>/g,tag=>tag+`<div class="av-hp" aria-hidden="true"><label>Leave this field empty<input type="text" name="${HONEYPOT}" tabindex="-1" autocomplete="off" value=""></label></div>`);
+ html=html.replace(/<form\b[^>]*class="[^"]*\baudit-form\b[^"]*"[^>]*>/g,tag=>tag+`<div class="av-hp"${tag.includes('homepage-contact')||route==='/kontakt/'?' hidden inert':''} aria-hidden="true"><label>Leave this field empty<input type="text" name="${HONEYPOT}" tabindex="-1" autocomplete="off" value=""></label></div>`);
  // Every page's footer links to the privacy policy once it is published.
  const privacy=await db().prepare('SELECT published FROM documents WHERE route=?').bind('/privacy-policy/').first<{published:string|null}>();
  if(privacy?.published&&!html.includes('href="/privacy-policy/"'))html=html.replace(/(<div class="footer-utility">[\s\S]*?)(<\/div>)/,'$1<a href="/privacy-policy/">Privacy policy</a>$2');
  if(route==='/blogs/'){const categories=new Map((await db().prepare('SELECT id,label FROM taxonomy').all<any>()).results.map(t=>[t.id,t.label]));const docs=Object.values(await allDocs()).filter(d=>d.kind==='post'&&!d.seo.noindex);html=html.replace('</main>',`<section class="shell-wide avault-content-block"><h2>All blog posts</h2><div class="avault-content-cards">${docs.map(d=>`<article>${d.featuredImage?`<img src="${esc(d.featuredImage)}" alt="${esc(d.featuredAlt||'')}" loading="lazy" decoding="async">`:''}<h3><a href="${esc(d.route)}">${esc(d.label)}</a></h3><p>${esc(d.excerpt||d.seo.description)}</p><small>${[d.author,d.category?categories.get(d.category)||d.category:''].filter(Boolean).map(esc).join(' · ')}</small></article>`).join('')}</div></section></main>`)}
- return {html:html.replace('</head>',head+'</head>'),nonce,customScripts:live.length>0};
+ html=html.replace('</body>',translateOption()+'<script src="/english-validation.js" defer></script></body>');
+ html=html.replace('</head>',head+'</head>');
+ // Imported, trusted inline interactions (including contact service choices)
+ // need the same request nonce as our bootstrap. Keep unsafe-inline disabled.
+ html=html.replace(/<script\b(?![^>]*\bnonce=)(?![^>]*\bsrc=)([^>]*)>/gi,`<script nonce="${nonce}"$1>`);
+ return {html,nonce,customScripts:live.length>0};
 }

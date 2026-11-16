@@ -1,0 +1,8 @@
+/* Contact-only preview fallback: imported inline reveal scripts do not run in AVAULT preview. */
+body[data-r8-theme="contact"][data-preview] .reveal{opacity:1;transform:none;transition:none}
+body[data-r8-theme="contact"] #contactForm .av-hp{display:none!important}
+body[data-r8-theme="contact"] :is(.choice-row,.service-pick,.analysis-card a,.form-submit button):focus-visible{outline:2px solid #ed174a;outline-offset:5px}
+body[data-r8-theme="contact"] .form-success[data-state="error"]{color:#ff8ca6;border:1px solid #ed174a;padding:16px}
+body[data-r8-theme="contact"] :is(#projekt,#analysen){scroll-margin-top:110px}
+/* Selection must not rewrap a row above the brief during its anchor scroll. */
+body[data-r8-theme="contact"] .choice-row:is(:hover,.active){padding-left:0!important;padding-right:0!important}

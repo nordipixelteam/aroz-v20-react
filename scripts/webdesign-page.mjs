@@ -1,0 +1,6 @@
+export const oldSystemObserver="if(systemSection&&systemSteps.length){const sio=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const i=+e.target.dataset.systemIndex;systemSection.dataset.systemStep=String(i);systemSection.style.setProperty('--system-progress',String(.12+(i/3)*.88));systemSteps.forEach((x,j)=>x.classList.toggle('active',j===i))}})},{threshold:.58,rootMargin:'-12% 0px -12%'});systemSteps.forEach(x=>sio.observe(x));}";
+export const scrollAnchor='function scrollFx(){const vh=innerHeight;';
+export const scrollWithSystem=scrollAnchor+`
+   // One reading line drives the active text, diagram state and progress together.
+   if(systemSection&&systemSteps.length){let active=0,distance=Infinity;systemSteps.forEach((step,i)=>{const r=step.getBoundingClientRect(),d=Math.abs(r.top+r.height/2-vh*.5);if(d<distance){active=i;distance=d}});systemSection.dataset.systemStep=String(active);systemSection.style.setProperty('--system-progress',String(.12+(active/Math.max(1,systemSteps.length-1))*.88));systemSteps.forEach((step,i)=>step.classList.toggle('active',i===active));}`;
+export function fixWebdesignScript(script){return script.replace(oldSystemObserver,'/* System selection is updated with the existing scroll frame below. */').replace(scrollWithSystem,scrollAnchor).replace(scrollAnchor,scrollWithSystem);}

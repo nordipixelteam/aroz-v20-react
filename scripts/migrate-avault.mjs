@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { getMongoClient } from '../db/connection.js';
+import {importedImageUrl} from '../lib/avault/imported-images.mjs';
 
 const apply = process.argv.includes('--apply');
 const sourceDir = path.resolve('src/content');
@@ -30,7 +31,8 @@ function normalizeUrl(value, route) {
   const input = String(value || '').trim();
   if (!input || /^(?:#|mailto:|tel:|data:|javascript:|https?:|\/\/)/i.test(input)) return input;
   const asset = input.replace(/^(?:\.\.\/)+/, '').replace(/^\//, '');
-  if (/^(?:assets|media)\//i.test(asset)) return `/${asset}`;
+  if (/^(?:assets|media)\//i.test(asset)) return importedImageUrl(`/${asset}`,route);
+  if (input.startsWith('/assets/')) return importedImageUrl(input,route);
   let url;
   try { url = new URL(input, new URL(route.slice(1), 'https://aroz.invalid/')); }
   catch { return input; }
@@ -57,7 +59,7 @@ function prepareContent(html, route) {
     return /\bdata-avault-form=/.test(opening) ? opening : opening.replace('<form', `<form data-avault-form="${formKey}"`);
   });
   result = result.replace(/<p class="v9-preview">[\s\S]*?<\/p>/i,
-    '<p class="v9-preview">Ihre Angaben werden verschlüsselt übermittelt und in der AROZ-Anfragenverwaltung gespeichert.</p>');
+    "<p class=\"v9-preview\">Your details are sent securely and stored in AROZ's enquiry system.</p>");
   result = result.replace(/<div aria-live="polite" class="form-success" role="status" tabindex="-1">[\s\S]*?<\/div>/i,
     '<div aria-live="polite" class="form-success" role="status" tabindex="-1"></div>');
   return result;
@@ -75,7 +77,7 @@ function shell(page, route) {
   }).join('');
   const bodyAttrs = Object.entries(page.bodyAttributes || {}).map(([key, value]) => ` ${key}="${escape(value)}"`).join('');
   const classAttr = page.bodyClass ? ` class="${escape(page.bodyClass)}"` : '';
-  const lang = escape(page.lang || 'de');
+  const lang = escape(page.lang || 'en');
   return `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c0c0e">${links}${styles}${headScripts}{{SEO}}</head><body${classAttr}${bodyAttrs}>${prepareContent(page.html, route)}${scripts}</body></html>`;
 }
 
@@ -116,7 +118,9 @@ function convert(page) {
       for (const attr of attributes) {
         if (attr === 'href' && name !== 'a') continue;
         if (attr === 'src' && name !== 'img') continue;
-        tag = tag.replace(new RegExp(`(\\s${attr}=")([^"]+)(")`, 'i'), (_match, before, value, after) => {
+        // SEO's decorative mark still needs an explicit, editable empty alt field.
+        const attributeValue = route === '/seo/' && group === 'content' && attr === 'alt' ? '([^\"]*)' : '([^\"]+)';
+        tag = tag.replace(new RegExp(`(\\s${attr}=")${attributeValue}(")`, 'i'), (_match, before, value, after) => {
           return `${before}${add(decode(value), attr === 'href' || attr === 'src' ? 'url' : 'text', `${name} ${attr}`)}${after}`;
         });
       }
@@ -199,20 +203,20 @@ try {
 
   const stamp = new Date().toISOString();
   const global = {
-    name: 'AROZ Webdesign Agentur', legalName: '', tagline: 'Webdesign, SEO, KI-Sichtbarkeit und Copywriting.',
+    name: 'AROZ Webdesign Agentur', legalName: '', tagline: 'Web design, SEO, AI visibility and copywriting.',
     businessType: 'Organization', email: '', phone: '', image: '/assets/hero-red-chair-hq.webp', logo: '/assets/aroz-full-logo.png',
     address: { street: '', city: '', region: '', postalCode: '', country: 'DE' }, geo: { lat: '', lng: '' },
     hours: [], mapUrl: '', socials: {}, priceRange: '', areaServed: 'Schwelm, Nordrhein-Westfalen',
     titleTemplate: '%s | AROZ Webdesign Agentur',
-    defaultDescription: 'AROZ gestaltet Websites und unterstützt Unternehmen mit SEO, KI-Sichtbarkeit und überzeugenden Texten.',
+    defaultDescription: 'AROZ designs websites and supports businesses with SEO, AI visibility and compelling copy.',
     navigation: {},
   };
   const field = (name, label, type, required, width = 'full', placeholder = '') => ({ name, label, type, placeholder, required, options: [], width });
   const settings = [
     { id: 'global', value: global },
     { id: 'forms', value: { contact: {
-      enabled: false, request: 'AROZ Projektanfrage', button: 'Anfrage senden', note: 'Ihre Angaben werden vertraulich behandelt.',
-      fields: [field('name', 'Name', 'text', true, 'half', 'Ihr Name / Unternehmen'), field('email', 'E-Mail', 'email', true, 'half', 'name@unternehmen.de'), field('service', 'Thema', 'text', false, 'full', 'Website, SEO, KI-SEO oder Copywriting'), field('website', 'Website', 'url', false, 'full', 'www.ihre-website.de'), field('project', 'Projekt', 'textarea', false, 'full', 'Beschreiben Sie Ihr Projekt'), field('message', 'Nachricht', 'textarea', false, 'full', 'Ihre Nachricht')],
+      enabled: false, request: 'AROZ project enquiry', button: 'Send enquiry', note: 'Your details will be treated confidentially.',
+      fields: [field('name', 'Name', 'text', true, 'half', 'Your name / business'), field('email', 'Email', 'email', true, 'half', 'name@company.com'), field('service', 'Topic', 'text', false, 'full', 'Website, SEO, AI SEO or copywriting'), field('website', 'Website', 'url', false, 'full', 'www.your-website.com'), field('project', 'Project', 'textarea', false, 'full', 'Describe your project'), field('message', 'Message', 'textarea', false, 'full', 'Your message')],
     }, hero: { enabled: false, label: '', placeholder: '', button: '' }, custom: [] } },
     { id: 'scripts', value: { enabled: false, snippets: [] } },
     { id: 'menus', value: { header: [], mobile: [], footer: [], utility: [] } },

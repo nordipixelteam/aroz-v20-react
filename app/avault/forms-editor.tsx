@@ -1,4 +1,5 @@
 'use client';
+import {adminTitle} from './admin-display';
 import {useEffect,useMemo,useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
@@ -10,7 +11,7 @@ import {contactFormInner,heroFormInner,CORE,FIELD_TYPES,type FormsConfig,type Fo
 // AVAULT → Forms: every form on the website, where it appears, a live preview in the site's design,
 // and an editor for its fields, choices and button. Saving applies the form to every page that has it.
 const TYPE_LABEL:Record<FieldType,string>={text:'Short text',email:'Email',url:'Website',tel:'Phone',textarea:'Long text',select:'Dropdown'};
-const NAME_LABEL:Record<string,string>={name:'Name',email:'Email',phone:'Telefon',website:'Website',service:'Thema',zip:'Postleitzahl',project:'Projekt',message:'Nachricht',details:'Details',notes:'Notizen'};
+const NAME_LABEL:Record<string,string>={name:'Name',email:'Email',phone:'Phone',website:'Website',service:'Topic',zip:'ZIP code',project:'Project',message:'Message',details:'Details',notes:'Notes'};
 const esc=(s:unknown)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 const slug=(s:string)=>'x_'+(s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,30)||'field');
 
@@ -34,7 +35,7 @@ export function FormsEditor({role,notice}:{role:string;notice:(s:string)=>void})
 
  if(!data||!cfg)return <p role="status">Loading forms…</p>;
  const pages=(form.startsWith('custom:')?[]:data.pages[form]||[]) as {route:string;label:string}[];
- const list=[...cfg.custom.map(f=>({id:'custom:'+f.id,title:f.title,where:'Wiederverwendbares Formular · ID '+f.id,count:0,fields:f.fields.length+' Felder',saved:true,custom:true})),{id:'contact',title:'AROZ-Projektanfrage',where:'Kontaktformulare auf der Website',count:data.pages.contact.length,fields:cfg.contact.fields.length+' Felder',saved:data.saved.contact,custom:false},...(data.pages.hero.length?[{id:'hero',title:'Schnellanfrage',where:'Formulare im Hero-Bereich',count:data.pages.hero.length,fields:'1 Feld',saved:data.saved.hero,custom:false}]:[])];
+ const list=[...cfg.custom.map(f=>({id:'custom:'+f.id,title:f.title,where:'Reusable form · ID '+f.id,count:0,fields:f.fields.length+' fields',saved:true,custom:true})),{id:'contact',title:'AROZ project enquiry',where:'Contact forms on the website',count:data.pages.contact.length,fields:cfg.contact.fields.length+' fields',saved:data.saved.contact,custom:false},...(data.pages.hero.length?[{id:'hero',title:'Quick enquiry',where:'Forms in hero sections',count:data.pages.hero.length,fields:'1 field',saved:data.saved.hero,custom:false}]:[])];
  return <div className="av-forms">
   <section className="av-forms-index"><div className="av-content-intro"><div><h2>Reusable custom forms</h2><p>Create a form once, preview it immediately, then insert it as a Form block on any page. Every submission reaches the same secure lead inbox.</p></div><Button type="button" onClick={createCustom}><Plus/>New custom form</Button></div><div className="av-forms-list">{list.map(f=><button key={f.id} type="button" className={'vault-card av-form-card'+(form===f.id?' selected':'')+(f.custom?' custom':' built-in')} onClick={()=>{if(dirty&&form!==f.id&&!confirm('Switch forms? Unpublished changes stay in place until you publish or reload.'))return;setForm(f.id);setOpen(null);setShowPages(false)}}><span className="av-form-dot"/><strong>{f.title}</strong><small>{f.where}{f.count?` · on ${f.count} page${f.count===1?'':'s'}`:''} · {f.fields}{!f.saved?' · Uses the original site design':''}</small></button>)}</div></section>
   <div className="av-forms-layout">
@@ -42,12 +43,12 @@ export function FormsEditor({role,notice}:{role:string;notice:(s:string)=>void})
     <div className="actions"><h2>Live preview</h2><div className="av-seg" role="group" aria-label="Preview size">{([['desktop',Monitor,'Desktop'],['mobile',Smartphone,'Mobile']] as const).map(([k,I,l])=><button key={k} type="button" className={device===k?'selected':''} onClick={()=>setDevice(k)}><I size={16}/>{l}</button>)}</div></div>
     <div className="av-forms-frame"><iframe title="Form preview" srcDoc={preview} onLoad={e=>{const d=e.currentTarget.contentDocument;const fit=()=>setFrameHeight(Math.max(240,d?.documentElement.scrollHeight||0));fit();if(d)new ResizeObserver(fit).observe(d.body)}} style={{width:device==='mobile'?390:'100%',height:frameHeight}}/></div>
     <p className="muted">On {pages.length} page{pages.length===1?'':'s'}. <button type="button" className="av-link" onClick={()=>setShowPages(!showPages)}>{showPages?'Hide':'Show'} pages</button></p>
-    {showPages&&<ul className="av-forms-pages">{pages.map(p=><li key={p.route}><a href={p.route} target="_blank" rel="noreferrer">{p.label}</a><small>{p.route}</small></li>)}</ul>}
+    {showPages&&<ul className="av-forms-pages">{pages.map(p=><li key={p.route}><a href={p.route} target="_blank" rel="noreferrer">{adminTitle(p)}</a><small>{p.route}</small></li>)}</ul>}
    </section>
    <section className="vault-card av-forms-fields">
     {form!=='hero'&&active?<>
      {custom&&<div className="av-custom-form-identity"><div><h2>{custom.title}</h2><p>Use this form ID when inserting the form as a page block.</p></div><Button type="button" variant="outline" onClick={()=>{if(confirm(`Remove “${custom.title}”? Existing page blocks using it will no longer render a form.`)){edit(c=>{c.custom.splice(customIndex,1);return c});setForm('contact');setOpen(null)}}}><Trash2/>Remove form</Button><label>Form name<Input value={custom.title} onChange={e=>edit(c=>{c.custom[customIndex].title=e.target.value;return c})}/></label><label>Form ID<Input value={custom.id} pattern="[a-z0-9]+(-[a-z0-9]+)*" onChange={e=>{const next=e.target.value.toLowerCase().replace(/[^a-z0-9-]/g,'');edit(c=>{c.custom[customIndex].id=next;return c});setForm('custom:'+next)}}/></label></div>}
-    <h2>Felder</h2><p>Name und E-Mail sind erforderlich. Projekt, Website und Thema können Sie ergänzen oder entfernen.</p>
+    <h2>Fields</h2><p>Name and email are required. You can add or remove the project, website and topic fields.</p>
      <ol className="av-field-list">{active.fields.map((f,i)=>{const core=(CORE as readonly string[]).includes(f.name);return <li key={f.name} className={open===i?'open':''}>
       <div className="av-field-head"><button type="button" className="av-field-title" onClick={()=>setOpen(open===i?null:i)} aria-expanded={open===i}><strong>{f.label||'(no label)'}</strong><small>{TYPE_LABEL[f.type]}{f.required?' · required':''}{f.width==='half'?' · half width':''}{NAME_LABEL[f.name]?'':' · added'}</small></button>{core&&<Lock size={14} aria-label="Needed by the site"/>}<span className="actions"><Button variant="ghost" size="icon" aria-label="Move up" disabled={!i} onClick={()=>move(i,-1)}><ArrowUp/></Button><Button variant="ghost" size="icon" aria-label="Move down" disabled={i===active.fields.length-1} onClick={()=>move(i,1)}><ArrowDown/></Button>{!core&&<Button variant="ghost" size="icon" aria-label={'Remove '+f.label} onClick={()=>{if(confirm(`Remove “${f.label}” from this form?`)){edit(c=>{const target=customId?c.custom.find(x=>x.id===customId):c.contact;if(target)target.fields.splice(i,1);return c});setOpen(null)}}}><Trash2/></Button>}</span></div>
       {open===i&&<div className="av-field-body">

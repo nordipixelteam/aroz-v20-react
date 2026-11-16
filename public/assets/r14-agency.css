@@ -3,6 +3,22 @@
    Animation: first-visit editorial entrance, not a loading gate or scroll-jack.
    Everything remains legible without JavaScript and on reduced motion. */
 body.r14-agency-hero{--r14-red:#ec1748;--r14-ease:cubic-bezier(.22,1,.36,1)}
+/* Homepage only: reserve the expanded floating header's top inset + height + a 24px gap.
+   These values stay fixed during compact-header/menu transitions, so the hero never jumps. */
+body.r14-agency-hero main>.hero{--home-header-top:16px;--home-header-height:80px;--home-header-gap:24px;min-height:100svh!important;height:auto!important;max-height:none!important}
+body.r14-agency-hero main>.hero .r14-hero-shell{min-height:100svh!important;height:auto!important;max-height:none!important}
+body.r14-agency-hero main>.hero .hero-top.r13-hero-grid.r14-hero-stage{height:auto!important;max-height:none!important;min-height:100svh!important;align-items:flex-start!important;padding-top:calc(var(--home-header-top) + var(--home-header-height) + var(--home-header-gap))!important;padding-bottom:48px!important}
+body.r14-agency-hero main>.hero .r13-hero-left.r14-hero-copy{height:auto!important;min-height:0!important;justify-content:flex-start!important;padding-top:0!important;padding-bottom:0!important}
+body.r14-agency-hero main>.hero .hero-photo.r13-hero-visual.r14-hero-photo{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;margin:0!important}
+@media(max-width:960px){
+ body.r14-agency-hero main>.hero{--home-header-top:12px}
+ /* The photo is now a backdrop here too; keep the label and copy readable over its bright areas. */
+ body.r14-agency-hero main>.hero .hero-photo.r13-hero-visual.r14-hero-photo::after{background:linear-gradient(90deg,rgba(25,25,25,.76),rgba(25,25,25,.6))!important}
+}
+@media(max-width:600px){body.r14-agency-hero main>.hero{--home-header-height:66px}}
+@media(orientation:landscape) and (max-height:480px){
+ body.r14-agency-hero main>.hero .r14-hero-title{font-size:clamp(30px,10svh,48px)!important;line-height:.98!important;margin:16px 0 24px!important}
+}
 .r14-agency-hero .site-header{isolation:isolate}
 .r14-agency-hero .hero{padding:0!important;min-height:calc(100svh - 82px);background:#0c0c0e;isolation:isolate;overflow:clip;position:relative}
 .r14-agency-hero .hero::before{display:none}
@@ -107,3 +123,42 @@ body.r14-agency-hero{--r14-red:#ec1748;--r14-ease:cubic-bezier(.22,1,.36,1)}
  .r14-agency-hero .r14-hero-title,.r14-agency-hero .r13-hero-left .hero-aside,
  .r14-agency-hero .hero-overline,.r14-agency-hero .hero-bottom{animation:none!important;opacity:1!important;clip-path:none!important;transform:none!important}
 }
+
+/* Homepage contact: shared site type and a compact, top-aligned enquiry layout. */
+body.r14-agency-hero main > #kontakt.v9-contact{background:#f3f0eb!important;color:#191919;padding:88px 5% 80px}
+body.r14-agency-hero #kontakt h2{max-width:1250px;margin:0 auto 44px;font-size:clamp(40px,5.3vw,82px);line-height:1.07}
+body.r14-agency-hero #kontakt .v9-contact-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px 64px;align-items:start;max-width:1250px}
+body.r14-agency-hero #kontakt .v9-contact-note{grid-column:1;grid-row:1;padding:0;display:block}
+body.r14-agency-hero #kontakt .v9-contact-note p{max-width:490px;font-size:18px;line-height:1.55;margin:0 0 20px}
+body.r14-agency-hero #kontakt .v9-contact-photo{grid-column:1;grid-row:2;height:auto;min-height:0;margin:0;align-self:start}
+body.r14-agency-hero #kontakt .v9-contact-photo img{display:block;aspect-ratio:7/6;height:auto;width:100%;object-fit:cover;border-radius:12px}
+body.r14-agency-hero #kontakt .v9-contact-form{grid-column:2;grid-row:1/3;align-self:start;background:transparent!important;padding:0;min-width:0;font-family:inherit}
+body.r14-agency-hero #kontakt .v9-contact-form h3{font-size:clamp(25px,2.5vw,34px);line-height:1.2;margin:12px 0 28px;letter-spacing:-.04em}
+body.r14-agency-hero #kontakt .v9-eyebrow{color:#615a55;letter-spacing:.04em}
+body.r14-agency-hero #kontakt .v9-form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 22px}
+body.r14-agency-hero #kontakt .v9-contact-form label{font-weight:500;font-size:14px!important;margin-bottom:8px}
+body.r14-agency-hero #kontakt .v9-contact-form :is(input:not([type=checkbox]):not([type=hidden]),textarea,select){border:1px solid #8d8580;border-radius:8px;background:#fffcf8;color:#191919;font:inherit;font-size:16px;line-height:1.5;padding:12px 14px;width:100%;box-sizing:border-box;outline-offset:4px}
+body.r14-agency-hero #kontakt .v9-contact-form textarea{min-height:150px;margin:0 0 20px;resize:vertical}
+body.r14-agency-hero #kontakt .v9-av-field{margin-bottom:22px}
+body.r14-agency-hero #kontakt .v9-form-row .v9-av-field{margin:0}
+body.r14-agency-hero #kontakt .v9-privacy{display:flex;gap:10px;align-items:flex-start;margin:0}
+body.r14-agency-hero #kontakt .v9-privacy input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:#ed174a}
+body.r14-agency-hero #kontakt .v9-privacy span{color:#191919}
+body.r14-agency-hero #kontakt .v9-preview{color:#615a55;font-size:14px!important;margin:12px 0 18px;line-height:1.5}
+body.r14-agency-hero #kontakt .v9-contact-submit{background:#ed174a!important;border:1px solid #ed174a!important;color:#fff!important;border-radius:999px!important;min-height:54px;padding:14px 24px;gap:16px;font:inherit;cursor:pointer}
+body.r14-agency-hero #kontakt .v9-contact-submit > span{background:transparent;color:inherit;width:auto;height:auto;font-size:21px;order:1}
+body.r14-agency-hero #kontakt .v9-contact-submit::before{display:none}
+body.r14-agency-hero #kontakt .v9-contact-submit:hover{background:#c80d3b!important}
+body.r14-agency-hero #kontakt :focus-visible{outline:3px solid #bd0f3d!important;outline-offset:4px!important}
+body.r14-agency-hero #kontakt [aria-invalid=true]{border-color:#b51032!important;box-shadow:0 0 0 1px #b51032}
+body.r14-agency-hero #kontakt .v9-form-status{font-size:16px;line-height:1.5;color:#191919;background:#fffaf5;border:1px solid #81766f;border-radius:8px;margin:20px 0 0;padding:16px}
+body.r14-agency-hero #kontakt .v9-form-status[data-state=error]{background:#fff0f1;color:#9c1530;border:2px solid #b51032;font-weight:500}
+body.r14-agency-hero #kontakt [hidden]{display:none!important}
+body.r14-agency-hero #kontakt .home-contact-review dl{margin:24px 0}
+body.r14-agency-hero #kontakt .home-contact-review dt{font-size:14px;color:#615a55;margin-top:18px}
+body.r14-agency-hero #kontakt .home-contact-review dd{font-size:18px;line-height:1.5;margin:4px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+body.r14-agency-hero #kontakt .home-contact-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+body.r14-agency-hero #kontakt .home-contact-back{border:1px solid #81766f;border-radius:999px;background:transparent;color:#191919;padding:14px 24px;min-height:54px;font:inherit;cursor:pointer}
+@media(max-width:920px){body.r14-agency-hero #kontakt .v9-contact-layout{gap:28px;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}body.r14-agency-hero #kontakt .v9-form-row{grid-template-columns:1fr}body.r14-agency-hero #kontakt .v9-contact-photo img{aspect-ratio:7/8}}
+@media(max-width:600px){body.r14-agency-hero main > #kontakt.v9-contact{padding:56px 7%}body.r14-agency-hero #kontakt h2{font-size:40px;margin-bottom:30px}body.r14-agency-hero #kontakt .v9-contact-layout{display:flex;flex-direction:column;gap:28px}body.r14-agency-hero #kontakt .v9-contact-note{order:0}body.r14-agency-hero #kontakt .v9-contact-photo{order:1;width:100%}body.r14-agency-hero #kontakt .v9-contact-photo img{aspect-ratio:7/5}body.r14-agency-hero #kontakt .v9-contact-form{order:2;width:100%}body.r14-agency-hero #kontakt .v9-form-row{gap:18px}}
+@media(max-width:600px){body.r14-agency-hero #kontakt h2 br{display:initial!important}}

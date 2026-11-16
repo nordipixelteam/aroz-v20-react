@@ -1,0 +1,61 @@
+/* AI SEO only: preserve the viewport as the sticky panel's scrolling context. */
+body[data-r8-theme="ai"]:not(.menu-open){overflow-x:clip!important;overflow-y:visible!important}
+/* The approved shared hero is a static overview, not the original pinned scene. */
+body[data-r8-theme="ai"] .av-service-hero[data-av-hero="shared"] .hero-index-item{color:#f1eee7;transform:none!important}
+body[data-r8-theme="ai"] .av-service-hero[data-av-hero="shared"] .hero-index-item small{color:#b8b3ac}
+body[data-r8-theme="ai"] .av-service-hero[data-av-hero="shared"] .hero-index-item::before{width:0!important}
+body[data-r8-theme="ai"] .av-service-hero[data-av-hero="shared"] .hero-endnote{display:none!important}
+
+/* Keep the English reading surface inside its frame instead of widening min-content columns. */
+body[data-r8-theme="ai"] .context-page{grid-template-columns:120px minmax(0,1fr) 108px;column-gap:18px;padding:28px}
+body[data-r8-theme="ai"] .context-page::before{left:148px}
+body[data-r8-theme="ai"] .context-page::after{right:136px}
+body[data-r8-theme="ai"] .context-page-main h3{font-size:clamp(28px,3vw,44px)}
+body[data-r8-theme="ai"] .context-page-main p{font-size:clamp(14px,1.1vw,18px);margin-top:16px}
+body[data-r8-theme="ai"] .context-copylines{padding-top:20px}
+
+/* The source's reduced-motion rule changes position but leaves display:none on three articles. */
+body[data-r8-theme="ai"][data-preview] .reveal{opacity:1;transform:none;transition:none}
+body[data-r8-theme="ai"][data-preview] .context-story{height:auto!important}
+body[data-r8-theme="ai"][data-preview] .context-pin{position:relative;top:auto;height:auto;overflow:visible;grid-template-rows:auto auto}
+body[data-r8-theme="ai"][data-preview] .context-canvas{height:603px}
+body[data-r8-theme="ai"][data-preview] .context-copy{height:auto}
+body[data-r8-theme="ai"][data-preview] .context-copy article{display:block!important;position:relative;inset:auto;opacity:1;transform:none;animation:none;pointer-events:auto;margin-bottom:32px}
+body[data-r8-theme="ai"][data-preview] :is(.context-progress,.context-triggers){display:none}
+@media(prefers-reduced-motion:reduce){
+ body[data-r8-theme="ai"] .context-pin{grid-template-rows:auto auto;overflow:visible}
+ body[data-r8-theme="ai"] .context-copy article{display:block!important;position:relative;inset:auto;opacity:1;transform:none;animation:none;pointer-events:auto;margin-bottom:32px}
+ body[data-r8-theme="ai"] .context-canvas{height:603px}
+ body[data-r8-theme="ai"] :is(.context-progress,.context-triggers){display:none}
+}
+@media(max-width:700px){
+ body[data-r8-theme="ai"] .context-pin{grid-template-rows:380px 270px;gap:20px}
+ body[data-r8-theme="ai"] .context-canvas{height:380px}
+ body[data-r8-theme="ai"] .context-page{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto 1fr auto;gap:0;padding:20px}
+ body[data-r8-theme="ai"] .context-page::before{display:none}
+ body[data-r8-theme="ai"] .context-page-index{grid-column:1;grid-row:2;flex-direction:row;justify-content:space-between;gap:6px;padding-top:14px}
+ body[data-r8-theme="ai"] .context-page-index span{padding-left:0;letter-spacing:0;font-size:12px!important}
+ body[data-r8-theme="ai"] .context-page-index span::before{top:auto;bottom:-4px}
+ body[data-r8-theme="ai"] .context-page-main{grid-column:1;grid-row:3;padding:14px 0 0}
+ body[data-r8-theme="ai"] .context-page-main h3{font-size:30px}
+ body[data-r8-theme="ai"] .context-page-main p{font-size:14px;line-height:1.4;margin-top:12px}
+ body[data-r8-theme="ai"] .context-copylines{display:none}
+ body[data-r8-theme="ai"] .context-page-footer{grid-column:1;grid-row:4;padding-top:12px}
+ body[data-r8-theme="ai"] .context-copy{height:270px}
+ body[data-r8-theme="ai"][data-preview] .context-pin{grid-template-rows:auto auto}
+ body[data-r8-theme="ai"][data-preview] .context-canvas{height:380px}
+ body[data-r8-theme="ai"][data-preview] .context-copy{height:auto}
+}
+@media(prefers-reduced-motion:reduce) and (max-width:700px){
+ body[data-r8-theme="ai"] .context-pin{grid-template-rows:auto auto}
+ body[data-r8-theme="ai"] .context-canvas{height:380px}
+ body[data-r8-theme="ai"] .context-copy{height:auto}
+}
+/* Short phones use a readable overview rather than clipping a stage taller than the viewport. */
+@media(max-width:700px) and (max-height:760px){
+ body[data-r8-theme="ai"] .context-story{height:auto!important}
+ body[data-r8-theme="ai"] .context-pin{position:relative;top:auto;height:auto;overflow:visible;grid-template-rows:auto auto}
+ body[data-r8-theme="ai"] .context-copy{height:auto}
+ body[data-r8-theme="ai"] .context-copy article{display:block!important;position:relative;inset:auto;animation:none;pointer-events:auto;margin-bottom:32px}
+ body[data-r8-theme="ai"] :is(.context-progress,.context-triggers){display:none}
+}

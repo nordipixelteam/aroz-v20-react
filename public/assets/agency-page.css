@@ -1,0 +1,22 @@
+/* Agency only: keep sticky stages attached to the viewport, not an overflow body. */
+body[data-r8-theme="agency"]:not(.menu-open){overflow-x:clip!important;overflow-y:visible!important}
+
+/* AVAULT previews omit imported scripts; expose both founders and every editable reveal. */
+body[data-r8-theme="agency"][data-preview] .reveal{opacity:1;transform:none;transition:none}
+body[data-r8-theme="agency"][data-preview] .founders{height:auto!important}
+body[data-r8-theme="agency"][data-preview] .founders-sticky{position:relative!important;top:auto!important;height:auto!important;overflow:visible!important}
+body[data-r8-theme="agency"][data-preview] .founders-stage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
+body[data-r8-theme="agency"][data-preview] .founder-panel{position:relative!important;width:100%!important;min-height:620px;opacity:1!important;clip-path:none!important;transform:none!important}
+body[data-r8-theme="agency"][data-preview] .founder-info{opacity:1!important;transform:none!important}
+body[data-r8-theme="agency"][data-preview] .founders-center,
+body[data-r8-theme="agency"][data-preview] .founders-state-note{display:none}
+@media(max-width:760px){body[data-r8-theme="agency"][data-preview] .founders-stage{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){
+ body[data-r8-theme="agency"] .founders{height:auto!important}
+ body[data-r8-theme="agency"] .founders-sticky{position:relative!important;top:auto!important;height:auto!important;overflow:visible!important}
+ body[data-r8-theme="agency"] .founders-stage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
+ body[data-r8-theme="agency"] .founder-panel{position:relative!important;width:100%!important;min-height:620px;opacity:1!important;clip-path:none!important;transform:none!important}
+ body[data-r8-theme="agency"] .founders[data-state] .founder-info{opacity:1!important;transform:none!important}
+ body[data-r8-theme="agency"] .founders-center,body[data-r8-theme="agency"] .founders-state-note{display:none}
+}
+@media(prefers-reduced-motion:reduce) and (max-width:760px){body[data-r8-theme="agency"] .founders-stage{grid-template-columns:1fr}}

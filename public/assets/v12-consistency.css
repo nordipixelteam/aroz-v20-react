@@ -23,3 +23,40 @@ button{border-radius:999px}.v2-story-controls button{border-radius:50%;transitio
 @media(prefers-reduced-motion:reduce){.v3-nav,.v3-nav *{transition:none!important}a::before,button::before{animation:none!important}:is(a,button):hover{transform:none!important}}
 .v9-service h3 button{border-radius:0}.v8-footer-actions a.v12-cta{width:100%;padding:17px 20px;font-size:14px}.v2-card-meta>a.v6-glass{max-width:46%;font-size:12px}.v9-service-panel a.v12-cta{font-size:14px}
 @media(max-width:360px){.v3-nav:not(.is-compact) .v3-logo{width:34px;height:40px}.v3-nav:not(.is-compact) .v3-logo img{width:90px;max-width:none}.v3-nav:not(.is-compact) .v3-wordmark{opacity:0}.v3-nav:not(.is-compact) .v3-redmark{visibility:visible}}
+
+/* Shared CTA geometry must win over imported page rules such as .text-link { padding:10px 0 }.
+   Border-box keeps filled and outlined actions the same height without clipping wrapped labels.
+   Icon controls, booking-call animations and the contact submit's inset icon retain their own geometry. */
+body :is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link,.v6-glass,.v12-cta,.v2-link,.next-link,.navcta,.v7-confirm,.v7-download,.v7-done-close,.v7-back){
+ box-sizing:border-box;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:12px;
+ min-width:0;
+ max-width:100%;
+ min-height:54px;
+ padding:14px 24px;
+ line-height:1.25;
+ text-align:center;
+ vertical-align:middle;
+ overflow-wrap:anywhere;
+}
+body :is(.hero-actions,.proof-actions,.r6-hero-actions){align-items:stretch;gap:12px}
+body .hero-actions>:is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link){margin:0}
+/* A CTA pair must not consume the paragraph's entire grid column at tablet/laptop widths. */
+body .hero-bottom:has(>.hero-actions){grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
+body .hero-bottom>.hero-actions{justify-content:flex-start}
+body :is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link,.v6-glass,.v12-cta,.v2-link,.next-link,.navcta,.v7-confirm,.v7-download,.v7-done-close,.v7-back)>:is(svg,i,span[aria-hidden="true"]){flex-shrink:0}
+/* Keep small dialog controls centered and easy to hit, without stretching calendar cells. */
+body :is(.v7-dismiss,.v7-calendar-head button,.v7-times-head button){
+ box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;
+ min-width:44px;min-height:44px;padding:8px;line-height:1.25;flex-shrink:0;
+}
+body .v7-calendar-head>div{display:flex;align-items:center;gap:4px;flex-shrink:0}
+body .v7-times-head>div{display:inline-flex;align-items:center}
+@media(max-width:600px){
+ body :is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link,.v6-glass,.v12-cta,.v2-link,.next-link,.navcta,.v7-confirm,.v7-download,.v7-done-close,.v7-back){padding:13px 20px;min-height:52px}
+ body .hero-actions{gap:12px}
+ body :is(.hero-actions,.proof-actions,.r6-hero-actions)>:is(.btn-primary,.btn-quiet,.btn,.r6-button,.r6-text-link,.text-link){width:100%}
+}

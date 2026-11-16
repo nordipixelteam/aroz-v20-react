@@ -1,0 +1,37 @@
+/* Copywriting only: keep the viewport as the sticky scrolling ancestor. */
+body[data-r8-theme="copy"]:not(.menu-open){overflow-x:clip!important;overflow-y:visible!important}
+body[data-r8-theme="copy"] .reader-stage{top:112px;height:calc(100svh - 112px);min-height:0}
+body[data-r8-theme="copy"] .reader-story{height:320svh}
+@media(max-width:1000px),(max-height:820px),(prefers-reduced-motion:reduce){
+ body[data-r8-theme="copy"] .reader-story{height:auto}
+ body[data-r8-theme="copy"] .reader-stage{position:relative;top:auto;height:auto;min-height:0}
+ body[data-r8-theme="copy"] .reader-right{min-height:0}
+ body[data-r8-theme="copy"] .reader-card{display:block!important;position:relative;inset:auto;opacity:1;visibility:visible;transform:none;pointer-events:auto;transition:none!important;margin:0 0 28px}
+ body[data-r8-theme="copy"] .reader-word span.active{transform:none}
+}
+/* Editor previews expose every original field instead of covering later cards. */
+body[data-r8-theme="copy"][data-preview] .reader-story{height:auto}
+body[data-r8-theme="copy"][data-preview] .reader-stage{position:relative;top:auto;height:auto}
+body[data-r8-theme="copy"][data-preview] .reader-right{min-height:0}
+body[data-r8-theme="copy"][data-preview] .reader-card{display:block!important;position:relative;opacity:1;visibility:visible;transform:none;pointer-events:auto;transition:none!important;margin-bottom:28px}
+
+/* Local proof progress overrides the inherited legacy hero step. */
+body[data-r8-theme="copy"] .proof-scroll-track{position:relative}
+body[data-r8-theme="copy"] .proof-scroll-track .proof{margin:0;width:100%}
+body[data-r8-theme="copy"] .proof-scroll-track .proof-paper{width:100%}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="scroll"]{height:calc(100svh - 112px + var(--proof-scroll-distance))}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="scroll"] .proof{position:sticky;top:112px;height:calc(100svh - 112px);display:flex;align-items:center}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="scroll"] .proof-row{opacity:.28}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="scroll"] .proof-row.active{opacity:1}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="scroll"] .proof-mark{display:block;height:25%;transform:translateY(calc(var(--step,0)*100%))}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="static"]{height:auto}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="static"] .proof{position:relative;top:auto;height:auto}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="static"] .proof-row,
+body[data-r8-theme="copy"][data-preview] .proof-row{opacity:1;transform:none;transition:none!important}
+body[data-r8-theme="copy"] .proof-scroll-track[data-proof-mode="static"] .proof-mark{display:block;height:100%;transform:none;transition:none!important}
+/* A short desktop still animates when the complete card can fit below the header. */
+@media(min-width:1001px) and (max-height:820px){
+ body[data-r8-theme="copy"] .proof-scroll-track .proof-paper{padding:24px}
+ body[data-r8-theme="copy"] .proof-scroll-track .proof-title{margin-top:20px;margin-bottom:12px}
+ body[data-r8-theme="copy"] .proof-scroll-track .proof-row{padding-top:12px;padding-bottom:12px}
+}

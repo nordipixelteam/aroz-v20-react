@@ -1,0 +1,39 @@
+/* Web Design's editorial hero, scoped to the seven main-menu pages. */
+body main section.av-service-hero[data-av-hero="shared"]{display:block!important;position:relative!important;height:auto!important;min-height:0!important;max-height:none!important;padding:82px 0 0!important;background:#070707!important;color:#f4f2ee;overflow:clip;isolation:isolate}
+body main section.av-service-hero[data-av-hero="shared"]::before,
+body main section.av-service-hero[data-av-hero="shared"]::after{display:none!important}
+body main section.av-service-hero[data-av-hero="shared"]>.av-hero-shell{display:block!important;position:relative!important;inset:auto!important;width:min(1480px,100%)!important;max-width:1480px;margin:0 auto!important;padding:clamp(78px,9vw,140px) clamp(20px,3.35vw,58px) clamp(36px,5vw,70px)!important;transform:none!important;opacity:1!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-meta{display:flex!important;position:static!important;align-items:flex-start;justify-content:space-between;gap:20px;padding:0 0 28px!important;margin:0 0 clamp(26px,4vw,54px)!important;border:0;border-bottom:1px solid #ffffff26;transform:none!important;color:#a6a29b}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-meta>:first-child{font-size:clamp(12px,1vw,18px)!important;line-height:1.5;letter-spacing:.19em;text-transform:uppercase}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-meta>:last-child{font-size:clamp(12px,.95vw,18px)!important;line-height:1.5;letter-spacing:0;text-transform:none;text-align:right;color:#8e8b85;max-width:52%}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-breadcrumb{display:flex;gap:12px;flex-wrap:wrap}
+body main section.av-service-hero[data-av-hero="shared"] h1.av-hero-title{display:block!important;position:static!important;margin:0!important;padding:0!important;max-width:1280px!important;width:100%!important;font-family:'Mona Sans',Arial,sans-serif!important;font-size:clamp(62px,9.5vw,154px)!important;font-weight:560!important;line-height:.84!important;letter-spacing:-2px!important;color:#f4f2ee;transform:none!important;opacity:1!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal;hyphens:none;text-wrap:wrap}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-title :is(span,em){font:inherit!important;display:inline;white-space:normal!important;transform:none!important;text-decoration:none!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-title .av-hero-accent{display:inline-block!important;max-width:100%;color:#ed174a!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-title [data-av-hero-tail]{display:inline-block!important;max-width:100%;white-space:normal!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-title :is(em,.mark)::after{display:none!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-bottom{display:block!important;position:static!important;margin:clamp(34px,5vw,72px) 0 0!important;padding:0!important;transform:none!important;opacity:1!important}
+body main section.av-service-hero[data-av-hero="shared"] p.av-hero-description{position:static!important;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:clamp(18px,1.42vw,26px)!important;line-height:1.55!important;letter-spacing:-.02em!important;color:#c8c4be!important;max-width:760px!important;width:100%!important;margin:0!important;padding:0!important;transform:none!important;opacity:1!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-actions{display:flex!important;flex-direction:row!important;justify-content:flex-start!important;align-items:stretch!important;flex-wrap:wrap!important;gap:12px!important;margin:28px 0 0!important;padding:0!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-actions a.av-hero-button{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:14px!important;position:relative!important;width:auto!important;min-width:0!important;max-width:100%!important;min-height:54px!important;height:auto!important;padding:14px 24px!important;margin:0!important;border:1px solid #ffffff40!important;border-radius:999px!important;background:#151515!important;color:#f4f2ee!important;font:500 16px/1.25 'Helvetica Neue',Helvetica,Arial,sans-serif!important;letter-spacing:0!important;text-decoration:none!important;white-space:normal!important;box-shadow:none!important;transform:none!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-actions a.av-hero-primary{background:#ed174a!important;border-color:#ed174a!important;color:white!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-actions a:hover{border-color:#fff!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-actions a:focus-visible{outline:2px solid #fff;outline-offset:4px}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-actions a::after{display:none!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-arrow{flex:0 0 auto;font-size:20px;line-height:1;transform:none!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement{position:relative!important;inset:auto!important;display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;margin:64px 0 0!important;padding:0!important;aspect-ratio:auto!important;overflow:clip;transform:none!important;background:transparent!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement>.hero-stage{position:relative!important;top:auto!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement :is(.hero-media,.hero-stage){position:relative!important;inset:auto!important;width:100%!important;height:clamp(240px,40vw,580px)!important;min-height:0!important;margin:0!important;transform:none!important;opacity:1!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement .hero-media img{width:100%!important;height:100%!important;object-fit:cover;transform:none!important}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement :is(.hero-side,.hero-note,.hero-scroll,.hero-endpoint){position:static!important;inset:auto!important;display:block!important;height:auto!important;opacity:1!important;transform:none!important;margin:16px 0}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement>.hero-count{display:flex;gap:16px;align-items:center}
+body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement>:is(.hero-mark,.hero-slash,.hero-signature){position:absolute!important;width:80px!important;height:80px!important;inset:auto 0 0 auto!important;opacity:.15!important;pointer-events:none}
+@media(max-width:700px){
+ body main section.av-service-hero[data-av-hero="shared"]{padding-top:72px!important}
+ body main section.av-service-hero[data-av-hero="shared"]>.av-hero-shell{padding-top:58px!important}
+ body main section.av-service-hero[data-av-hero="shared"] .av-hero-meta{gap:14px;margin-bottom:32px!important;padding-bottom:20px!important}
+ body main section.av-service-hero[data-av-hero="shared"] .av-hero-meta>:last-child{max-width:45%;font-size:11px!important}
+ body main section.av-service-hero[data-av-hero="shared"] h1.av-hero-title{font-size:clamp(50px,14.8vw,66px)!important;line-height:.92!important;letter-spacing:-1px!important}
+ body main section.av-service-hero[data-av-hero="shared"] .av-hero-actions a.av-hero-button{padding:14px 20px!important;font-size:15px!important;min-height:52px!important}
+ body main section.av-service-hero[data-av-hero="shared"] .av-hero-supplement{margin-top:44px!important}
+}

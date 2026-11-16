@@ -1,4 +1,5 @@
 'use client';
+import {PublicUploadNotice} from './public-upload-notice';
 import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {useEditor,EditorContent,type Editor} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -40,7 +41,7 @@ function Toolbar({editor,upload}:{editor:Editor;upload:(f:File)=>Promise<string>
   <span className="av-sep"/>
   <Tool label="Quote" active={editor.isActive('blockquote')} on={()=>c().toggleBlockquote().run()}><Quote size={16}/></Tool><Tool label="Code block" active={editor.isActive('codeBlock')} on={()=>c().toggleCodeBlock().run()}><SquareCode size={16}/></Tool><Tool label="Divider line" on={()=>c().setHorizontalRule().run()}><Minus size={16}/></Tool>
   <Tool label="Link" active={editor.isActive('link')} on={link}><Link2 size={16}/></Tool><Tool label="Remove link" disabled={!editor.isActive('link')} on={()=>c().unsetLink().run()}><Unlink size={16}/></Tool>
-  <Tool label="Insert image from URL" on={()=>image()}><ImagePlus size={16}/></Tool><button type="button" className="av-tool av-tool-text" onMouseDown={e=>e.preventDefault()} onClick={()=>file.current?.click()}>Upload image</button><input ref={file} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={e=>{const f=e.target.files?.[0];e.target.value='';if(f)image(f)}}/>
+  <Tool label="Insert image from URL" on={()=>image()}><ImagePlus size={16}/></Tool><button type="button" className="av-tool av-tool-text" onMouseDown={e=>e.preventDefault()} onClick={()=>file.current?.click()} title="Uploaded images are public immediately">Upload public image</button><input ref={file} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={e=>{const f=e.target.files?.[0];e.target.value='';if(f)image(f)}}/>
   <Tool label="Insert table" on={()=>c().insertTable({rows:3,cols:3,withHeaderRow:true}).run()}><TableIcon size={16}/></Tool>
   {inTable&&<><Tool label="Add row below" on={()=>c().addRowAfter().run()}><Rows3 size={16}/></Tool><Tool label="Add column right" on={()=>c().addColumnAfter().run()}><Columns3 size={16}/></Tool><button type="button" className="av-tool av-tool-text" onClick={()=>c().deleteRow().run()}>− row</button><button type="button" className="av-tool av-tool-text" onClick={()=>c().deleteColumn().run()}>− column</button><button type="button" className="av-tool av-tool-text" onClick={()=>c().toggleHeaderRow().run()}>Header row</button><Tool label="Merge cells" disabled={!editor.can().mergeCells()} on={()=>c().mergeCells().run()}><Merge size={16}/></Tool><Tool label="Split cell" disabled={!editor.can().splitCell()} on={()=>c().splitCell().run()}><Split size={16}/></Tool><Tool label="Delete table" on={()=>c().deleteTable().run()}><Trash2 size={16}/></Tool></>}
   <span className="av-sep"/>
@@ -67,7 +68,7 @@ export function PostEditor({doc,change,upload}:{doc:Doc;change:(d:Doc)=>void;upl
  return <><div className="av-post">
   <div className={'av-post-canvas blog-'+tint}>
    <header className="av-post-header">{pieces(eyebrow,'av-post-eyebrow','Eyebrow')}{pieces(title,'av-post-title','Title (H1)')}{pieces(deck,'av-post-deck','Introduction')}{pieces(meta,'av-post-meta','Byline, date and reading time')}</header>
-   {editor&&<Toolbar editor={editor} upload={upload}/>}
+   {editor&&<><PublicUploadNotice/><Toolbar editor={editor} upload={upload}/></>}
    <div className="article-body av-post-body"><EditorContent editor={editor}/></div>
   </div>
   <p className="av-post-count">{words} words · about {Math.max(1,Math.round(words/220))} min read. Paste from Word or Google Docs keeps headings, lists, links and tables and drops everything else.</p>

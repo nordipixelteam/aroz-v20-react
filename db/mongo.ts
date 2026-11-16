@@ -24,6 +24,8 @@ function connection(){
         db.collection('media').createIndex({key:1},{unique:true}),
         db.collection('users').createIndex({email:1},{unique:true}),
         db.collection('rate_limits').createIndex({id:1},{unique:true}),
+        db.collection('session_revocations').createIndex({id:1},{unique:true}),
+        db.collection('session_revocations').createIndex({expires:1},{expireAfterSeconds:0}),
         db.collection('schedules').createIndex({route:1},{unique:true}),
         db.collection('taxonomy').createIndex({id:1},{unique:true}),
       ]);

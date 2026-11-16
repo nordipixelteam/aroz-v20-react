@@ -1,8 +1,10 @@
 import {compose} from './blocks';
+import {importedImageUrl} from './imported-images.mjs';
 import {CONFIG} from './config';
 import {fixIcons} from './icon-fix';
 import {tagFields} from './nav-canvas';
 import {markSections} from './section-library';
+import {sharedFooter,applySharedFooter,renderFooterWordmark} from './shared-footer';
 import {Doc,esc} from './store';
 import {profile,organizationNode,syncSocialLinks,customSchemaNodes} from './site';
 import {BODY_SLOT,RELATED_SLOT,wrapTables,bodyImages,relatedHtml} from './rich';
@@ -16,6 +18,8 @@ export function render(d:Doc,g:Record<string,any>={},preview=false,registry:Reco
  // Rich article body (already sanitized on save) goes in after field values, so it is never re-processed.
  html=html.replace(BODY_SLOT,()=>wrapTables(d.body||''));
  html=html.replace(RELATED_SLOT,()=>relatedHtml(d as any,registry as any));
+ const home=registry['/']||(d.route==='/'?d:undefined);
+ if(home)html=applySharedFooter(html,sharedFooter(home,nav));
  // Global contact values are resolved in every rendered page, not copied over saved records.
  if(g.name)html=html.replaceAll(CONFIG.name,esc(g.name));
  const phone=String(g.phone||''),digits=phone.replace(/\D/g,'').replace(/^1(?=\d{10}$)/,''),phoneText=digits.length===10?`(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`:phone,tel='tel:'+phone.replace(/[^+0-9]/g,'');
@@ -24,12 +28,16 @@ export function render(d:Doc,g:Record<string,any>={},preview=false,registry:Reco
  if(CONFIG.phoneDisplay)html=html.replaceAll(CONFIG.phoneDisplay,esc(phoneText));
  if(g.logo)html=html.replace(/(<img\b[^>]*\bsrc=")[^"]*("[^>]*(?:class="[^"]*(?:logo|brand)[^"]*"|alt="[^"]*(?:AROZ|logo)[^"]*")[^>]*>)/gi,`$1${esc(g.logo)}$2`);
  html=syncSocialLinks(html,g);
+ html=renderFooterWordmark(html);
  html=fixIcons(html);
  // Imported pages historically stored public assets as `assets/...`. Root them so nested routes do not
  // request `/service-slug/assets/...` and 404. External, anchor, mail, phone, and ordinary page links stay unchanged.
  html=html.replace(/\b(src|href|poster|data-src)="((?:assets|media)\/[^"<>]*)"/gi,(_match,attr,value)=>`${attr}="/${value}"`);
+ // Repair only the known flattened import paths; leave staff content and upload URLs intact.
+ const sourceRoute=d.templateRoute||d.route;
+ html=html.replace(/\b(src|href|poster|data-src)="(\/assets\/[^"<>]*)"/gi,(_match,attr,value)=>`${attr}="${importedImageUrl(value,sourceRoute)}"`);
  const p=profile(g);const title=d.seo.title.trim()||p.titleTemplate.replace('%s',d.label);const description=d.seo.description.trim()||d.excerpt||p.defaultDescription;const ogTitle=d.seo.ogTitle?.trim()||title,ogDescription=d.seo.ogDescription?.trim()||description;
- const canonical=origin+d.route;const image=absolute(d.seo.image||d.featuredImage||p.image,origin);const imageAlt=d.seo.image?d.seo.imageAlt:d.featuredImage?d.featuredAlt||d.seo.imageAlt:d.seo.imageAlt;const heading=text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1]||d.label);
+ const canonical=origin+d.route;const image=absolute(importedImageUrl(d.seo.image||d.featuredImage||p.image,sourceRoute),origin);const imageAlt=d.seo.image?d.seo.imageAlt:d.featuredImage?d.featuredAlt||d.seo.imageAlt:d.seo.imageAlt;const heading=text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1]||d.label);
  const graph:Record<string,unknown>[]=[{...organizationNode(g,html,CONFIG.origin),telephone:phone},{'@type':'WebSite','@id':CONFIG.origin+'/#website',url:CONFIG.origin+'/',name:p.name,publisher:{'@id':CONFIG.origin+'/#organization'},inLanguage:CONFIG.language},{'@type':d.route==='/blogs/'||d.route==='/case-studies/'?'CollectionPage':'WebPage','@id':canonical+'#webpage',url:canonical,name:title,description,isPartOf:{'@id':CONFIG.origin+'/#website'},inLanguage:CONFIG.language,primaryImageOfPage:{'@type':'ImageObject',url:image,caption:imageAlt}}];
  if(d.kind==='service')graph.push({'@type':'Service','@id':canonical+'#service',name:heading,url:canonical,description,provider:{'@id':origin+'/#organization'},areaServed:{'@type':'AdministrativeArea',name:p.areaServed},mainEntityOfPage:{'@id':canonical+'#webpage'}});
  if(d.kind==='post'||d.kind==='case-study')graph.push({'@type':d.kind==='post'?'BlogPosting':'Article','@id':canonical+'#article',headline:heading,description,image:[image],author:d.author?{'@type':'Person',name:d.author,...(d.authorUrl?{url:absolute(d.authorUrl,origin)}:{})}:{'@id':origin+'/#organization'},...(d.category?{articleSection:d.category}:{}),publisher:{'@id':origin+'/#organization'},mainEntityOfPage:{'@id':canonical+'#webpage'},inLanguage:CONFIG.language,...(d.publishedAt?{datePublished:d.publishedAt}:{}),...(d.updatedAt?{dateModified:d.updatedAt}:{})});

@@ -5,7 +5,7 @@ import {esc,Doc} from './store';
 export function adminBar(user:{email:string;role:string},doc:Doc,newLeads:number){
  const view=doc.kind==='post'?'blogs':'pages';const edit=`/avault/?view=${view}&route=${encodeURIComponent(doc.route)}`;
  const item=(href:string,label:string,extra='')=>`<a href="${esc(href)}"${extra}>${label}</a>`;
- return `<div id="avault-bar" role="navigation" aria-label="AVAULT toolbar"><style>
+ return `<div id="avault-bar" class="notranslate" translate="no" lang="en" role="navigation" aria-label="AVAULT toolbar"><style>
 html{margin-top:40px!important}.header-wrap{top:40px!important}
 #avault-bar{position:fixed;inset:0 0 auto 0;height:40px;z-index:2147483000;display:flex;align-items:center;gap:4px;padding:0 12px;background:#062744;color:#fff;font:700 12px/1 Arial,sans-serif;letter-spacing:.01em;box-shadow:inset 0 -2px #cc293c}
 #avault-bar a,#avault-bar button{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 12px;border-radius:2px;color:#fff;text-decoration:none;background:none;border:1px solid transparent;font:inherit;cursor:pointer;white-space:nowrap}

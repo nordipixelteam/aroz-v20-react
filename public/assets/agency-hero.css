@@ -1,0 +1,52 @@
+/* Agency hero only. The single editable photo becomes a backdrop on wide screens. */
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]{
+ padding:0!important;min-height:0!important;background:#070707!important;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.av-hero-shell{
+ min-height:860px;padding:154px clamp(24px,3.35vw,58px) 76px!important;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.hero-media{
+ position:absolute;inset:108px 0 0 48%;width:52%;height:auto;overflow:hidden;margin:0;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.hero-media img{
+ position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;transform:none!important;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.hero-media::after{
+ content:"";position:absolute;inset:0;background:linear-gradient(90deg,#070707 0%,rgba(7,7,7,.76) 7%,rgba(7,7,7,.18) 24%,transparent 42%),linear-gradient(180deg,#070707 0%,transparent 14%,transparent 68%,rgba(7,7,7,.88) 100%);
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .av-hero-meta{
+ position:relative!important;z-index:1;margin-bottom:46px!important;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] h1.av-hero-title{
+ position:relative!important;width:57%!important;max-width:780px!important;font-size:clamp(68px,7vw,108px)!important;line-height:.91!important;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .av-hero-bottom{
+ position:relative!important;width:48%;margin-top:42px!important;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] p.av-hero-description{font-size:clamp(18px,1.42vw,23px)!important;color:#e2ded8!important}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .av-hero-supplement{
+ position:absolute!important;inset:auto clamp(24px,3.35vw,58px) 48px auto!important;width:38%!important;margin:0!important;overflow:visible;text-align:right;
+}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .hero-side{margin:0!important;text-shadow:0 2px 16px #000}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .hero-side strong{font-size:clamp(24px,2.4vw,36px);opacity:1!important;transform:none!important}
+body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] :is(.hero-signature,.hero-scroll){display:none!important}
+
+/* Below desktop width, let the photograph follow the buttons without text over faces. */
+@media(max-width:1100px){
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]{display:flex!important;flex-direction:column}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.av-hero-shell{min-height:0;padding:144px clamp(20px,4vw,42px) 32px!important}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] h1.av-hero-title{width:100%!important;max-width:900px!important;font-size:clamp(58px,9.5vw,98px)!important}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .av-hero-bottom{width:100%;max-width:760px;margin-top:32px!important}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .av-hero-supplement{position:relative!important;inset:auto!important;width:100%!important;margin:32px 0 0!important;text-align:left}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .hero-side strong{font-size:28px}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.hero-media{order:1;position:relative;inset:auto;width:calc(100% - clamp(40px,8vw,84px));height:auto;aspect-ratio:1.2;margin:0 auto;overflow:hidden}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.hero-media img{object-position:50% 28%}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.hero-media::after{background:linear-gradient(180deg,transparent 82%,#070707 100%)}
+}
+@media(max-width:600px){
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.av-hero-shell{padding-top:120px!important}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .av-hero-meta{margin-bottom:32px!important}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] h1.av-hero-title{font-size:clamp(48px,13.5vw,72px)!important;line-height:.95!important}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"] .hero-side strong{font-size:24px}
+ body[data-r8-theme="agency"] main section.av-service-hero[data-agency-photo="integrated"]>.hero-media{aspect-ratio:.96}
+}

@@ -1,7 +1,7 @@
 /* V12: scroll direction controls the shared navigation; no scroll interception. */
 (()=>{'use strict';const header=document.querySelector('.v3-nav'),dialog=document.querySelector('#v3-menu'),toggle=document.querySelector('.v3-menu-toggle'),links=header?.querySelector('.v10-nav-links');if(!header||!dialog||!toggle)return;
 let frame=0,lastY=scrollY,anchorY=scrollY,direction=0;
-function setCompact(value){if(dialog.open)value=false;header.classList.toggle('is-compact',value);if(links)links.inert=value;toggle.setAttribute('aria-label',value?'Navigation erweitern':'Menü öffnen');toggle.setAttribute('aria-controls',value&&links?'v12-direct-nav':'v3-menu');toggle.setAttribute('aria-expanded',String(dialog.open));}
+function setCompact(value){if(dialog.open)value=false;header.classList.toggle('is-compact',value);if(links)links.inert=value;toggle.setAttribute('aria-label',value?"Expand navigation":"Open menu");toggle.setAttribute('aria-controls',value&&links?'v12-direct-nav':'v3-menu');toggle.setAttribute('aria-expanded',String(dialog.open));}
 function expand(){setCompact(false);lastY=anchorY=scrollY;direction=0;}
 const close=()=>{dialog.close();toggle.setAttribute('aria-expanded','false');toggle.focus();};
 header.addEventListener('click',e=>{if(!header.classList.contains('is-compact'))return;if(e.target.closest('.v3-talk'))return;e.preventDefault();e.stopImmediatePropagation();expand();},{capture:true});

@@ -1,9 +1,11 @@
 import { MongoClient } from 'mongodb';
 import 'server-only';
+import {assertDatabaseEnvironment} from './environment.mjs';
 
 const globalForMongo = globalThis;
 
 export function getMongoClient() {
+  assertDatabaseEnvironment();
   const uri = process.env.MONGODB_URI;
   if (!uri || uri.startsWith('<')) {
     throw new Error('Set MONGODB_URI in the local environment before connecting.');

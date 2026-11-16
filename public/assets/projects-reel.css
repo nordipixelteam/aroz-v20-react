@@ -1,0 +1,21 @@
+/* Projects only: the viewport must own scrolling for the reference sticky reel. */
+body[data-r8-theme="portfolio"]:not(.menu-open){overflow-x:clip!important;overflow-y:visible!important}
+
+/* Keep the existing English typographic project visual readable at its longer length. */
+body[data-r8-theme="portfolio"] .case[data-case="3"] .type-scene{display:flex!important}
+body[data-r8-theme="portfolio"] .case[data-case="3"] .type-scene .word{font-size:clamp(26px,5vw,88px)}
+
+/* Previews run without imported inline scripts. Expose all original fields and cases. */
+body[data-r8-theme="portfolio"][data-preview] .reveal{opacity:1;transform:none;transition:none}
+body[data-r8-theme="portfolio"][data-preview] .reel{height:auto!important}
+body[data-r8-theme="portfolio"][data-preview] .reel-sticky{height:auto!important;position:relative!important;top:auto!important;overflow:visible}
+body[data-r8-theme="portfolio"][data-preview] .reel-progress{display:none}
+body[data-r8-theme="portfolio"][data-preview] .case{position:relative!important;inset:auto!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;min-height:0}
+body[data-r8-theme="portfolio"][data-preview] .case-copy{position:relative!important;inset:auto!important;animation:none!important}
+body[data-r8-theme="portfolio"][data-preview] .case-media{min-height:min(340px,75vw)}
+body[data-r8-theme="portfolio"][data-preview] .case-media img{transform:none!important;translate:none!important;scale:1!important}
+@media(prefers-reduced-motion:reduce){
+ body[data-r8-theme="portfolio"] .case-copy{position:relative!important;inset:auto!important}
+ body[data-r8-theme="portfolio"] .case-media{min-height:min(340px,75vw)}
+ body[data-r8-theme="portfolio"] .case-media img{transform:none!important;translate:none!important;scale:1!important}
+}

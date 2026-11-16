@@ -1,4 +1,5 @@
 'use client';
+import {adminTitle} from './admin-display';
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
@@ -106,7 +107,8 @@ export function NavigationEditor({role,notice,docs,go}:{role:string;notice:(s:st
   return <label key={key} className="av-nav-field"><span>{label||friendly(f.label)}{changed&&<Badge variant="outline">edited</Badge>}</span>{f.kind==='url'?<Input list="av-nav-pages" value={v} onChange={e=>setValue(key,e.target.value)}/>:v.length>90?<Textarea rows={3} value={v} onChange={e=>setValue(key,e.target.value)}/>:<Input value={v} onChange={e=>setValue(key,e.target.value)}/>}{shared>1&&<small>Also used in {shared-1} other spot{shared>2?'s':''}; they change together.</small>}{changed&&<button type="button" className="av-link" onClick={()=>setValue(key,f.value)}><RotateCcw size={13}/>Restore “{f.value.slice(0,40)}”</button>}</label>};
 
  return <div className="av-nav">
-  <datalist id="av-nav-pages">{docs.filter(d=>d.status==='published').map(d=><option key={d.route} value={d.route}>{d.label}</option>)}</datalist>
+  <p className="vault-card">One footer is shared across the whole website. Its design comes from Home. Publish footer edits here to update every page, including articles and utility pages.</p>
+  <datalist id="av-nav-pages">{docs.filter(d=>d.status==='published').map(d=><option key={d.route} value={d.route}>{adminTitle(d)}</option>)}</datalist>
   <div className="vault-card av-nav-toolbar" ref={bar}>
    <div className="av-seg" role="group" aria-label="Preview size">{(Object.keys(DEVICES) as (keyof typeof DEVICES)[]).map(k=>{const I=DEVICES[k].icon;return <button key={k} type="button" className={device===k?'selected':''} onClick={()=>setDevice(k)} aria-pressed={device===k}><I size={16}/>{DEVICES[k].label}</button>})}</div>
    {device==='desktop'&&<Button variant="outline" onClick={toggleMenu}><ChevronDown/>{menuOpen?'Close':'Open'} services menu</Button>}

@@ -1,0 +1,14 @@
+/* Web Design only: the viewport owns scrolling, so the original sticky layouts work. */
+body[data-r8-theme="webdesign"]:not(.menu-open){overflow-x:clip!important;overflow-y:visible!important}
+
+/* AVAULT previews omit imported inline scripts. Expose all editable desktop panels. */
+body[data-r8-theme="webdesign"][data-preview] .reveal{opacity:1;transform:none;transition:none}
+body[data-r8-theme="webdesign"][data-preview] :is(.route-nav,.route-display,.system-visual){position:relative;top:auto}
+body[data-r8-theme="webdesign"][data-preview] .route-panel{display:grid;margin-bottom:48px}
+body[data-r8-theme="webdesign"][data-preview] .system-step{opacity:1}
+body[data-r8-theme="webdesign"][data-preview] .system-progress{transform:scaleY(1)}
+@media(prefers-reduced-motion:reduce){
+ body[data-r8-theme="webdesign"] .system-step{opacity:1!important}
+ body[data-r8-theme="webdesign"] .system-image-frame img{transform:none!important;transition:none!important}
+ body[data-r8-theme="webdesign"] .system-progress{transform:scaleY(1);transition:none}
+}

@@ -19,6 +19,10 @@
     "db:ensure-seo": "node scripts/ensure-schema-links.mjs --apply",
     "db:audit-seo": "node scripts/audit-database-seo.mjs",
     "db:verify-content": "node scripts/verify-database-content.mjs",
+    "test:dependency-compatibility": "node --test scripts/dependency-compatibility.test.mjs",
+    "test:public-media": "node --conditions=react-server scripts/verify-public-media.mjs",
+    "test:security-hardening": "node --test scripts/security-hardening.test.mjs",
+    "test:auth-security": "node --conditions=react-server scripts/test-auth-security.mjs",
     "test:custom-scripts": "node scripts/verify-custom-scripts.mjs",
     "db:sync-origin": "node scripts/sync-site-origin.mjs",
     "backup:decrypt": "node scripts/decrypt-backup.mjs"
@@ -49,6 +53,11 @@
     "server-only": "^0.0.1",
     "sonner": "^2.0.8",
     "tailwind-merge": "3.6.0"
+  },
+  "overrides": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.1"
+    }
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.2.1",

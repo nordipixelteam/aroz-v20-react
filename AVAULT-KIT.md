@@ -8496,7 +8496,7 @@ export default nextConfig;
 
 <!-- avault-file path=".env.example" mode="reference" sha256="20c9fac369c5e38e0dfe09f56c44a30d7225c3494329ac618ef5ea48188f9e3e" eol="1" -->
 ```text
-MONGODB_URI=mongodb://username:password@host:port/database?authSource=admin
+MONGODB_URI=<YOUR_PRIVATE_MONGODB_URI>
 MONGODB_DB=dmv_commercial_door_repair
 NEXT_PUBLIC_SITE_URL=https://dmvcommercialdoorrepair.com
 AVAULT_ENCRYPTION_KEY=replace-with-64-random-hex-characters
@@ -9049,8 +9049,7 @@ cat "$DEPLOY_KEY"
 Each private value includes both boundary lines:
 
 ```text
------BEGIN OPENSSH PRIVATE KEY-----
------END OPENSSH PRIVATE KEY-----
+<YOUR_PRIVATE_KEY>
 ```
 
 Never paste private keys into chat, email, tickets, documentation, or source control.

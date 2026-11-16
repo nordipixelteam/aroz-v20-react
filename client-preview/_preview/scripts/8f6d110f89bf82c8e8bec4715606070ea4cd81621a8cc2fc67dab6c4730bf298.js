@@ -1,0 +1,1 @@
+(function(d){var show=true;try{show=sessionStorage.getItem('aroz.introPlayed')!=='1';if(show)sessionStorage.setItem('aroz.introPlayed','1')}catch(e){}window.showSiteLoader=show;d.documentElement.classList.toggle('is-loading',show);d.documentElement.classList.toggle('intro-complete',!show)})(document)

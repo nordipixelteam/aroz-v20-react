@@ -1,4 +1,5 @@
 'use client';
+import {adminTitle} from './admin-display';
 import {useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
@@ -17,7 +18,7 @@ function summarize(list:Use[]){
   if(u.state==='published')p.live=true;else p.draft=true;
   if(['Social image','Content block','Article body'].includes(u.section))p.places.add(u.section);
   pages.set(u.route,p)}
- return {shared:shared.length>0,sharedCount:sharedPages.size,pages:[...pages.values()].sort((a,b)=>a.label.localeCompare(b.label))};
+ return {shared:shared.length>0,sharedCount:sharedPages.size,pages:[...pages.values()].sort((a,b)=>adminTitle(a).localeCompare(adminTitle(b),'en'))};
 }
 
 export function MediaCard({media,uploads,role,notice,reload}:{media:any;uploads:any[];role:string;notice:(s:string)=>void;reload:()=>void}){
@@ -25,22 +26,22 @@ export function MediaCard({media,uploads,role,notice,reload}:{media:any;uploads:
  const url=media.src||'/media/'+media.key,name=url.split('/').pop(),isImage=!media.mime||String(media.mime).startsWith('image/');
  async function act(fn:()=>Promise<any>){setBusy(true);try{await fn()}catch(e){notice((e as Error).message)}finally{setBusy(false)}}
  const toggleUsage=()=>{if(showUsage)return setShowUsage(false);act(async()=>{setUsage(summarize(await request('media-usage?url='+encodeURIComponent(url))));setShowUsage(true)})};
- const copy=()=>navigator.clipboard?.writeText(url).then(()=>notice('File address copied.'),()=>notice('Copy failed. Select the address and copy it instead.'));
+ const copy=()=>navigator.clipboard?.writeText(url).then(()=>notice('Public file address copied.'),()=>notice('Copy failed. Select the address and copy it instead.'));
  const visible=usage?(all?usage.pages:usage.pages.slice(0,6)):[];
  return <article className="vault-card av-media-card">
   <div className={'av-media-thumb'+(isImage?'':' av-file-thumb')}>{isImage?<img src={url} alt={media.alt||''} loading="lazy" decoding="async"/>:<><FileText size={46}/><span>{String(media.mime||'file').split('/').pop()}</span></>}</div>
   <div className="av-media-body">
    <strong className="av-media-name" title={name}>{media.name||name}</strong>
    <p className={media.alt?'av-media-alt':'av-media-alt none'}>{media.alt||(isImage?'No description (fine only for decorative images)':'No accessible file description')}</p>
-   <div className="av-chips"><span className={'av-pill '+(media.uses?'av-pill-live':'av-pill-draft')}>{media.uses?`On ${media.uses} page${media.uses===1?'':'s'}`:'Not used'}</span>{media.missingAlt&&<span className="av-pill av-pill-warn">Missing a description somewhere</span>}</div>
-   <div className="av-media-url"><code title={url}>{url}</code><Button variant="ghost" size="icon" aria-label="Copy file address" onClick={copy}><Copy/></Button></div>
+   <div className="av-chips"><span className="av-pill">Public URL</span><span className={'av-pill '+(media.uses?'av-pill-live':'av-pill-draft')}>{media.uses?`On ${media.uses} page${media.uses===1?'':'s'}`:'Not used'}</span>{media.missingAlt&&<span className="av-pill av-pill-warn">Missing a description somewhere</span>}</div>
+   <div className="av-media-url"><code title={url}>{url}</code><Button variant="ghost" size="icon" aria-label="Copy public file address" onClick={copy}><Copy/></Button></div>
    <div className="av-media-actions"><Button variant={showUsage?'default':'outline'} size="sm" disabled={busy} onClick={toggleUsage} aria-expanded={showUsage}><MapPin/>Where used</Button>{media.id&&<Button variant={editing?'default':'outline'} size="sm" onClick={()=>setEditing(!editing)} aria-expanded={editing}><Pencil/>Edit details</Button>}</div>
   </div>
   {showUsage&&usage&&<div className="av-media-panel">
    {!usage.shared&&!usage.pages.length&&<p className="muted">Not used on any page.</p>}
    {usage.shared&&<a className="av-use-row" href="/avault?view=navigation"><PanelsTopLeft size={16} aria-hidden="true"/><span><strong>Header &amp; footer</strong><small>Shown on every page{usage.sharedCount?` (${usage.sharedCount})`:''}</small></span><ArrowUpRight size={15} aria-hidden="true"/></a>}
    {usage.pages.length>0&&<><p className="av-use-head">{usage.pages.length} page{usage.pages.length===1?'':'s'}{usage.shared?' also use it in their content':''}</p>
-    <ul className="av-use-list">{visible.map(p=><li key={p.route}><a href={'/avault?view=pages&route='+encodeURIComponent(p.route)}><span><strong>{p.label}</strong><small>{p.route}{p.places.size?' · '+[...p.places].join(', '):''}</small></span>{p.live?<span className="av-pill av-pill-live">Live</span>:<span className="av-pill av-pill-draft">Draft only</span>}</a></li>)}</ul>
+    <ul className="av-use-list">{visible.map(p=><li key={p.route}><a href={'/avault?view=pages&route='+encodeURIComponent(p.route)}><span><strong>{adminTitle(p)}</strong><small>{p.route}{p.places.size?' · '+[...p.places].join(', '):''}</small></span>{p.live?<span className="av-pill av-pill-live">Live</span>:<span className="av-pill av-pill-draft">Draft only</span>}</a></li>)}</ul>
     {usage.pages.length>6&&<button type="button" className="av-link" onClick={()=>setAll(!all)}>{all?'Show fewer':`Show all ${usage.pages.length}`}</button>}</>}
   </div>}
   {editing&&<div className="av-media-panel av-media-form">{(['name','alt','caption','credit'] as const).map(k=><label key={k}>{({name:'Name',alt:'Description',caption:'Caption',credit:'Credit'})[k]}<Input value={value[k]||''} onChange={e=>setValue({...value,[k]:e.target.value})}/></label>)}{value.width&&<p className="muted">{value.width} × {value.height}px</p>}<Button size="sm" disabled={busy} onClick={()=>act(async()=>{await request('media-update',{id:media.id,...value,expectedUpdatedAt:JSON.parse(media.metadata||'{}').updatedAt});notice('Media details saved. Existing page descriptions are preserved.');setEditing(false);reload()})}>Save details</Button></div>}

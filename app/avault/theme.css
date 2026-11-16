@@ -1164,3 +1164,6 @@ body:has(.vault),body:has(.av-login){background:var(--av-paper)}
 .av-editor-confirm [data-slot="alert-dialog-description"]{grid-column:2!important;margin:0!important;color:var(--av-copy)!important;font-size:14px!important;line-height:1.6}
 .av-editor-confirm [data-slot="alert-dialog-footer"]{gap:9px!important;border-top:1px solid var(--av-line);padding-top:18px}
 @media(max-width:560px){.av-editor-confirm{padding:20px!important}.av-editor-confirm [data-slot="alert-dialog-header"]{grid-template-columns:1fr!important}.av-editor-confirm [data-slot="alert-dialog-media"],.av-editor-confirm [data-slot="alert-dialog-title"],.av-editor-confirm [data-slot="alert-dialog-description"]{grid-column:1!important;grid-row:auto!important}.av-editor-confirm [data-slot="alert-dialog-footer"]{display:flex!important;flex-direction:column-reverse!important}.av-editor-confirm [data-slot="button"]{width:100%}}
+/* Visibility is a property of the upload, independently of a page's draft/publication status. */
+.vault .av-public-upload-notice{padding:12px 14px;margin:12px 0;border-left:3px solid var(--av-blue);background:var(--av-soft,#f4f4f5);color:var(--av-ink);font-size:13px;line-height:1.55;text-wrap:pretty}
+.vault .av-public-upload-notice strong{font-weight:650}

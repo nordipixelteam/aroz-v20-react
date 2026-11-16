@@ -56,12 +56,12 @@ function arozFormInner(c:ContactForm,opening:string){
   :`<p class="v9-form-status" hidden role="status" tabindex="-1"></p>`;
  if(formId){
   const name=fieldHtml('name'),email=fieldHtml('email'),rest=c.fields.filter(f=>!['name','email','service'].includes(f.name)).map(f=>fieldHtml(f.name)).join('');
-  return `${request}<div class="form-top"><strong>Projektanfrage</strong><span>Erster Kontakt</span></div>${serviceHtml}<div class="field-pair">${name}${email}</div>${rest}<div class="form-submit"><p>${esc(c.note)}</p><button type="submit">${esc(c.button)} ↗</button></div>${status}`;
+  return `${request}<div class="form-top"><strong>Project enquiry</strong><span>First contact</span></div>${serviceHtml}<div class="field-pair">${name}${email}</div>${rest}<div class="form-submit"><p>${esc(c.note)}</p><button type="submit">${esc(c.button)} ↗</button></div>${status}`;
  }
  const paired=`<div class="v9-form-row">${fieldHtml('name')}${fieldHtml('email')}</div>`;
  const rest=c.fields.filter(f=>!['name','email'].includes(f.name)).map(f=>f.name==='service'?serviceHtml:fieldHtml(f.name)).join('');
-  const consent=homepage?`<label class="v9-privacy"><input type="checkbox" name="privacyConsent" required><span>Ich habe die <a href="/datenschutz/">Datenschutzhinweise</a> gelesen. *</span></label>`:'';
-  return `${request}<span class="v9-eyebrow">( Kurzer Kontakt )</span><h3>Erzählen Sie uns von Ihrem Vorhaben.<br/>Wir freuen uns darauf.</h3>${paired}${rest}${consent}<p class="v9-preview">${esc(c.note)}</p><button class="v9-contact-submit" type="submit"><span aria-hidden="true">↗</span> ${esc(c.button)}</button>${status}`;
+  const consent=homepage?`<label class="v9-privacy"><input type="checkbox" name="privacyConsent" required><span>I have read the <a href="/datenschutz/">privacy notice</a> . *</span></label>`:'';
+  return `${request}<span class="v9-eyebrow">( A quick conversation )</span><h3>Tell us about your project.<br/>We’d love to hear it.</h3>${paired}${rest}${consent}<p class="v9-preview">${esc(c.note)}</p><button class="v9-contact-submit" type="submit"><span aria-hidden="true">↗</span> ${esc(c.button)}</button>${status}`;
 }
 export const heroFormInner=(h:HeroForm)=>`<label><span>${esc(h.label)}</span><span class="gemini-field"><span class="field-orbit" aria-hidden="true"></span><input name="zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="${esc(h.placeholder)}" required maxlength="10" aria-label="${esc(h.label)}"></span></label><button type="submit">${esc(h.button)} ${ARROW}</button><p class="hero-proposal-status" role="status" aria-live="polite"></p>`;
 

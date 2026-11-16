@@ -1,0 +1,10 @@
+import assert from'node:assert/strict';import{MongoClient}from'mongodb';import{loadDevelopmentEnv}from'./dev-env.mjs';import{fixContactScript,contactCopy,oldChoices}from'./contact-page.mjs';
+loadDevelopmentEnv();const client=new MongoClient(process.env.MONGODB_URI,{serverSelectionTimeoutMS:15000});
+try{await client.connect();const docs=client.db('avault_dev').collection('documents'),row=await docs.findOne({route:'/kontakt/'});assert.ok(row);const changes={},summary=[];
+for(const state of['published','draft']){if(!row[state])continue;const before=JSON.parse(row[state]),after=structuredClone(before),changedFields=[];
+after.template=fixContactScript(after.template);if(!after.template.includes('/assets/contact-page.css'))after.template=after.template.replace('</head>','<link rel="stylesheet" href="/assets/contact-page.css"></head>');assert.ok(!after.template.includes(oldChoices));assert.ok(after.template.includes('function showBrief()'));
+for(const f of after.fields)if(contactCopy.has(f.value)){f.value=contactCopy.get(f.value);changedFields.push(f.key);}
+assert.equal(after.fields.length,before.fields.length);for(const f of before.fields)if(!changedFields.includes(f.key))assert.deepEqual(after.fields.find(x=>x.key===f.key),f);assert.deepEqual({...after,template:'',fields:[]},{...before,template:'',fields:[]});
+const changed=JSON.stringify(after)!==JSON.stringify(before);if(changed)changes[state]=JSON.stringify({...after,revision:Number(row.revision||0)+1,updatedAt:new Date().toISOString()});summary.push({state,fields:before.fields.length,changedFields,changed});}
+console.log(JSON.stringify({database:'avault_dev',mode:process.argv.includes('--apply')?'apply':'preview',summary}));if(process.argv.includes('--apply')&&Object.keys(changes).length){const r=await docs.updateOne({_id:row._id,published:row.published,draft:row.draft},{$set:{...changes,revision:Number(row.revision||0)+1,updated_at:new Date().toISOString()}});assert.equal(r.modifiedCount,1,'Contact changed concurrently; preview again.');console.log('Applied Contact fixes; unrelated draft content and field mappings preserved.');}
+}finally{await client.close()}

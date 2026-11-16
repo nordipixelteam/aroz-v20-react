@@ -65,7 +65,7 @@ function LeadDetail({r,role,busy,close,setStatus,act,reload,notice}:{r:any;role:
  return <aside className="vault-card av-lead-detail" aria-label={'Lead from '+f.name}>
   <div className="av-lead-head"><div><span className={'av-pill '+sc}>{sl}</span><h2>{f.name||'(no name)'}</h2>{f.phone&&<p><a href={'tel:'+String(f.phone).replace(/[^+\d]/g,'')}>{f.phone}</a></p>}{f.email&&<p><a href={'mailto:'+f.email}>{f.email}</a></p>}<small title={full(r.created_at)}>Received {full(r.created_at)}</small></div><button type="button" className="av-nav-close" aria-label="Close" onClick={close}><X size={18}/></button></div>
   <div className="av-lead-actions">
-    {f.email&&<a className="av-btn-primary" href={`mailto:${f.email}?subject=${encodeURIComponent('Ihre Anfrage an AROZ')}`}><Mail size={15}/>Antworten</a>}
+    {f.email&&<a className="av-btn-primary" href={`mailto:${f.email}?subject=${encodeURIComponent('Ihre Anfrage an AROZ')}`}><Mail size={15}/>Reply</a>}
    {r.status==='spam'?<Button variant="outline" size="sm" disabled={busy} onClick={()=>setStatus([r.id],'new','Moved to the inbox.')}><ShieldCheck/>Not spam</Button>:<Button variant="outline" size="sm" disabled={busy} onClick={()=>setStatus([r.id],'spam','Moved to spam.')}><ShieldAlert/>Spam</Button>}
    {r.status==='archived'?<Button variant="outline" size="sm" disabled={busy} onClick={()=>setStatus([r.id],'read','Restored to the inbox.')}><RotateCcw/>Restore</Button>:<Button variant="outline" size="sm" disabled={busy} onClick={()=>setStatus([r.id],'archived','Archived.')}><Archive/>Archive</Button>}
    {r.status!=='new'&&r.status!=='spam'&&<Button variant="ghost" size="sm" disabled={busy} onClick={()=>setStatus([r.id],'new')}>Mark unread</Button>}

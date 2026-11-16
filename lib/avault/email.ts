@@ -65,6 +65,6 @@ export async function deliverForm(formId:string){
  const f=JSON.parse(String(claimed.value||'{}'));
  const contact=String(f.email||f.phone||'').toLowerCase();const previous=contact?await forms.countDocuments({id:{$ne:formId},search:{$regex:contact.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}}).catch(()=>0):0;
  const lead={id:formId,value:f,ip:claimed.ip,user_agent:claimed.user_agent,language:claimed.language,country:claimed.country,created_at:claimed.created_at,fill_seconds:claimed.fill_seconds,spam:claimed.spam,previous};
- try{await sendEmail(`Neue Anfrage: ${String(f.service||f.request||'AROZ Projektanfrage').slice(0,80)} von ${String(f.name||'einer Person').slice(0,60)}`,leadText(lead),f.email||undefined,{html:leadHtml(lead)});await forms.updateOne({id:formId},{$set:{delivery:'sent',delivery_message:'An '+c.recipients.length+' Empfänger über '+c.provider+' zugestellt.',delivered_at:now()}})}
+ try{await sendEmail(`New enquiry: ${String(f.service||f.request||'AROZ project enquiry').slice(0,80)} from ${String(f.name||'a visitor').slice(0,60)}`,leadText(lead),f.email||undefined,{html:leadHtml(lead)});await forms.updateOne({id:formId},{$set:{delivery:'sent',delivery_message:'Delivered to '+c.recipients.length+' recipients via '+c.provider+'.',delivered_at:now()}})}
  catch(e){await forms.updateOne({id:formId},{$set:{delivery:'failed',delivery_message:e instanceof HttpError?e.message:'Delivery failed.',last_attempt_at:now()}})}
 }

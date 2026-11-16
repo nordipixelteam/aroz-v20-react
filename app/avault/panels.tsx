@@ -6,7 +6,7 @@ import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import type {Doc} from '@/lib/avault/store';
 
-const when=(s?:string|null)=>s?new Date(s).toLocaleString():'—';
+const when=(s?:string|null)=>s?new Date(s).toLocaleString('en-US'):'—';
 
 // ── Page / post search & sharing ────────────────────────────────────────────
 export function SeoTab({doc,set,setDoc,titleTemplate}:{doc:Doc;set:(k:string,v:unknown)=>void;setDoc:(fn:(d:Doc)=>Doc)=>void;titleTemplate:string}){const s=doc.seo;const title=s.title||titleTemplate.replace('%s',doc.label);const post=doc.kind==='post'||doc.kind==='case-study';const top=(k:keyof Doc,v:unknown)=>setDoc(d=>({...d,[k]:v}));

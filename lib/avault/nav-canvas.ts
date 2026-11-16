@@ -28,7 +28,11 @@ export function navCanvas(template:string):NavCanvas{
  let header=start>=0&&headerEnd>start?template.slice(start,headerEnd+9):'';
  if(header.startsWith('<div class="header-wrap">'))header+='</div>';
  const mainEnd=template.indexOf('</main>'),footerEnd=template.lastIndexOf('</footer>');
- const footer=mainEnd>=0&&footerEnd>mainEnd?template.slice(mainEnd+7,footerEnd+9):'';
+ let footer=mainEnd>=0&&footerEnd>mainEnd?template.slice(mainEnd+7,footerEnd+9):'';
  const clean=(s:string)=>s.replace(/<script\b[\s\S]*?<\/script>/gi,'');
+ if(footer.includes('v8-footer')){
+  if(!styles.includes('/assets/shared-footer.css'))styles.push('/assets/shared-footer.css');
+  footer=footer.replace('<footer','<footer data-shared-footer="home"');
+ }
  return {styles,header:tagFields(clean(header)),footer:tagFields(clean(footer)),bodyAttrs};
 }

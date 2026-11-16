@@ -1,34 +1,33 @@
-# AROZ v20 — React migration of V19
+# AROZ and AVAULT development
 
-This repository converts **all 37 HTML pages from AROZ V19** into a React 19 + Vite application. V19 page markup is translated to React elements at runtime, preserving the exact original HTML structure, copy, inline styles, imported stylesheets, image/font assets, navigation, and animations.
+Next.js serves the public website and AVAULT dashboard. The 37 imported English pages remain editable in AVAULT; published runtime content lives in MongoDB. `src/content/` supplies importer content rather than replacing saved dashboard edits.
 
-## Run
+## Local application
 
-```bash
-npm install
-npm run dev
-```
+Run `npm ci`, configure private `.env.development.local`, then `npm run dev`. Open `http://localhost:3000/` or `/avault/`. Development refuses any database other than `avault_dev`. Real environment files must never be committed; `config/` contains placeholder-only examples. `npm run admin:create` creates a local owner with hidden password entry.
 
-Open the address printed by Vite (usually `http://localhost:5173`).
+`npm run build` builds the full Next.js app. Live hosted AVAULT still requires isolated staging credentials, database and approved network access. The staging guard remains enabled.
 
-## Production build
+## This branch's read-only client preview
 
-```bash
-npm run build
-npm run preview
-```
+`feature/avault-development` deploys published public pages only to the existing Vercel client-preview project. Its `vercel.json` selects the static snapshot builder, which refuses Production builds. The snapshot has no CRM, server APIs, database configuration, accounts, leads, backups or drafts. Submission and analytics are disabled; responses are marked noindex.
 
-The deployable production output is `dist/`. Deploy the **React project** to Vercel or Netlify with `npm run build` and output `dist`.
+Refresh published content before a preview commit:
 
-## Architecture
+1. Run the local application against `avault_dev` and review published pages.
+2. Run `node scripts/export-client-preview.mjs`. It fetches anonymous local public responses without cookies and exports published HTML, public scripts and referenced public media to `client-preview/`.
+3. Run `node scripts/build-client-preview.mjs --local`.
+4. Review and commit the snapshot together with source updates.
 
-- `src/main.jsx`: React app, route resolver, page DOM-to-React conversion and legacy interaction loader.
-- `src/content/*.json`: original V19 page HTML content, metadata, CSS link lists, and JS references; 37 pages.
-- `public/assets/` and nested public asset folders: original V19 images, CSS, fonts and JavaScript.
-- Full-page links still trigger normal navigation. This is intentional: original page-specific V19 scripts assume one initialization per page, so it avoids duplicate event listeners and preserves behavior.
+Vercel builds the committed snapshot without MongoDB. Later AVAULT edits require another export, commit and deployment. Saving a draft does not publish or export it. Manifest digests verify published content and HTML; no private database records are exported.
 
-## Migration limitations and next steps
+The old Vite compatibility source remains in `src/main.jsx`; the local CRM uses Next.js. Do not use this branch's static preview configuration as a production release configuration. Leave `main` for a separately reviewed application deployment, migrations, isolated credentials/network and backup checks.
 
-This is a **React-powered compatibility migration**, not a rewrite of every section into idiomatic JSX components. The original V19 animations and UI behavior still run using the existing vanilla JS files. Before adding stateful React behavior to individual sections, move their legacy event handlers into React hooks or isolate them to avoid DOM ownership collisions. The contact form and booking availability remain **preview-only**, exactly as in V19. Adding a CMS, live form backend, and real booking provider is separate work.
+## Checks
 
-Most importantly, do not mistake the runtime-to-React conversion for content editing: a CMS is still required if the client must edit text and images through a dashboard.
+- `npm run test:security-hardening`
+- `npm run test:auth-security` (local dev server and avault_dev; disposable accounts)
+- `npm run test:dependency-compatibility`
+- `node --test scripts/english-content.test.mjs scripts/hidden-password.test.mjs scripts/imported-images.test.mjs scripts/shared-footer.test.mjs scripts/seo-structure.test.mjs scripts/backup-restore.test.mjs scripts/staging-configuration.test.mjs scripts/client-preview.test.mjs`
+
+Private environment files, `.avault-kit/`, audit reports/screenshots under `docs/`, `.next/`, static build output and credentials are excluded. Public snapshot files in `client-preview/` are intentional deployment input.

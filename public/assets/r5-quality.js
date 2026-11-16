@@ -12,7 +12,7 @@
     const onMobile=getComputedStyle(btn).display!=='none';
     const expanded=btn.getAttribute('aria-expanded')==='true';
     const hidden=onMobile&&!expanded;
-    btn.setAttribute('aria-label',expanded?'Menü schließen':'Menü öffnen');
+    btn.setAttribute('aria-label',expanded?"Close menu":"Open menu");
     if(hidden){panel.setAttribute('inert','');panel.setAttribute('aria-hidden','true');}
     else{panel.removeAttribute('inert');panel.removeAttribute('aria-hidden');}
    };
