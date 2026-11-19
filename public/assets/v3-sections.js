@@ -2,6 +2,8 @@
 (()=>{'use strict';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const work=document.querySelector('.v2-work'),track=document.querySelector('.v2-work-track'),stage=document.querySelector('.v2-work-stage');
+const section=document.querySelector('.v2-stories');
+if(!work&&!section)return;
 const mm=window.gsap?.matchMedia();
 // Fonts and responsive content above Projects can settle after window.load.
 // Keep the pin start aligned with the actual section, rather than leaving an
@@ -14,8 +16,8 @@ for(const section of document.querySelectorAll('main > section')){
  layoutObserver.observe(section);
 }
 document.fonts?.ready.then(refreshLayout);
-window.addEventListener('pagehide',event=>{if(!event.persisted){clearTimeout(layoutTimer);layoutObserver.disconnect();}});
-if(window.gsap&&window.ScrollTrigger){
+window.addEventListener('pagehide',event=>{if(!event.persisted){clearTimeout(layoutTimer);layoutObserver.disconnect();mm?.revert();}});
+if(work&&track&&stage&&window.gsap&&window.ScrollTrigger){
  gsap.registerPlugin(ScrollTrigger);
  mm.add('(min-width: 921px) and (prefers-reduced-motion: no-preference)',()=>{
   work.classList.add('is-pinned');
@@ -50,7 +52,8 @@ if(window.gsap&&window.ScrollTrigger){
   };
  });
 }
-const section=document.querySelector('.v2-stories'),tabs=[...section.querySelectorAll('[data-story]')],copy=section.querySelector('.v2-story-copy');
+if(!section)return;
+const tabs=[...section.querySelectorAll('[data-story]')],copy=section.querySelector('.v2-story-copy');
 // Genuine review records can replace these editorial summaries without changing the UI.
 const stories=[...document.querySelectorAll('.v2-work-card:not(.v2-work-end)')].map((card,i)=>({id:String(i),company:card.querySelector('h3').textContent,description:card.querySelector('p').textContent,photo:card.querySelector('img').getAttribute('src'),role:card.querySelector('.v2-card-meta>span').textContent.replace(/^\d+ \/ /,''),url:card.querySelector('a').getAttribute('href')}));
 let current=0,timer=null,transition=null,hover=false,focus=false,visible=false;
@@ -60,5 +63,5 @@ function select(i){clearTimeout(timer);i=(i+stories.length)%stories.length;trans
 tabs.forEach((b,i)=>b.addEventListener('click',()=>select(i)));section.querySelector('[data-prev]').addEventListener('click',()=>select(current-1));section.querySelector('[data-next]').addEventListener('click',()=>select(current+1));
 section.addEventListener('mouseenter',()=>{hover=true;schedule()});section.addEventListener('mouseleave',()=>{hover=false;schedule()});section.addEventListener('focusin',()=>{focus=true;schedule()});section.addEventListener('focusout',()=>{queueMicrotask(()=>{focus=section.contains(document.activeElement);schedule()})});document.addEventListener('visibilitychange',()=>{schedule();document.querySelector('.v2-footer').classList.toggle('is-visible',!document.hidden&&document.querySelector('.v2-footer').getBoundingClientRect().top<innerHeight)});reduced.addEventListener('change',schedule);
 const observer=new IntersectionObserver(es=>{for(const e of es){if(e.target===section){visible=e.isIntersecting;schedule()}else e.target.classList.toggle('is-visible',e.isIntersecting&&!document.hidden)}},{threshold:.1});observer.observe(section);observer.observe(document.querySelector('.v2-footer'));
-window.addEventListener('load',refreshLayout,{once:true});window.addEventListener('pageshow',event=>{if(event.persisted){refreshLayout();schedule();}});window.addEventListener('pagehide',event=>{clearTimeout(timer);if(event.persisted)return;transition?.kill();observer.disconnect();mm?.revert();});
+window.addEventListener('load',refreshLayout,{once:true});window.addEventListener('pageshow',event=>{if(event.persisted){refreshLayout();schedule();}});window.addEventListener('pagehide',event=>{clearTimeout(timer);if(event.persisted)return;transition?.kill();observer.disconnect();});
 })();

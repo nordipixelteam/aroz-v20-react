@@ -2,7 +2,7 @@ import {settingsRead} from '@/lib/avault/runtime';
 import {importedImageUrl} from '@/lib/avault/imported-images.mjs';
 import {enhancePublic,trafficAllowed} from '@/lib/avault/public-controls';
 import {allDocs,readDoc,globals,headers,db,bucket} from '@/lib/avault/store';
-import {render,sitemap,SITEMAP_FILES} from '@/lib/avault/render';
+import {render,sitemap,SITEMAP_FILES,PROJECT_LINKS} from '@/lib/avault/render';
 import {CONFIG} from '@/lib/avault/config';
 import {mongoDb} from '@/db/mongo';
 import {adminBar} from '@/lib/avault/admin-bar';
@@ -38,6 +38,7 @@ export async function GET(req:Request){const u=new URL(req.url);const path=u.pat
  if(!path.endsWith('/')&&!path.includes('.'))return relativeRedirect(path+'/'+u.search,308);
  if(path==='/thank-you/')return homeShellPage(req,'thank-you',200);
  const d=await readDoc(path);
+ if(!d&&Object.hasOwn(PROJECT_LINKS,path)&&await readDoc(PROJECT_LINKS[path]))return relativeRedirect(PROJECT_LINKS[path]+u.search,308);
  // The DMV contact page is stored in AVAULT at /contact-us/ like every other public page.
  if(!d)return homeShellPage(req,'not-found',404);
  // The managed error pages keep their error status even when opened directly.

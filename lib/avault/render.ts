@@ -10,6 +10,10 @@ import {profile,organizationNode,syncSocialLinks,customSchemaNodes} from './site
 import {BODY_SLOT,RELATED_SLOT,wrapTables,bodyImages,relatedHtml} from './rich';
 const text=(s:string)=>s.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
 const absolute=(s:string,origin=CONFIG.origin)=>new URL(s,origin).href;
+export const PROJECT_LINKS: Readonly<Record<string,string>> = {
+ '/projects/4fahrlehrer/':'/projekte/4fahrlehrer/',
+ '/projects/autoankauf-itrust/':'/projekte/autoankauf-itrust/',
+};
 // canvas: the AVAULT live editor's copy. Every {{fN}} spot in the body is tagged (see tagFields) before values go in.
 export function render(d:Doc,g:Record<string,any>={},preview=false,registry:Record<string,Doc>={},origin=CONFIG.origin,canvas=false,interactivePreview=false){
  const nav=g.navigation||{};
@@ -36,6 +40,17 @@ export function render(d:Doc,g:Record<string,any>={},preview=false,registry:Reco
  // Repair only the known flattened import paths; leave staff content and upload URLs intact.
  const sourceRoute=d.templateRoute||d.route;
  html=html.replace(/\b(src|href|poster|data-src)="(\/assets\/[^"<>]*)"/gi,(_match,attr,value)=>`${attr}="${importedImageUrl(value,sourceRoute)}"`);
+ if(!canvas&&d.route==='/projects/')html=html.replace(/(<a\b[^>]*?\shref=)(["'])(\/projects\/(?:4fahrlehrer|autoankauf-itrust)\/)(?=[?#"'])/gi,(_tag,attr,quote,url)=>attr+quote+(registry[url]||!registry[PROJECT_LINKS[url]]?url:PROJECT_LINKS[url]));
+ if(!canvas&&/^\/(?:projects|projekte)\/fahrschule-yes\/$/.test(d.route)){
+  // The imported primary nav is redundant once the shared header is present.
+  if(/<header\b[^>]*\bclass=["'][^"']*\bv3-nav\b/i.test(html)){
+   html=html.replace(/<nav\b(?=[^>]*\sclass=(["'])nav\1)(?=[^>]*\saria-label=(["'])Main navigation\2)[^>]*>[\s\S]*?<\/nav>/i,'');
+  }
+  if(!/<h1\b/i.test(html)){
+   html=html.replace(/(<div\b[^>]*class="[^"]*\bsnapshot-grid\b[^"]*"[^>]*>\s*)<h2(\b[^>]*)>([\s\S]*?)<\/h2>/i,'$1<h1$2>$3</h1>');
+   html=html.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,style=>style.replaceAll('.snapshot h2','.snapshot :is(h1,h2)'));
+  }
+ }
  const p=profile(g);const title=d.seo.title.trim()||p.titleTemplate.replace('%s',d.label);const description=d.seo.description.trim()||d.excerpt||p.defaultDescription;const ogTitle=d.seo.ogTitle?.trim()||title,ogDescription=d.seo.ogDescription?.trim()||description;
  const canonical=origin+d.route;const image=absolute(importedImageUrl(d.seo.image||d.featuredImage||p.image,sourceRoute),origin);const imageAlt=d.seo.image?d.seo.imageAlt:d.featuredImage?d.featuredAlt||d.seo.imageAlt:d.seo.imageAlt;const heading=text(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)?.[1]||d.label);
  const graph:Record<string,unknown>[]=[{...organizationNode(g,html,CONFIG.origin),telephone:phone},{'@type':'WebSite','@id':CONFIG.origin+'/#website',url:CONFIG.origin+'/',name:p.name,publisher:{'@id':CONFIG.origin+'/#organization'},inLanguage:CONFIG.language},{'@type':d.route==='/blogs/'||d.route==='/case-studies/'?'CollectionPage':'WebPage','@id':canonical+'#webpage',url:canonical,name:title,description,isPartOf:{'@id':CONFIG.origin+'/#website'},inLanguage:CONFIG.language,primaryImageOfPage:{'@type':'ImageObject',url:image,caption:imageAlt}}];

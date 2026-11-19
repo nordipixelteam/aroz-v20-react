@@ -1,21 +1,23 @@
 (() => {
   'use strict';
 
-  const selector = 'form.audit-form:is([data-avault-form="contact"],[data-avault-form="homepage-contact"])';
+  const selector = 'form.audit-form[data-avault-form]';
   const forms = [...document.querySelectorAll(selector)];
   if (!forms.length) return;
 
-  let tokenRequest;
-  const fetchToken = () => {
-    tokenRequest = fetch('/api/forms/token/', { credentials: 'same-origin' })
+  const tokens = new WeakMap();
+  const pending = new WeakSet();
+  const fetchToken = form => {
+    const request = fetch('/api/forms/token/', { credentials: 'same-origin' })
       .then(async response => {
-        const body = await response.json();
-        if (!response.ok || !body.token) throw new Error(body.error || "The form is temporarily unavailable.");
+        const body = await response.json().catch(() => null);
+        if (!response.ok || typeof body?.token !== 'string' || !body.token) throw new Error(body?.error || "The form is temporarily unavailable.");
         return body.token;
       });
-    return tokenRequest;
+    tokens.set(form, request);
+    return request;
   };
-  fetchToken().catch(() => {});
+  for (const form of forms) fetchToken(form).catch(() => {});
 
   const statusFor = form => form.querySelector('.v9-form-status, .form-success, .form-status');
   const setStatus = (form, message, isError = false) => {
@@ -30,6 +32,26 @@
   };
 
   const reviews = new WeakMap();
+  for (const form of forms) {
+    form.addEventListener('click', event => {
+      const choice = event.target.closest('.service-pick[data-value]');
+      if (!choice) return;
+      const group = choice.closest('fieldset');
+      const value = group?.querySelector('input[name="service"]');
+      if (!value) return;
+      value.value = choice.dataset.value;
+      for (const button of group.querySelectorAll('.service-pick')) {
+        button.classList.toggle('active', button === choice);
+        button.setAttribute('aria-pressed', String(button === choice));
+      }
+    });
+    form.addEventListener('reset', () => {
+      for (const choice of form.querySelectorAll('.service-pick[aria-pressed="true"]')) {
+        choice.classList.remove('active');
+        choice.setAttribute('aria-pressed', 'false');
+      }
+    });
+  }
   for (const form of forms.filter(f => f.dataset.avaultForm === 'homepage-contact')) {
     const fields = document.createElement('div');
     fields.className = 'home-contact-fields';
@@ -62,7 +84,13 @@
     if (!(form instanceof HTMLFormElement) || !form.matches(selector)) return;
     event.preventDefault();
     event.stopImmediatePropagation();
-    if (!form.reportValidity()) return;
+    if (pending.has(form) || !form.reportValidity()) return;
+    const requiredChoice = form.querySelector('input[data-required-choice]');
+    if (requiredChoice && !requiredChoice.value) {
+      setStatus(form, 'Please choose a service.', true);
+      requiredChoice.closest('fieldset')?.querySelector('.service-pick')?.focus();
+      return;
+    }
 
     const flow = reviews.get(form);
     if (flow?.review.hidden) {
@@ -84,8 +112,9 @@
     const submit = flow?.review.querySelector('[type="submit"]') || form.querySelector('[type="submit"]');
     const previousDisabled = submit?.disabled;
     if (submit) submit.disabled = true;
+    pending.add(form);
     try {
-      const token = await (tokenRequest || fetchToken());
+      const token = await (tokens.get(form) || fetchToken(form));
       const issuedAt = Number(token.split('.')[0]);
       const wait = Math.max(0, 2500 - (Date.now() - issuedAt));
       if (wait) await new Promise(resolve => setTimeout(resolve, wait));
@@ -93,6 +122,7 @@
       payload.request ||= payload.service ? `Project enquiry: ${payload.service}` : "AROZ project enquiry";
       payload.page = location.href;
       payload.referrer = document.referrer;
+      payload.formId = form.dataset.avaultForm;
       payload.token = token;
       const response = await fetch('/api/forms/submit/', {
         method: 'POST',
@@ -100,16 +130,17 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      const result = await response.json();
-      if (!response.ok || !result.ok) throw new Error(result.error || "Your enquiry could not be sent.");
-      setStatus(form, result.message || "Thank you. Your enquiry has been sent.");
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.ok !== true) throw new Error(result?.error || "Your enquiry could not be sent. Please try again.");
+      setStatus(form, result.message || "Thank you. We’ve received your project enquiry.");
       form.reset();
       if (flow) { flow.review.hidden = true; flow.fields.hidden = false; }
-      fetchToken().catch(() => {});
+      fetchToken(form).catch(() => {});
     } catch (error) {
       setStatus(form, error instanceof Error ? error.message : "Your enquiry could not be sent.", true);
-      fetchToken().catch(() => {});
+      fetchToken(form).catch(() => {});
     } finally {
+      pending.delete(form);
       if (submit) submit.disabled = previousDisabled;
     }
   }, true);

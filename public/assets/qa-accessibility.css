@@ -1,0 +1,100 @@
+/* Keep the original menu transition and exclude the closed legacy panel from keyboard navigation. */
+#mobileMenu[aria-hidden="true"] { visibility: hidden; }
+
+/* Imported pages without a --pad token still need room for the desktop direct links. */
+@media (min-width: 1101px) {
+  body .v3-nav:not(.is-compact) { width: calc(100% - 2 * var(--pad, 48px)); }
+}
+
+/* The imported homepage uses light foreground tokens. Scope dark text to the system shell. */
+.av-sys-hero {
+  --paper: #fff;
+  --navy: #242128;
+  --muted: #555058;
+  --line: #d5cfd4;
+}
+.av-sys-hero > .shell-wide { width: min(1440px, calc(100% - var(--gutter, 20px) * 2)); }
+.av-sys-hero .av-sys-soft { color: #566574; }
+.av-sys-hero .av-sys-kicker { color: var(--navy); }
+.av-sys-hero :is(.av-sys-button:not(.av-sys-button-secondary), .av-ty-timeline .done > b) {
+  background-color: #c71140;
+  border-color: #c71140;
+}
+.av-sys-hero .av-sys-button:hover,
+.av-sys-hero .av-sys-button:focus-visible { background-color: var(--navy); border-color: var(--navy); color: #fff; }
+
+body.r6-ai .r6-hero .r6-button { background: #ae143b; border-color: #ae143b !important; color: #fff; }
+body.r6-ai .r6-hero .r6-button:is(:hover,:focus-visible) { background: #a51237 !important; border-color: #a51237 !important; }
+.r6-hero .r6-kicker { flex-wrap: wrap; min-width: 0; }
+
+/* Small editorial text needs a different foreground on each of the existing surfaces. */
+body .r6-stamp > span,
+body .type-comparison > div:first-child > p,
+body :is(.proof-top,.proof-row) > span,
+body .proof-grid [data-proof] > span,
+body .v2-story-person :is(span,small),
+body .v2-story-tabs button:not(.active) > span:first-child { color: #605a56; }
+body :is(.r6-focus,.r6-how,.r6-next) :is(.r6-small-label,.r6-step-no,.r6-focus-list > li > span),
+body.r6-ai :is(.r6-section-side,.r6-result-inner) .r6-small-label { color: #ff6488; }
+body.r6-ai .r6-thinking .r6-stamp > span { color: #b6aaa9; }
+body:is(.r6-ai,.r6-copy) .r6-focus .r6-focus-list > li > span,
+body.r6-ai .r6-focus-heading > .r6-small-label,
+body:is(.r6-ai,.r6-web) .r6-how .r6-step-no,
+body.r6-intent .copy-flow > div:last-child > b { color: #8c1637; }
+
+body :is(.index-head,.manifesto-grid,.approach-head,.choice-head,.analyses-head,.audit-head,.long-copy,.tasks-head,.foundation-head,.snapshot-head,.ia-head,.brand-grid,.trust-head) > .kicker,
+body[data-r8-theme="ai"] :is(.routes-head > .kicker, .bridge-head > .kicker, .bridge-col > small),
+body[data-r8-theme="copy"] :is(.statement-grid,.routes-head,.bridge-grid) > .kicker,
+body :is(.principle > .n, .bridge-col > span, .flow-cell > span, .why-point > span, .audit-row > .n, .long-row > :is(span,i), .task > .task-num, .foundation-row > .n),
+body[data-r8-theme="contact"] :is(.choice-row > .num, .form-top > span, .form-submit > p, .analysis-card .num),
+body:is([data-r8-theme="copy"],[data-r8-theme="ai"]) .route > .num,
+body[data-r8-theme="agency"] :is([data-step] > .num, .local-copy > .kicker),
+body[data-aroz-case] :is(.fact > small, .manifesto-copy > div > .eyebrow, .manifesto-copy > p, .mobile-note > p, .trust-row > .n),
+body[data-aroz-case]:has(.brand-moment .brand-line.outline) .next-grid > .kicker { color: #59534e; }
+
+body[data-r8-theme="copy"] .hero-note,
+body :is(.sequence-end > :is(span,strong), .hero-endpoint, .exploded-head > span, .exploded-note, .x-label, .system-visual > figcaption, .system-detail, .real-browser-bar > span),
+body[data-r8-theme="seo"] :is(.route > .num, .routes-head > .kicker, [data-layer] > .x-label),
+body[data-r8-theme="ai"] .ledger-row > :is(span,i),
+body[data-r8-theme="agency"] .system-row > .num,
+body[data-r8-theme="webdesign"] .system-step .system-detail,
+body[data-aroz-case] :is(.system [data-step] > .num, [data-step="3"] > .mobile-note > p),
+body .v6-ai-point :is(span,p) { color: #bcb6b0; }
+body .v6-ai-point:not(.is-revealed) { opacity: .76; }
+body .v16-scroll-services .v9-service h3 button,
+body .v16-scroll-services .v9-service.is-open h3 button {
+  color: color-mix(in srgb, #f4f1ed calc(var(--v16-focus, 0) * 100%), #aaa2a7) !important;
+}
+body .v2-work.is-pinned :is(.v2-work-heading, .v2-card-meta, .v2-work-end) { background-color: #fff; }
+body :is([data-reader] > .num, [data-arch-copy] > .n, [data-layer] > .x-label > b, .step > .step-number) { color: #ff6488; }
+body[data-r8-theme="seo"] .exploded-stage[data-state] .x-layer[data-layer] .x-label > b { color: #ff6488; }
+body .audit-row > i { color: #8c1637; }
+body[data-r8-theme="copy"] .final-grid > .kicker,
+body:is([data-r8-theme="webdesign"],[data-r8-theme="ai"]) :is(.final-top, .final-row > p),
+body[data-aroz-case] [data-step="1"] > .mobile-note > p { color: #000; }
+body:is([data-r8-theme="webdesign"],[data-r8-theme="ai"]) :is(.final-top, .final-row > p) { opacity: 1; }
+body.r14-agency-hero #kontakt .v9-contact-submit { background: #c71140 !important; border-color: #c71140 !important; }
+body.r14-agency-hero #kontakt .v9-contact-submit:is(:hover,:focus-visible) { background: #a51237 !important; border-color: #a51237 !important; }
+
+body[data-r8-theme="ai"] :is(.manifesto-grid h2, .manifesto-grid h2 em, .manifesto-foot p, .manifesto .note) { color: #29252b; }
+body[data-aroz-case] :is(.snapshot-head h2 em, .ia-head h2 em) { color: #136a68; }
+body[data-aroz-case] .ia-row > .n { color: #59534e; }
+body[data-aroz-case] :is(.mobile-ui .ui-logo, .pageview .eyebrow, .proof-row > b) { color: #23663e; }
+body[data-aroz-case] .mobile-ui .ui-filter > b { background-color: #287948; }
+body[data-aroz-case][data-r8-theme="portfolio"] .hero h1 .outline {
+  color: #70a985 !important;
+  -webkit-text-stroke-color: #90e0af;
+}
+body[data-aroz-case] .live .kicker { color: #23663e; }
+body[data-aroz-case] .brand-moment:has(.brand-line.outline) .shell > .kicker { color: #10171a; }
+body[data-aroz-case] .form-ui :is(.form-head,.form-title,.field,.check,.payout-side > div) > small { color: #59534e; }
+
+/* Keep all YES story copy readable while the sticky editorial panel follows scroll. */
+body[data-aroz-case] .manifesto > .wrap > .big:not(.outline) { color: #29252b; }
+body[data-aroz-case] .steps > .step:has(.mobile-note) { opacity: 1; }
+body[data-aroz-case] .steps > .step:has(.mobile-note) > .n { color: #ff6488; }
+body[data-aroz-case] [data-shot="0"] .editorial-panel > .editorial-kicker { color: #000; }
+
+@media (prefers-reduced-motion: reduce) {
+  body .v6-ai-point:not(.is-revealed) { opacity: 1; }
+}

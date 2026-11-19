@@ -6,4 +6,6 @@
 .aroz-translate select{box-sizing:border-box;width:100%;padding:10px;font:inherit;color:#17171b;background:#fff;border:1px solid #aaa;border-radius:6px}
 .aroz-translate p{font-size:12px;line-height:1.5;margin:12px 0 0}
 #aroz-google-translate{margin-top:12px}
-@media(max-width:600px){.aroz-translate{right:16px;bottom:16px}}
+@media(max-width:600px){
+ .aroz-translate{position:relative;inset:auto;width:max-content;margin:16px max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) auto}
+}

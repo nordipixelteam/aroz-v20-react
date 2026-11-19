@@ -3,11 +3,12 @@ import {sameOrigin,body,id,now,json,failure,HttpError,clientIp} from '@/lib/avau
 import {HONEYPOT,verifyFormToken,enforceLimits,contentFlags} from '@/lib/avault/spam';
 import {mongoDb} from '@/db/mongo';
 import {settingsRead} from '@/lib/avault/runtime';
-import {extraValues} from '@/lib/avault/forms';
+import {validateEnquiryFields} from '@/lib/avault/forms';
 import {countryOf} from '@/lib/avault/geo';
 const UTM=['utm_source','utm_medium','utm_campaign','utm_term','utm_content'] as const;
-const OK="Thank you. Your project enquiry has been sent securely.";
+const OK="Thank you. We’ve received your project enquiry.";
 export async function POST(req:Request){try{sameOrigin(req);const b=await body(req,12000);
+ if(!b||typeof b!=='object'||Array.isArray(b))throw new HttpError(422,'Please check the form and try again.');
  // Honeypot: a hidden field people never see. Bots that fill it get a normal-looking reply and nothing is stored.
  if(b[HONEYPOT])return json({ok:true,message:OK});
  // A signed, single-use token from /api/forms/token proves the form was loaded in a browser on this site.
@@ -18,12 +19,14 @@ export async function POST(req:Request){try{sameOrigin(req);const b=await body(r
  const website=String(b.website||'').trim().slice(0,500);if(website&&!/^(?:https?:\/\/)?[a-z0-9.-]+\.[a-z]{2,}(?:[/:?#][^\s]*)?$/i.test(website))throw new HttpError(422,"Please check the website address.");
  const service=String(b.service||'').trim().slice(0,200);
  const details=[b.message,b.project,b.details,b.notes].map(value=>String(value||'').trim()).filter(Boolean).join('\n\n').slice(0,3000);
- let extra:Record<string,string>;try{extra=extraValues(b,(await settingsRead('forms')).value)}catch(e){throw new HttpError(422,(e as Error).message)}
+ const page=String(b.page||'').slice(0,1000);let pageUrl:URL|null=null;try{pageUrl=new URL(page)}catch{}
+ if((b.formId==='homepage-contact'||pageUrl?.pathname==='/')&&!['on','true'].includes(String(b.privacyConsent||'')))throw new HttpError(422,"Please confirm that you have read the privacy notice.");
+ const config=(await settingsRead('forms')).value;
+ const fields=b.formId===undefined&&pageUrl?.pathname==='/kontakt/'?{...b,formId:'contact'}:b;
+ let extra:Record<string,string>;try{extra=validateEnquiryFields(fields,config)}catch(e){throw new HttpError(422,(e as Error).message)}
  // The token is used up only now, so a submission rejected above can be corrected and sent again.
  await token.consume();
  const ip=clientIp(req);await enforceLimits(ip,String(b.email||b.phone).trim());
- const page=String(b.page||'').slice(0,1000);let pageUrl:URL|null=null;try{pageUrl=new URL(page)}catch{}
- if(pageUrl?.pathname==='/'&&!['on','true'].includes(String(b.privacyConsent||'')))throw new HttpError(422,"Please confirm that you have read the privacy notice.");
  const utm=Object.fromEntries(UTM.map(k=>[k,String(pageUrl?.searchParams.get(k)||b[k]||'').slice(0,200)]).filter(([,v])=>v));
  const value={name:b.name.trim(),phone,email:b.email.trim(),website,zip:String(b.zip||'').trim().slice(0,32),service,details,goal:details,request:String(b.request||"AROZ project enquiry").slice(0,300),page,path:pageUrl?.pathname||'',referrer:String(b.referrer||'').slice(0,1000),...utm,...(Object.keys(extra).length?{extra}:{})};
  const forms=(await mongoDb()).collection('forms');

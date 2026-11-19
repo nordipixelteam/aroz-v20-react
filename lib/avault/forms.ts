@@ -37,6 +37,7 @@ export function contactFormInner(c:ContactForm){
 }
 function arozControl(f:FormField,id:string){
  const required=f.required?' required':'';
+ if(f.type==='select')return `<select id="${id}" name="${esc(f.name)}"${required}><option value="" disabled selected>${esc(f.placeholder||'Choose an option')}</option>${f.options.map(o=>`<option>${esc(o)}</option>`).join('')}</select>`;
  if(f.type==='textarea')return `<textarea id="${id}" name="${esc(f.name)}" placeholder="${esc(f.placeholder)}" maxlength="2000"${required}></textarea>`;
  const type=f.type==='url'?'text':f.type;
  return `<input id="${id}" name="${esc(f.name)}" type="${type}"${f.type==='url'?' inputmode="url"':''} placeholder="${esc(f.placeholder)}" maxlength="${MAX[f.type]}"${required}>`;
@@ -48,7 +49,7 @@ function arozFormInner(c:ContactForm,opening:string){
  const fieldHtml=(name:string)=>{const f=fieldMap.get(name);if(!f)return '';const id=`avault-${f.name}`;return `<div class="${formId?'field':'v9-av-field'}"><label for="${id}">${esc(f.label)}${f.required?' <span>*</span>':''}</label>${arozControl(f,id)}</div>`};
  const service=fieldMap.get('service');
  const serviceHtml=service?.type==='select'&&service.options.length
-  ?`<fieldset class="field"><legend>${esc(service.label)}</legend><div class="service-picks">${service.options.map(option=>`<button aria-pressed="false" class="service-pick" data-value="${esc(option)}" type="button">${esc(option)}</button>`).join('')}</div><input id="serviceValue" name="service" type="hidden"${service.required?' required':''}></fieldset>`
+  ?`<fieldset class="field"><legend>${esc(service.label)}${service.required?' *':''}</legend><div class="service-picks">${service.options.map(option=>`<button aria-pressed="false" class="service-pick" data-value="${esc(option)}" type="button">${esc(option)}</button>`).join('')}</div><input id="serviceValue" name="service" type="hidden"${service.required?' data-required-choice':''}></fieldset>`
   :fieldHtml('service');
  const request=`<input type="hidden" name="request" value="${esc(c.request)}">`;
  const status=formId
@@ -97,8 +98,35 @@ export function applyForms(html:string,v:any){const f=normalizeForms(v);
  return html;
 }
 
-// Values sent for added (x_) fields, keyed by their label, for the lead record and email.
-export function extraValues(b:Record<string,unknown>,v:any){const f=normalizeForms(v);if(!f.contact.enabled)return {};const selected=f.custom.find(x=>x.enabled&&x.request===String(b.request||''))||f.contact,out:Record<string,string>={};
- for(const field of selected.fields.filter(x=>x.name.startsWith('x_'))){const value=String(b[field.name]??'').trim().slice(0,2000);if(field.required&&!value)throw new Error(`Please fill in "${field.label}".`);if(field.type==='select'&&value&&!field.options.includes(value))throw new Error(`Choose a listed option for "${field.label}".`);if(value)out[field.label]=value}
- return out;
+// Validate the same configured fields the visitor sees. The added fields go into the lead record by label.
+export function validateEnquiryFields(payload:Record<string,unknown>,config:unknown){
+ const forms=normalizeForms(config), formId=payload.formId;
+ const builtIn=formId==='contact'||formId==='homepage-contact';
+ const custom=builtIn?undefined:forms.custom.find(form=>form.enabled&&(formId===undefined
+  ?!!form.request&&form.request===payload.request
+  :form.id===formId));
+ if(formId!==undefined&&!builtIn&&!custom)throw new Error('This form has changed. Please reload the page and try again.');
+ const selected=custom||forms.contact;
+ const extra=Object.create(null) as Record<string,string>;
+ if(!selected.enabled){
+  // The imported contact page predates the configurable schema and requires a message.
+  if(formId==='contact'&&(typeof payload.message!=='string'||!payload.message.trim()))throw new Error('Please describe your project.');
+  return extra;
+ }
+ for(const field of selected.fields){
+  const input=payload[field.name];
+  if(input!=null&&typeof input!=='string')throw new Error(`Please check "${field.label}".`);
+  const value=typeof input==='string'?input.trim():'';
+  if(!value){
+   if(field.required)throw new Error(`Please fill in "${field.label}".`);
+   continue;
+  }
+  if(field.type==='select'&&!field.options.includes(value))throw new Error(`Choose a listed option for "${field.label}".`);
+  if(field.type!=='select'&&value.length>MAX[field.type])throw new Error(`Please shorten "${field.label}".`);
+  if(field.type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))throw new Error(`Please check the email address for "${field.label}".`);
+  if(field.type==='tel'&&value.replace(/\D/g,'').length<7)throw new Error(`Please check the phone number for "${field.label}".`);
+  if(field.type==='url'&&!/^(?:https?:\/\/)?[a-z0-9.-]+\.[a-z]{2,}(?:[/:?#][^\s]*)?$/i.test(value))throw new Error(`Please check the website address for "${field.label}".`);
+  if(field.name.startsWith('x_'))extra[field.label]=value;
+ }
+ return extra;
 }

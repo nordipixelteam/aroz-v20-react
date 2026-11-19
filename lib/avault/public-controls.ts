@@ -33,7 +33,7 @@ export async function enhancePublic(html:string,route:string){const configs=awai
  if(privacy?.published&&!html.includes('href="/privacy-policy/"'))html=html.replace(/(<div class="footer-utility">[\s\S]*?)(<\/div>)/,'$1<a href="/privacy-policy/">Privacy policy</a>$2');
  if(route==='/blogs/'){const categories=new Map((await db().prepare('SELECT id,label FROM taxonomy').all<any>()).results.map(t=>[t.id,t.label]));const docs=Object.values(await allDocs()).filter(d=>d.kind==='post'&&!d.seo.noindex);html=html.replace('</main>',`<section class="shell-wide avault-content-block"><h2>All blog posts</h2><div class="avault-content-cards">${docs.map(d=>`<article>${d.featuredImage?`<img src="${esc(d.featuredImage)}" alt="${esc(d.featuredAlt||'')}" loading="lazy" decoding="async">`:''}<h3><a href="${esc(d.route)}">${esc(d.label)}</a></h3><p>${esc(d.excerpt||d.seo.description)}</p><small>${[d.author,d.category?categories.get(d.category)||d.category:''].filter(Boolean).map(esc).join(' · ')}</small></article>`).join('')}</div></section></main>`)}
  html=html.replace('</body>',translateOption()+'<script src="/english-validation.js" defer></script></body>');
- html=html.replace('</head>',head+'</head>');
+ html=html.replace('</head>',head+'<link rel="stylesheet" href="/assets/qa-accessibility.css"></head>');
  // Imported, trusted inline interactions (including contact service choices)
  // need the same request nonce as our bootstrap. Keep unsafe-inline disabled.
  html=html.replace(/<script\b(?![^>]*\bnonce=)(?![^>]*\bsrc=)([^>]*)>/gi,`<script nonce="${nonce}"$1>`);
