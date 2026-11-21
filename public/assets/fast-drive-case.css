@@ -1,0 +1,20 @@
+.live .live-frame {
+  display: block;
+}
+
+.live .live-frame::after {
+  box-sizing: border-box;
+  width: max-content;
+  max-width: calc(100% - 40px);
+  min-height: 44px;
+  display: grid;
+  align-items: center;
+}
+
+@media (min-width: 821px) and (prefers-reduced-motion: no-preference) {
+  /* Horizontal clipping must not make the body a scroll container for the sticky panel. */
+  body[data-aroz-case]:not(.menu-open):not(:has(dialog[open])) {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+}

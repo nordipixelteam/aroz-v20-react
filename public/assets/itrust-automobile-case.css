@@ -1,0 +1,7 @@
+@media (min-width: 821px) {
+  /* The inventory and challenge panels stick to the viewport, not the body. */
+  body[data-aroz-case]:not(.menu-open):not(:has(dialog[open])) {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+}

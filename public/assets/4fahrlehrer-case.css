@@ -1,0 +1,155 @@
+@media (min-width: 901px) {
+  /* Keep the viewport as the scroll container for the four-stage story. */
+  body[data-aroz-case]:not(.menu-open):not(:has(dialog[open])) {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story :is(.copy.active, .pageview.active) {
+    animation: none !important;
+  }
+}
+
+.real-site-showcase :is(.fourfahr-project-shot, .fourfahr-project-details) img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fourfahr-project-details {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.fourfahr-project-details figure {
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 6px;
+  background: #101010;
+}
+
+.fourfahr-project-details figcaption {
+  padding: 14px 16px;
+  color: #f3efe9;
+}
+
+.fourfahr-project-details .fourfahr-project-mobile {
+  width: min(100%, 340px);
+  justify-self: center;
+}
+
+@media (min-width: 700px) {
+  .fourfahr-project-details {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .fourfahr-project-details .fourfahr-project-mobile {
+    grid-row: span 2;
+  }
+}
+.hero.wrap.fourfahr-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  padding: clamp(112px, 15vh, 180px) clamp(20px, 4.2vw, 80px) clamp(36px, 5vw, 80px);
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto;
+  gap: clamp(20px, 3vw, 42px);
+  background: radial-gradient(ellipse at 75% 40%, color-mix(in srgb, var(--green) 14%, transparent), transparent 62%);
+}
+
+.fourfahr-hero-intro {
+  container-type: inline-size;
+  display: grid;
+  gap: clamp(18px, 3vw, 38px);
+}
+
+.hero.fourfahr-hero h1 {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-size: clamp(26px, 15cqi, 150px);
+  font-weight: 700;
+  line-height: .92;
+  padding-block-end: .08em;
+  letter-spacing: -.075em;
+  color: #f5f2ec;
+  text-shadow: none;
+}
+
+.hero.fourfahr-hero h1 :is(.fourfahr-hero-prefix, .fourfahr-hero-name) {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero.fourfahr-hero h1 .fourfahr-hero-name {
+  color: #203b2b;
+  letter-spacing: -.045em;
+  -webkit-text-stroke: clamp(1px, .22cqi, 2px) #82dba5;
+}
+
+.fourfahr-hero-visual {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #4c514b;
+  border-radius: 8px;
+  background: #101010;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+}
+
+.fourfahr-hero-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hero.fourfahr-hero .hero-foot {
+  gap: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, .16);
+}
+
+.hero.fourfahr-hero .hero-copy {
+  margin: 0;
+}
+
+@media (min-width: 960px) {
+  .hero.wrap.fourfahr-hero {
+    min-height: 94svh;
+    grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+    grid-template-rows: 1fr auto;
+    align-items: center;
+  }
+
+  .fourfahr-hero-visual {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .hero.fourfahr-hero .hero-foot {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fourfahr-hero-visual {
+    animation: fourfahr-hero-appear .65s ease-out both;
+  }
+
+  @keyframes fourfahr-hero-appear {
+    from { opacity: .72; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+}

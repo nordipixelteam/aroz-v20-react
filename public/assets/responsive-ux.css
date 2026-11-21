@@ -1,0 +1,91 @@
+#contactForm,
+#project-index {
+  scroll-margin-block-start: 16px;
+}
+
+body[data-r8-theme="portfolio"]:not([data-aroz-case]) .hero .hero-actions > .project-index-jump {
+  display: none !important;
+}
+
+@media (max-width: 850px) {
+  body {
+    --section-spacing: clamp(36px, 6vw, 48px);
+    --compact-spacing: clamp(24px, 4vw, 32px);
+    --chapter-spacing: clamp(48px, 8vw, 64px);
+  }
+
+  /* Imported templates carry their own spacing rules. Keep headings, colors and inline gutters. */
+  body:is([data-r8-theme="webdesign"], [data-r8-theme="seo"], [data-r8-theme="ai"], [data-r8-theme="copy"]):not(.r6-page)
+    main > section:not(.hero),
+  body[data-r8-theme="agency"] main > :is(.manifesto, .approach, .system, .local, .proof),
+  body[data-r8-theme="contact"] main > :is(.choice, .brief, .analyses, .location, .direct),
+  body[data-r8-theme="studio"] main > :is(.manifesto, .v9-services, .v2-stories, .v6-ai, .process, .team, .v9-contact),
+  body[data-aroz-case] main > :is(.snapshot, .challenge, .inventory, .sellflow, .real-site-showcase, .brand-moment, .flow, .ia, .trust, .audience, .local, .live, .next, .case-intro, .green-band, .proof, .legal, .manifesto, .routes, .cta),
+  body[data-r8-theme="portfolio"]:not([data-aroz-case]) main > :is(.index, .statement),
+  body.r6-page main > :is(.r6-thinking, .r6-focus, .r6-how, .r6-result, .r6-next) {
+    padding-block: var(--section-spacing) !important;
+  }
+
+  body.r6-page main > .r6-end,
+  body[data-aroz-case] main > .story {
+    padding-block: var(--chapter-spacing) !important;
+  }
+
+  body[data-aroz-case] main > .system {
+    padding-block: 0 var(--compact-spacing) !important;
+  }
+
+  body[data-r8-theme="studio"] .v2-work:not(.is-pinned) .v2-work-stage {
+    padding-block: var(--section-spacing);
+  }
+
+  body.r6-page .r6-hero { min-height: 0; }
+  body.r6-page .r6-hero-copy { padding-block-end: var(--compact-spacing); }
+  body.r6-page .r6-meta { padding-block-start: 24px; }
+  body.r6-page .r6-hero-art { min-height: 0; padding-block: var(--compact-spacing); }
+  body.r6-page .concept-art { min-height: 0; margin-block-start: 16px; }
+
+  body[data-r8-theme="portfolio"]:not([data-aroz-case]) .hero .hero-actions > .project-index-jump {
+    display: inline-flex !important;
+  }
+  body[data-r8-theme="portfolio"]:not([data-aroz-case]) .reel .case-media {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+  body[data-r8-theme="portfolio"]:not([data-aroz-case]) .reel .case-copy {
+    padding-block: 16px 20px !important;
+    gap: 12px !important;
+  }
+  body[data-r8-theme="portfolio"]:not([data-aroz-case]) .case-facts > div {
+    padding-block: 6px;
+  }
+  body[data-r8-theme="portfolio"]:not([data-aroz-case]) .yes-cover {
+    padding-block: 14px;
+  }
+  body[data-r8-theme="portfolio"]:not([data-aroz-case]) .yes-cover h3 {
+    font-size: clamp(28px, 8vw, 64px);
+  }
+
+  body[data-aroz-case] :is(.inventory-step, .sell-step) {
+    padding-block-end: var(--compact-spacing);
+    margin-block-end: var(--compact-spacing);
+  }
+  body[data-aroz-case] :is(.inventory-step, .sell-step):last-child {
+    margin-block-end: 0;
+  }
+  body[data-aroz-case] :is(.inventory-step, .sell-step, .system-step) h3 {
+    margin-block-end: 16px;
+  }
+  body[data-aroz-case] .system-step {
+    padding-block: var(--compact-spacing);
+  }
+  body[data-aroz-case] :is(.inventory-mobile-visual, .sell-mobile-visual, .system-mobile-visual) {
+    margin-block-start: 20px;
+  }
+  body[data-aroz-case] .sell-mobile-visual :is(.browser, .form-ui),
+  body[data-aroz-case] .mobile-pair .browser,
+  body[data-aroz-case] .mobile-shot.mobile-note {
+    min-height: 0;
+  }
+  body[data-aroz-case] .mobile-shot.mobile-note { padding: 20px; }
+}
