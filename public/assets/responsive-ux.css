@@ -89,3 +89,7 @@ body[data-r8-theme="portfolio"]:not([data-aroz-case]) .hero .hero-actions > .pro
   }
   body[data-aroz-case] .mobile-shot.mobile-note { padding: 20px; }
 }
+/* The fixed header overlays these case-study heroes. Only the copy needs a top inset. */
+body[data-aroz-case] main > .hero > .hero-media {
+  top: 0;
+}
