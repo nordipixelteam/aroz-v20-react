@@ -6,6 +6,7 @@ import {countryOf} from './geo';
 import {normalizeScripts,pageMatches,renderSnippet} from './snippets';
 import {matchesIP} from './ip';
 import {translateOption} from './translate-option';
+import {fixButtonArrows} from './icon-fix';
 export {matchesIP};
 export async function trafficAllowed(req:Request){const c=(await settingsRead('traffic')).value;if(!c.enabled)return true;const ip=clientIp(req),country=countryOf(req,ip);if(c.allow?.some((r:string)=>matchesIP(ip,r)))return true;if(c.deny?.some((r:string)=>matchesIP(ip,r)))return false;return !country||!c.countries?.includes(country)}
 export async function enhancePublic(html:string,route:string){const configs=await Promise.all(['verification','scripts','operations','menus','forms'].map(settingsRead));const [verification,scripts,operations,menus,forms]=configs.map(c=>c.value);const nonce=crypto.randomUUID().replaceAll('-','');
@@ -86,6 +87,7 @@ export async function enhancePublic(html:string,route:string){const configs=awai
   });
  }
  html=html.replace('</head>',head+'<link rel="stylesheet" href="/assets/qa-accessibility.css"><link rel="stylesheet" href="/assets/responsive-ux.css"></head>');
+ html=fixButtonArrows(html).replace('</head>','<link rel="stylesheet" href="/assets/button-icons.css"></head>');
  // Imported, trusted inline interactions (including contact service choices)
  // need the same request nonce as our bootstrap. Keep unsafe-inline disabled.
  html=html.replace(/<script\b(?![^>]*\bnonce=)(?![^>]*\bsrc=)([^>]*)>/gi,`<script nonce="${nonce}"$1>`);

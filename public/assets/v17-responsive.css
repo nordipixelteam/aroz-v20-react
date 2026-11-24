@@ -31,7 +31,6 @@ body .v9-contact-form input:not([type=checkbox]),body .v9-contact-form textarea{
 @media(max-width:380px){body .v3-nav:not(.is-compact) .v3-logo{width:68px;flex-basis:68px}body .v3-nav .v3-talk,body .v3-nav.is-compact .v3-talk{padding-inline:10px}body .v3-nav>div{gap:6px}body .v3-nav.is-compact{width:330px}body .v3-nav.is-compact .v3-logo{width:38px;flex-basis:38px}body .v2-story-tabs{gap:16px}}
 html,body{max-width:100%;overflow-x:clip}
 body :is(small,.v3-about-pill,.v3-menu-contact>span,.v3-menu-services a,.v8-footer-meta,.v8-footer-meta a,.v8-footer-meta span,.v8-footer-nav a,.v8-footer-bottom a,.v8-footer-bottom span,.v8-version summary,.v8-version a,.v7-brand,.v7-booking label,.v7-booking input,.v7-booking select,.v7-booking textarea,.r9-chapter-counter,.r9-chapter-label){font-size:14px!important}
-body .hero-proof-links a::after{font-family:Arial,sans-serif}
 @media(max-width:600px){body #v3-menu{padding:24px;max-height:calc(100svh - 32px);overflow-y:auto}body #v3-menu .v3-menu-top{justify-content:space-between;flex-wrap:nowrap;gap:8px}body #v3-menu .v3-menu-top>a{font-size:14px;padding:12px}body #v3-menu .v3-close{font-size:14px;padding:12px}body .v9-service-panel a.v12-cta{font-size:16px!important}body .v8-footer-meta,body .v8-footer-meta>*{min-width:0}}
 body .v8-footer-logo img{filter:none!important;clip-path:none!important}
 body .v3-menu-services a,body .v3-menu-contact>span,body .v3-about-pill,body footer a,body footer span,body footer summary,body footer small,body .v2-card-meta>span,body figcaption{font-size:14px!important}

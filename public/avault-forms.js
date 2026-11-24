@@ -62,7 +62,7 @@
     const review = document.createElement('div');
     review.className = 'home-contact-review';
     review.hidden = true;
-    review.innerHTML = '<h3 tabindex="-1">Review your enquiry</h3><dl></dl><p>Please check your details before sending.</p><div class="home-contact-actions"><button type="button" class="home-contact-back">Back to edit</button><button type="submit" class="v9-contact-submit">Send enquiry <span aria-hidden="true">↗</span></button></div>';
+    review.innerHTML = '<h3 tabindex="-1">Review your enquiry</h3><dl></dl><p>Please check your details before sending.</p><div class="home-contact-actions"><button type="button" class="home-contact-back">Back to edit</button><button type="submit" class="v9-contact-submit">Send enquiry <span class="av-arrow-up-right" aria-hidden="true"></span></button></div>';
     form.append(review);
     reviews.set(form, { fields, review });
     review.querySelector('button[type="button"]').addEventListener('click', () => {

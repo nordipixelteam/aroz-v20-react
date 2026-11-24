@@ -4,7 +4,6 @@
 .hero-proof-label{display:block;font:700 11px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#bcb8b5}
 .hero-proof-links{display:flex;align-items:center;flex-wrap:wrap;gap:7px 14px;margin-top:12px}
 .hero-proof-links a{font:700 13px/1.35 Arial,Helvetica,sans-serif;color:#f3efeb;white-space:nowrap;text-decoration:none}
-.hero-proof-links a::after{content:" ↗";color:#ff6688}
 .hero-proof-links a:hover{text-decoration:underline;text-underline-offset:4px}
 .hero-proof-links a:focus-visible{outline:2px solid #ff6788;outline-offset:4px}
 /* At tablet width, the six-item agency menu becomes a usable overlay. */
